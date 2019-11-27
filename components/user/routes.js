@@ -11,7 +11,7 @@ const SignedRoutes = createBottomTabNavigator({
   Search: Search,
   Add: Add,
   Follow: Follow,
-  Profile: Profile 
-})
+  Profile: Profile
+}) 
 
 export default createAppContainer(SignedRoutes)
