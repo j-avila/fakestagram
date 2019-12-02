@@ -4,7 +4,7 @@ import NoSignedRoutes from './components/noUser/routes';
 import SignedRoutes from './components/user/routes';
 
 export default function App() {
-  const signed = true
+  const signed = false
   return (
     <View style={styles.container}>
       {signed ?

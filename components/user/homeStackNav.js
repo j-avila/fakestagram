@@ -1,4 +1,4 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from 'react-navigation-stack';
 import Home from './home'
 import Post from './post'
 import User from './profile'

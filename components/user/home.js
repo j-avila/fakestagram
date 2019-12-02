@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Text, StyleSheet, View } from 'react-native'
-import HomeStackNav from './homeStackNav'
 
 export default class Home extends Component {
   render() {
