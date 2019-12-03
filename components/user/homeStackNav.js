@@ -4,14 +4,31 @@ import Post from './post'
 import User from './profile'
 import Comments from './comments'
 
-const Stack = createStackNavigator
-const HomeStackNav = () => (
-    <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Post" component={Post} />
-        <Stack.Screen name="User" component={User} />
-        <Stack.Screen name="Comments" component={Comments} />
-    </Stack.Navigator> 
-)
+const HomeStackNav = createStackNavigator({
+	Home: {
+		screen: Home,
+		navigationOptions: () => ({
+			title: 'Home'
+		})
+	},
+	Post: {
+		screen: Post,
+		navigationOptions: () => ({
+			title: 'post'
+		})
+	},
+	User: {
+		screen: User,
+		navigationOptions: () => ({
+			title: 'User'
+		})
+	},
+	Comments: {
+		screen: Comments,
+		navigationOptions: () => ({
+			title: 'Comments'
+		})
+	},
+})
 
 export default HomeStackNav  
