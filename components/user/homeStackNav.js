@@ -1,8 +1,9 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import Home from './home'
 import Post from './post'
-import User from './profile'
+import Profile from './profile'
 import Comments from './comments'
+import {app} from './stackSearchNav'
 
 const HomeStackNav = createStackNavigator({
 	Home: {
@@ -17,18 +18,41 @@ const HomeStackNav = createStackNavigator({
 			title: 'post'
 		})
 	},
-	User: {
-		screen: User,
+	Profile: {
+		screen: Profile,
 		navigationOptions: () => ({
-			title: 'User'
+			title: 'Profile'
 		})
 	},
 	Comments: {
 		screen: Comments,
-		navigationOptions: () => ({
-			title: 'Comments'
+		tabBarVisible: false,
+		navigationOptions: ({navigation}) => ({
+			title: 'Comments',
 		})
 	},
-})
+}, {
+  defaultNavigationOptions : ({navigation}) =>{ 
+    let visible;
+    if(app.visible) {
+      console.log('inside');
+      visible = false;
+    }else{
+      visible = true;
+    }
+    return{
+      tabBarVisible : visible
+		}
+	}
+  })
+
+HomeStackNav.navigationOptions = ({navigation}) => { 
+	let tabBarVisible = true
+	if(navigation.state.index > 2){
+		tabBarVisible = false
+	}
+	// console.log(navigation.state)
+	return {tabBarVisible}
+}
 
 export default HomeStackNav  
