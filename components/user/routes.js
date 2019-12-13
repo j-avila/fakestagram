@@ -3,12 +3,13 @@ import { createAppContainer } from 'react-navigation'
 import Add from './add'
 import Follow from './follow'
 import Profile from './profile'
-import StackSearchNav from './stackSearchNav'
+import NavTabSearch from './stackSearchNav'
 import HomeStackNav from './homeStackNav'
 
 const SignedRoutes = createBottomTabNavigator({ 
   Home: HomeStackNav,
-  Search: StackSearchNav,
+  Search: NavTabSearch,
+  // Search: StackSearchNav,
   Add: Add,
   Follow: Follow,
   Profile: Profile

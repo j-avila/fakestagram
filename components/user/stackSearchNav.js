@@ -1,4 +1,5 @@
 import { createStackNavigator } from 'react-navigation-stack'
+import { createBottomTabNavigator } from 'react-navigation-tabs'
 import Search from './search'
 import Post from './post'
 import Profile from './profile'
@@ -20,23 +21,24 @@ const SearchStackNav = createStackNavigator({
 			title: 'Profile'
 		})
 	},
+	
+})
+
+
+
+const NavTabSearch = createBottomTabNavigator({
+	Search: SearchStackNav,
 	Comments: {
 		screen: Comments,
 		tabBarVisible: false,
 		navigationOptions: ({navigation}) => ({
 			title: 'Comments',
 		})
-	}
+	} 
 })
 
-SearchStackNav.navigationOptions = ({navigation}) => { 
-	const { routeName } = navigation.state.routes[navigation.state.index];
-  app.visible = true;
-  if(routeName === 'Comments'){
-    app.visible = true;
-  }else{
-    app.visible = false;
-  }
+NavTabSearch.navigationOptions = ({navigation}) => { 
+	app.visible = false;
 }
 
-export default SearchStackNav
+export default NavTabSearch
