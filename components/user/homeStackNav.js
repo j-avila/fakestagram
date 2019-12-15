@@ -31,20 +31,7 @@ const HomeStackNav = createStackNavigator({
 			title: 'Comments',
 		})
 	},
-}, {
-  defaultNavigationOptions : ({navigation}) =>{ 
-    let visible;
-    if(app.visible) {
-      console.log('inside');
-      visible = false;
-    }else{
-      visible = true;
-    }
-    return{
-      tabBarVisible : visible
-		}
-	}
-  })
+})
 
 HomeStackNav.navigationOptions = ({navigation}) => { 
 	let tabBarVisible = true
