@@ -14,8 +14,8 @@ export default class Search extends Component {
         />
         <Button
           style={styles.button} 
-          title='go to comments'
-          onPress={ ()=> {navigation.navigate('Comments')}}
+          title=' go to post' 
+          onPress={ () => {navigation.navigate('Post')} }
         />
       </View>
     )

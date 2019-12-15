@@ -5,9 +5,6 @@ import Post from './post'
 import Profile from './profile'
 import Comments from './comments'
 
-export let app;
-app = {} || app;
-
 const SearchStackNav = createStackNavigator({
 	Search: {
 		screen: Search,
@@ -21,24 +18,25 @@ const SearchStackNav = createStackNavigator({
 			title: 'Profile'
 		})
 	},
+	Comments: {
+		screen: Comments,
+		navigationOptions: () => ({
+			title: 'Comments'
+		})
+	},
 	
 })
 
 
+/* SearchStackNav.navigationOptions = ({navigation}) => { 
+	let tabBarVisible = true
+	const screenRoutes = navigation.state
+	const excludeRoute = screenRoutes.routes.length > 1 && screenRoutes.routes[1].routeName
+	if(excludeRoute === 'Comments' ){
+		tabBarVisible = false
+	}
+	// console.log(navigation.state, excludeRoute)
+	return {tabBarVisible}
+} */
 
-const NavTabSearch = createBottomTabNavigator({
-	Search: SearchStackNav,
-	Comments: {
-		screen: Comments,
-		tabBarVisible: false,
-		navigationOptions: ({navigation}) => ({
-			title: 'Comments',
-		})
-	} 
-})
-
-NavTabSearch.navigationOptions = ({navigation}) => { 
-	app.visible = false;
-}
-
-export default NavTabSearch
+export default SearchStackNav

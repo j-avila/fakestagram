@@ -15,6 +15,13 @@ class Home extends Component {
           } 
         }
         />
+        <Button
+          title='view Comments'
+          onPress={ () => {
+            navigation.navigate('Comments')
+          } 
+        }
+        />
       </View>
     )
   }

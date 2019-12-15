@@ -31,28 +31,21 @@ const HomeStackNav = createStackNavigator({
 			title: 'Comments',
 		})
 	},
-}, {
-  defaultNavigationOptions : ({navigation}) =>{ 
-    let visible;
-    if(app.visible) {
-      console.log('inside');
-      visible = false;
-    }else{
-      visible = true;
-    }
-    return{
-      tabBarVisible : visible
-		}
-	}
-  })
+})
 
 HomeStackNav.navigationOptions = ({navigation}) => { 
 	let tabBarVisible = true
-	if(navigation.state.index > 2){
-		tabBarVisible = false
-	}
-	// console.log(navigation.state)
+	const screenRoutes = navigation.state
+	const excludeRoute = screenRoutes.routes.filter( item => item.routeName === 'Comments')[0]
+
+	excludeRoute && excludeRoute.routeName === 'Comments' ? tabBarVisible = false  : false
+	// console.log(screenRoutes, excludeRoute)
 	return {tabBarVisible}
+
+
+
+
+
 }
 
 export default HomeStackNav  
