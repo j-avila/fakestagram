@@ -26,4 +26,4 @@ const StackFollow = createStackNavigator({
 	}
 })
 
-export default StackFollow
+export default StackFollow 
