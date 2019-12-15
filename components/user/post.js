@@ -1,10 +1,30 @@
 import React from 'react'
-import {View, Text} from 'react-native'
+import { View, StyleSheet, Text, Button } from 'react-native'
 
-const Post = () => (
-    <View>
-        <Text>post screen</Text>
-    </View>
-)
+const Post = props => {
+
+	const { navigation } = props
+	return (
+		<View style={styles.body}>
+			<Text>post screen</Text>
+			<Button
+				title='Comments'
+				onPress={() => {
+					navigation.navigate('Comments')
+				}}
+			/>
+		</View>
+	)
+}
+
+const styles = StyleSheet.create({
+	body: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: '#e0e3d4'
+	}
+})
+
 
 export default Post

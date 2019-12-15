@@ -9,7 +9,7 @@ export default function App() {
     <View style={styles.container}>
       {signed ?
         <SignedRoutes />
-        : <NoSignedRoutes />
+        : <NoSignedRoutes /> 
       }
     </View>
   );
