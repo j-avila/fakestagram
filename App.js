@@ -1,16 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import {Provider} from 'react-redux'
 import NoSignedRoutes from './components/noUser/routes';
 import SignedRoutes from './components/user/routes';
+import store from './store';
 
 export default function App() {
-  const signed = true
+  const signed = false
   return (
     <View style={styles.container}>
-      {signed ?
-        <SignedRoutes />
-        : <NoSignedRoutes /> 
-      }
+      <Provider store={store}>
+        {signed ? <SignedRoutes /> : <NoSignedRoutes />}
+      </Provider>
     </View>
   );
 }
