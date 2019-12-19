@@ -1,11 +1,17 @@
 import React from 'react'
 import { View, Text, Button } from 'react-native';
 import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 const NoSigned = props => {
-	const { navigation, number, aumentar } = props
-	console.log(number)
+	const { navigation } = props
+	const dispatch = useDispatch()
+	const query = useSelector(state => state)
+
+	const aumentar = (e) => {
+		dispatch({type: 'AUMENTAR'})
+		console.log(query)
+	}
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -16,7 +22,9 @@ const NoSigned = props => {
   )
 }
 
-const mapStateToProps = (state) => ({
+export default NoSigned 
+
+/* const mapStateToProps = (state) => ({
 	number: state.defaultReducer
 }) 
  
@@ -26,4 +34,4 @@ const mapDisaptchToProps = dispatch => (
 	}, dispatch)
 )
 
-export default  connect(mapStateToProps, mapDisaptchToProps)(NoSigned)
+export default  connect(mapStateToProps, mapDisaptchToProps)(NoSigned) */
