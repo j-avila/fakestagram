@@ -10,6 +10,15 @@ const defaultReducer = (state=[0], action) => {
 	}
 }
 
+const login = (state, action) => {
+	switch (action.type) {
+		case "LOGIN":
+			return state
+		default:
+			return state
+	}
+}
+
 const reducers = combineReducers({
 	defaultReducer
 })
