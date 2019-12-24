@@ -6,7 +6,14 @@ const submit = values => console.log(values)
 
 const RenderInput = props => { 
 	// console.log(props)
-  return <TextInput style={styles.input} onChangeText={props.input.onChange} />
+	return <TextInput 
+						style={styles.input}
+						autoCapitalize='none'
+						onChangeText={props.input.onChange}
+						placeholder={props.ph}
+						keyboardType={ props.input.name === 'email' ? 'email-address' : 'default'}
+						secureTextEntry={props.input.name === 'password' || props.input.name === 'confirm' ? true : false}
+					/>
 }
 
 
@@ -15,10 +22,10 @@ const LoginForm = props => {
 	return (
 		<View>
 				<Text> usuario: </Text>
-				<Field name="username" component={RenderInput} /> 
-				<Field name="email" component={RenderInput} /> 
-				<Field name="password" component={RenderInput} /> 
-				<Field name="confirm" component={RenderInput} /> 
+				<Field name="username" component={RenderInput} ph="ejem: alberto tonas" /> 
+				<Field name="email" component={RenderInput} ph="correofalso@correocaliente.com" />
+				<Field name="password" component={RenderInput} ph="password" />
+				<Field name="confirm" component={RenderInput} ph="confirmar password" />
 				<Button color="tomato" title="Login" onPress={ handleSubmit(values => console.log(values)) } />
 		</View>
 	)
@@ -30,7 +37,8 @@ export default reduxForm({
 
 const styles = StyleSheet.create({
   input: {
-    borderColor: 'black',
+		borderColor: 'black',
+		padding: 10,
     borderWidth: 1,
     height: 37, 
 		width: 250,
