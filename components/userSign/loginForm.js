@@ -20,13 +20,11 @@ const RenderInput = props => {
 const LoginForm = props => {
 	const { handleSubmit } = props
 	return (
-		<View>
-				<Text> usuario: </Text>
-				<Field name="username" component={RenderInput} ph="ejem: alberto tonas" /> 
-				<Field name="email" component={RenderInput} ph="correofalso@correocaliente.com" />
-				<Field name="password" component={RenderInput} ph="password" />
-				<Field name="confirm" component={RenderInput} ph="confirmar password" />
-				<Button color="tomato" title="Login" onPress={ handleSubmit(values => console.log(values)) } />
+		<View style={props.styles}>
+			<Text> Ingreso de Usuario: </Text>
+			<Field name="username" component={RenderInput} ph="ejem: alberto tonas" /> 
+			<Field name="password" component={RenderInput} ph="password" />
+			<Button color="tomato" title="Entrar" onPress={ handleSubmit(values => console.log(values)) } />
 		</View>
 	)
 } 
@@ -43,5 +41,5 @@ const styles = StyleSheet.create({
     height: 37, 
 		width: 250,
 		marginBottom: 10
-  }
+  } 
 })
