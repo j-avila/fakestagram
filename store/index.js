@@ -1,4 +1,5 @@
 import {createStore, combineReducers} from 'redux'
+import {reducer as form} from 'redux-form'		
 
 const defaultReducer = (state=[0], action) => {
 	switch (action.type) {
@@ -18,10 +19,14 @@ const login = (state, action) => {
 			return state
 	}
 }
-
+ 
 const reducers = combineReducers({
-	defaultReducer
+	defaultReducer,
+	form
 })
+
+
+// const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
 const store = createStore(reducers)
 

@@ -24,7 +24,7 @@ const NoSigned = props => {
 
 export default NoSigned 
 
-/* const mapStateToProps = (state) => ({
+/* const mapStateToProps = (state) => ({ 
 	number: state.defaultReducer
 }) 
  
