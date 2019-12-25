@@ -6,14 +6,34 @@ const submit = values => console.log(values)
 
 const RenderInput = props => { 
 	// console.log(props)
-	return <TextInput 
-						style={styles.input}
-						autoCapitalize='none'
-						onChangeText={props.input.onChange}
-						placeholder={props.ph}
-						keyboardType={ props.input.name === 'email' ? 'email-address' : 'default'}
-						secureTextEntry={props.input.name === 'password' || props.input.name === 'confirm' ? true : false}
-					/>
+	const {input, meta, ph} = props
+	return (
+		<View>
+			<TextInput 
+				style={styles.input}
+				autoCapitalize='none'
+				onChangeText={input.onChange}
+				onBlur={props.input.onBlur}
+				placeholder={ph}
+				keyboardType={ input.name === 'email' ? 'email-address' : 'default'}
+				secureTextEntry={input.name === 'password' || input.name === 'confirm' ? true : false}
+			/>
+			{meta.touched && meta.error && <Text style={styles.errorTxt}>{meta.error}</Text>}
+		</View>
+	)
+
+}
+
+const validate = values => {
+	const errors = []
+	if(!values.username){
+		errors.username = "Campo requerido"
+	} 
+	
+	if(!values.password){
+		errors.password = "campo requerido"
+	}
+	return errors
 }
 
 
@@ -30,7 +50,8 @@ const LoginForm = props => {
 } 
 
 export default reduxForm({ 
-  form: 'login',
+	form: 'login',
+	validate
 })(LoginForm)
 
 const styles = StyleSheet.create({
@@ -41,5 +62,9 @@ const styles = StyleSheet.create({
     height: 37, 
 		width: 250,
 		marginBottom: 10
-  } 
+	},
+	errorTxt: {
+		color: 'tomato',
+		marginVertical: 4
+	} 
 })
