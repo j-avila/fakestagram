@@ -58,25 +58,9 @@ const validate = values => {
 
 }
 
-const handleRegister = data => {
-	// console.group(data)
-	authService.createUserWithEmailAndPassword(data.email, data.password)
-	.then((success)=>{
-		console.log(success)
-		console.log('registro exitoso')
-	})
-	.catch(function(error) {
-		// Handle Errors here.
-		var errorCode = error.code;
-		var errorMessage = error.message;
-		console.log(errorMessage)
-		console.log(errorCode)
-		// ...
-	});
-}
- 
 const SignUpForm = props => { 
-	const { handleSubmit } = props
+	const { handleSubmit, action } = props
+
 	return (
 		<View style={props.styles}>
 			<Text> Registro de usuario: </Text>
@@ -84,10 +68,10 @@ const SignUpForm = props => {
 			<Field name="email" component={RenderInput} ph="correofalso@correocaliente.com" />
 			<Field name="password" component={RenderInput} ph="password" />
 			<Field name="confirm" component={RenderInput} ph="confirmar password" />
-			<Button color="tomato" title="ingresar" onPress={ handleSubmit(values => handleRegister(values)) } />
+			<Button color="tomato" title="ingresar" onPress={ handleSubmit( values => action(values)) } />
 		</View>
 	)
-} 
+}
 
 export default reduxForm({ 
 	form: 'signIn',

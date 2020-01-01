@@ -1,32 +1,43 @@
-import React from 'react'
+import React, { useCallback, Component } from 'react'
 import { View, Text, Button, StyleSheet } from 'react-native';
-import {bindActionCreators} from 'redux'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch, connect } from 'react-redux'
 import SingUpForm from './singUpForm';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 
-const NoSigned = props => {
-	const { navigation } = props
-	const dispatch = useDispatch()
-	const query = useSelector(state => state)
-
-	const aumentar = (e) => {
-		dispatch({type: 'AUMENTAR'})
-		console.log(query)
+class NoSigned extends Component {
+	constructor(){
+		super()
 	}
-
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text> sign up </Text>
-			<SingUpForm styles={styles.form} />
+	
+	register = values => {
+		// console.log(values)
+		this.props.userRegister(values)
+	}
+		
+	render(){
+		const { navigation } = this.props
+		return (
+		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+			<Text> Sign up </Text>
+			<SingUpForm styles={styles.form} action={this.register} />
 			<TouchableHighlight onPress={() => navigation.goBack()}>
 					<Text>Ya tienes una cuenta? ingresa</Text>
 			</TouchableHighlight>
-    </View>
-  )
+		</View>
+	)}
 }
 
-export default NoSigned 
+const mapStateToProps = state => ({
+	numero: state.defaultReducer
+})
+
+const mapDisaptchToProps = dispatch => ({
+	userRegister: (values) => {
+		dispatch({type: 'REGISTER', payload: values})
+	}
+})
+
+export default connect(mapStateToProps, mapDisaptchToProps)(NoSigned)
 
 const styles = StyleSheet.create({
 	form: {
