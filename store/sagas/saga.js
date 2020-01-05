@@ -18,9 +18,22 @@ const saveUser = () => {
 	});
 }
 
+const testPromise = new Promise((resolve, reject) => {
+	setTimeout(function(){
+    resolve("¡Éxito!"); // ¡Todo salió bien!
+  }, 50000);
+}) 
+
+const testFunction = () => {
+	testPromise.then( (success) => {
+		return console.log("lo hizo?" + success)
+	})
+}
+
 function* registerService(values) {
 	try {
-		const register =  yield call(handleRegister, values.payload)
+		console.log("init")
+		const register =  yield call(testFunction)
 		console.log(register)
 		// console.log(values)
 		// const {userid, email} = register
