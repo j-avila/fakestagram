@@ -13,7 +13,7 @@ const RenderInput = props => {
 				style={styles.input}
 				autoCapitalize='none'
 				onChangeText={input.onChange}
-				onBlur={props.input.onBlur}
+				onBlur={input.onBlur}
 				placeholder={ph}
 				keyboardType={ input.name === 'email' ? 'email-address' : 'default'}
 				secureTextEntry={input.name === 'password' || input.name === 'confirm' ? true : false}
@@ -26,9 +26,11 @@ const RenderInput = props => {
 
 const validate = values => {
 	const errors = []
-	if(!values.username){
-		errors.username = "Campo requerido"
-	} 
+	if(!values.email){
+		errors.email = "el correo  es requerido"
+	} else if(!/^[A-Z0-9._%+-]+@[A-Z0-9._%+-]+\.[A-Z]{2,4}/i.test(values.email) ){
+		errors.email = "el valor debe pertenecer a un correo valido"
+	}
 	
 	if(!values.password){
 		errors.password = "campo requerido"
@@ -38,13 +40,13 @@ const validate = values => {
 
 
 const LoginForm = props => {
-	const { handleSubmit } = props
+	const { handleSubmit, action } = props
 	return (
 		<View style={props.styles}>
 			<Text> Ingreso de Usuario: </Text>
-			<Field name="username" component={RenderInput} ph="ejem: alberto tonas" /> 
+			<Field name="email" component={RenderInput} ph="ejem: alberto tonas" /> 
 			<Field name="password" component={RenderInput} ph="password" />
-			<Button color="tomato" title="Entrar" onPress={ handleSubmit(values => console.log(values)) } />
+			<Button color="tomato" title="Entrar" onPress={ handleSubmit(values => action(values)) } />
 		</View>
 	)
 } 
