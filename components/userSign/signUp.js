@@ -1,8 +1,10 @@
 import React, { useCallback, Component } from 'react'
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { useSelector, useDispatch, connect } from 'react-redux'
+import {REGISTER} from '../../store/actions/types'
 import SingUpForm from './singUpForm';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import { registerAction } from '../../store/actions/actions';
 
 class NoSigned extends Component {
 	constructor(){
@@ -33,7 +35,7 @@ const mapStateToProps = state => ({
 
 const mapDisaptchToProps = dispatch => ({
 	userRegister: (values) => {
-		dispatch({type: 'REGISTER', payload: values})
+		dispatch(registerAction(REGISTER, values))
 	}
 })
 

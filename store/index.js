@@ -1,7 +1,8 @@
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux'
 import {reducer as form} from 'redux-form'
 import createSagaMiddleware from 'redux-saga'	
-import {defaultSaga} from '../store/sagas/saga'	
+import {defaultSaga} from '../store/sagas/saga'
+import * as type from "../store/actions/types";	
 
 const defaultReducer = (state=[0], action) => {
 	switch (action.type) {
@@ -16,9 +17,23 @@ const defaultReducer = (state=[0], action) => {
 	}
 }
 
+const sessionHandler = (state=null, action) => {
+	switch (action.type) {
+		case type.USER_SESSION:
+			return action.payload
+			break;
+		case type.USER_NO_SESSION:
+			return null
+		default:
+			return state
+			break;
+	}
+}
+
 const reducers = combineReducers({
 	defaultReducer,
-	form
+	form,
+	sessionHandler
 })
 
 

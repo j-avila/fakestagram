@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
-import { View, Text, Button, StyleSheet } from 'react-native';
 import {connect} from 'react-redux'
+import {LOGIN} from '../../store/actions/types'
+import { View, Text, Button, StyleSheet } from 'react-native';
 import LoginForm from './loginForm';
 import { TouchableHighlight } from 'react-native-gesture-handler';
-import { compose } from 'redux';
+import { loginAction } from '../../store/actions/actions';
 
 class SignIn extends Component {
   constructor(){
@@ -35,7 +36,7 @@ const mapStateToProps = () => ({
 
 const mapDispatchToPops = dispatch => ({
   userLogin: (values) => {
-    dispatch({type: 'LOGIN', payload: values})
+    dispatch(loginAction(LOGIN, values))
   }
 })
 
