@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text } from 'react-native'
 import { connect } from 'react-redux'
-import {USER_SESSION, USER_NO_SESSION} from '../store/actions/types'
+import {USER_LOGGED, USER_NO_LOGGED} from '../store/actions/types'
 import { authService } from '../store/servicios/firebase'
 import {manageSession} from '../store/actions/actions'
 
@@ -9,33 +9,24 @@ import NoSignedRoutes from './noUser/routes'
 import SignedRoutes from './user/routes'
 
 class HomeRoute extends Component {
-	constructor(){
-		super()
-		this.state={
-			signed: false
-		}
-	}
-
 	async componentDidMount() {
 		await this.props.handleSession()
 	}
 	
 	render() {
-		const {signed} = this.state
-		const {styles} = this.props
+		const {styles, session} = this.props
 		return (
 			<View style={styles.container}>
-				{signed ? <SignedRoutes /> : <NoSignedRoutes />}
+				{session ? <SignedRoutes /> : <NoSignedRoutes />}
 			</View>
 		)
 	}
 }
 
 const mapStateToProps = (state) => {
-	console.log("store", state)
 	return (
 		{
-			props: state.props
+			session: state.sessionHandler
 		}
 	)
 }
@@ -44,7 +35,7 @@ const mapDispatchToProps = dispatch => ({
 	handleSession: () => {
 		authService.onAuthStateChanged((user) => {
 			if (user) {
-				console.log(user.toJSON())
+				console.log('has session active')
 				dispatch(manageSession(USER_LOGGED, user))
 			} else {
 				console.log('has no session open')
