@@ -1,4 +1,4 @@
 export const REGISTER = "REGISTER"
 export const LOGIN = "LOGIN"
-export const USER_SESSION = "USER_SESSION"
-export const USER_NO_SESSION = "USER_NO_SESSION"
+export const USER_LOGGED = "USER_LOGGED"
+export const USER_NO_LOGGED = "USER_NO_LOGGED"

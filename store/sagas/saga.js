@@ -16,7 +16,7 @@ const saveUser = ({username, email, avatar, uid}) => {
 }
 
 handleLogin = ({email, password}) => {
-	console.log(email, password)
+	// console.log(email, password)
 	return authService.signInWithEmailAndPassword(email, password)
 	.then(succcess => succcess)
 }

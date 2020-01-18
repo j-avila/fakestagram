@@ -45,10 +45,10 @@ const mapDispatchToProps = dispatch => ({
 		authService.onAuthStateChanged((user) => {
 			if (user) {
 				console.log(user.toJSON())
-				dispatch(manageSession(USER_SESSION, user))
+				dispatch(manageSession(USER_LOGGED, user))
 			} else {
 				console.log('has no session open')
-				dispatch(manageSession(USER_NO_SESSION, user))
+				dispatch(manageSession(USER_NO_LOGGED, user))
 			}
 		})
 	}

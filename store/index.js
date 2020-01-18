@@ -19,10 +19,10 @@ const defaultReducer = (state=[0], action) => {
 
 const sessionHandler = (state=null, action) => {
 	switch (action.type) {
-		case type.USER_SESSION:
+		case type.USER_LOGGED:
 			return action.payload
 			break;
-		case type.USER_NO_SESSION:
+		case type.USER_NO_LOGGED:
 			return null
 		default:
 			return state
