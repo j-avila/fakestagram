@@ -1,7 +1,8 @@
 import React from 'react'
 import {StyleSheet, View, TextInput, Button, Text} from 'react-native'
 import {reduxForm, Field} from 'redux-form'
-import {authService} from '../../store/servicios/firebase'
+
+
 const submit = values => console.log(values)
 
 const RenderInput = props => { 
@@ -62,7 +63,7 @@ const SignUpForm = props => {
 	const { handleSubmit, action } = props
 
 	return (
-		<View style={props.styles}>
+		<View style={styles.form}>
 			<Text> Registro de usuario: </Text>
 			<Field name="username" component={RenderInput} ph="ejem: alberto tonas" /> 
 			<Field name="email" component={RenderInput} ph="correofalso@correocaliente.com" />
@@ -79,6 +80,10 @@ export default reduxForm({
 })(SignUpForm)
 
 const styles = StyleSheet.create({
+	form: {
+		flex: 3,
+		marginVertical: 0
+	},
   input: {
 		borderColor: 'black',
 		padding: 10,

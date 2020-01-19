@@ -5,6 +5,7 @@ import {REGISTER} from '../../store/actions/types'
 import SingUpForm from './singUpForm';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { registerAction } from '../../store/actions/actions';
+import ImagePickerComp from './../imagePicker'
 
 class NoSigned extends Component {
 	constructor(){
@@ -19,9 +20,10 @@ class NoSigned extends Component {
 	render(){
 		const { navigation } = this.props
 		return (
-		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+		<View style={styles.container}>
 			<Text> Sign up </Text>
-			<SingUpForm styles={styles.form} action={this.register} />
+			<ImagePickerComp />
+			<SingUpForm action={this.register} />
 			<TouchableHighlight onPress={() => navigation.goBack()}>
 					<Text>Ya tienes una cuenta? ingresa</Text>
 			</TouchableHighlight>
@@ -42,7 +44,9 @@ const mapDisaptchToProps = dispatch => ({
 export default connect(mapStateToProps, mapDisaptchToProps)(NoSigned)
 
 const styles = StyleSheet.create({
-	form: {
-		marginVertical: 20
-	}
+	container: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center' 
+	},
 })

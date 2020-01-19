@@ -19,7 +19,7 @@ class SignIn extends Component {
     const { navigation } = this.props
     
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={styles.container}>
         <Text>sign in</Text>
         <LoginForm styles={styles.form} action={this.handleLogin} />
         <TouchableHighlight onPress={() => navigation.navigate('signup')}>
@@ -45,6 +45,11 @@ const mapDispatchToPops = dispatch => ({
 export default connect(mapStateToProps, mapDispatchToPops)(SignIn)
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   form: {
     marginVertical: 15
   }
