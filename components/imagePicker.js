@@ -1,25 +1,37 @@
 import * as React from 'react';
-import { Button, Image, View } from 'react-native';
+import { Button, Image, View, Text, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
+import { TouchableHighlight } from 'react-native-gesture-handler';
+import { connect } from 'react-redux';
+import { SET_AVATAR, DELETE_AVATAR } from '../store/actions/types';
+import { setAvatar } from '../store/actions/actions';
 
-export default class ImagePickerComp extends React.Component {
+class ImagePickerComp extends React.Component {
   state = {
     image: null,
-  };
+  }
 
   render() {
     let { image } = this.state;
+    let { avatar } = this.props
+    console.log(avatar)
 
     return (
       <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
-        <Button
-          title="Pick an image from camera roll"
-          onPress={this._pickImage}
-        />
-        {image &&
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+       <TouchableHighlight onPress={this._pickImage}>
+          {avatar ?
+            <Image source={{ uri: avatar }} style={styles.thumb} />
+          :
+            <Image source={require('../assets/default_user.png')} style={styles.thumb} />
+          }
+       </TouchableHighlight>
+        {avatar &&
+          <TouchableHighlight style={styles.delete} onPress={this._deleteImage}>
+            <Text>Delete avatar</Text>
+          </TouchableHighlight>
+        }
       </View>
     );
   }
@@ -37,6 +49,10 @@ export default class ImagePickerComp extends React.Component {
     }
   }
 
+  _deleteImage = async () => {
+    this.props.deleteAvatar()
+  }
+
   _pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -45,10 +61,42 @@ export default class ImagePickerComp extends React.Component {
       quality: 1
     });
 
-    console.log(result);
+    if(result.uri){
+      this.props.setAvatarImg(result.uri)
+    } else {
+      this.props.setAvatarImg(null)
+    }
+    console.log('redux: ', this.props);
 
     if (!result.cancelled) {
-      this.setState({ image: result.uri });
-    }
+      this.setState({ image: result ? result.uri : null });
+    } 
   };
 }
+
+const mapStateToProps = state => ({
+  ...state,
+  avatar: state.setAvatar
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  setAvatarImg: (image) => { 
+    dispatch(setAvatar(SET_AVATAR, image))
+  },
+  deleteAvatar: () => {
+    dispatch(setAvatar(DELETE_AVATAR, null))
+  }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ImagePickerComp)
+
+const styles = StyleSheet.create({
+  thumb: {
+    width: 200,
+    height: 200,
+    borderRadius: 100
+  },
+  delete: {
+    marginVertical: 20
+  }
+})

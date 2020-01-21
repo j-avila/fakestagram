@@ -1,6 +1,8 @@
 import React from 'react'
-import {StyleSheet, View, TextInput, Button, Text} from 'react-native'
+import {StyleSheet, View, TextInput, Button, Text, TouchableHighlight} from 'react-native'
 import {reduxForm, Field} from 'redux-form'
+
+import {primary} from '../../styles/colors'
 
 
 const submit = values => console.log(values)
@@ -60,7 +62,7 @@ const validate = values => {
 }
 
 const SignUpForm = props => { 
-	const { handleSubmit, action } = props
+	const { handleSubmit, action, navigation } = props
 
 	return (
 		<View style={styles.form}>
@@ -69,7 +71,10 @@ const SignUpForm = props => {
 			<Field name="email" component={RenderInput} ph="correofalso@correocaliente.com" />
 			<Field name="password" component={RenderInput} ph="password" />
 			<Field name="confirm" component={RenderInput} ph="confirmar password" />
-			<Button color="tomato" title="ingresar" onPress={ handleSubmit( values => action(values)) } />
+			<Button color={primary} title="ingresar" onPress={ handleSubmit( values => action(values)) } />
+			<TouchableHighlight onPress={() => navigation()}>
+					<Text style={styles.touchTxt} >Ya tienes una cuenta? ingresa</Text> 
+			</TouchableHighlight>
 		</View>
 	)
 }
@@ -92,6 +97,10 @@ const styles = StyleSheet.create({
 		width: 250,
 		marginBottom: 10
 	}, 
+	touchTxt: {
+		textAlign: 'center',
+		paddingVertical: 10,
+	},
 	errorTxt: {
 		color: 'tomato',
 		marginVertical: 4

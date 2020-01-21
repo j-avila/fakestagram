@@ -16,17 +16,15 @@ class NoSigned extends Component {
 		// console.log(values)
 		this.props.userRegister(values)
 	}
-		
+
 	render(){
 		const { navigation } = this.props
 		return (
 		<View style={styles.container}>
 			<Text> Sign up </Text>
 			<ImagePickerComp />
-			<SingUpForm action={this.register} />
-			<TouchableHighlight onPress={() => navigation.goBack()}>
-					<Text>Ya tienes una cuenta? ingresa</Text>
-			</TouchableHighlight>
+			<SingUpForm action={this.register} navigation={navigation.goBack} />
+		
 		</View>
 	)}
 }

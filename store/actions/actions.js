@@ -14,3 +14,8 @@ export const manageSession = (type, payload) => ({
 	payload
 })
 
+export const setAvatar = (type, payload) => ({
+	type,
+	payload
+})
+

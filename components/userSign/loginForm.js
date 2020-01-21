@@ -1,6 +1,7 @@
 import React from 'react'
 import {StyleSheet, View, TextInput, Button, Text} from 'react-native'
 import {reduxForm, Field} from 'redux-form'
+import { primary } from '../../styles/colors'
 
 const submit = values => console.log(values)
 
@@ -46,7 +47,7 @@ const LoginForm = props => {
 			<Text> Ingreso de Usuario: </Text>
 			<Field name="email" component={RenderInput} ph="ejem: alberto tonas" /> 
 			<Field name="password" component={RenderInput} ph="password" />
-			<Button color="tomato" title="Entrar" onPress={ handleSubmit(values => action(values)) } />
+			<Button color={primary} title="Entrar" onPress={ handleSubmit(values => action(values)) } />
 		</View>
 	)
 } 

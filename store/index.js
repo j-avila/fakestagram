@@ -4,14 +4,23 @@ import createSagaMiddleware from 'redux-saga'
 import {defaultSaga} from '../store/sagas/saga'
 import * as type from "../store/actions/types";	
 
-const defaultReducer = (state=[0], action) => {
+const defaultReducer = (state=[], action) => {
 	switch (action.type) {
-		case 'AUMENTAR':
-			return [...state, 1]
 		case 'REGISTER':
 			// console.log('from reducer',action.payload)
 			return [...state, action.payload]
 	
+		default:
+			return state
+	}
+}
+
+const setAvatar = (state=null, action) => {
+	switch(action.type) {
+		case 'SET_AVATAR':
+			return action.payload
+		case 'DELETE_AVATAR':
+			return action.payload
 		default:
 			return state
 	}
@@ -33,6 +42,7 @@ const sessionHandler = (state=null, action) => {
 const reducers = combineReducers({
 	defaultReducer,
 	form,
+	setAvatar,
 	sessionHandler
 })
 
