@@ -62,7 +62,9 @@ const validate = values => {
 }
 
 const SignUpForm = props => { 
-	const { handleSubmit, action, navigation } = props
+	const { handleSubmit, action, navigation, avatar } = props
+
+	console.log('avatar: ', avatar)
 
 	return (
 		<View style={styles.form}>
@@ -71,8 +73,8 @@ const SignUpForm = props => {
 			<Field name="email" component={RenderInput} ph="correofalso@correocaliente.com" />
 			<Field name="password" component={RenderInput} ph="password" />
 			<Field name="confirm" component={RenderInput} ph="confirmar password" />
-			<Button color={primary} title="ingresar" onPress={ handleSubmit( values => action(values)) } />
-			<TouchableHighlight onPress={() => navigation()}>
+			<Button color={primary} title="ingresar" onPress={ handleSubmit( values => action(values)) } disabled={avatar == null ? true : false} />
+			<TouchableHighlight onPress={() => navigation()} >
 					<Text style={styles.touchTxt} >Ya tienes una cuenta? ingresa</Text> 
 			</TouchableHighlight>
 		</View>

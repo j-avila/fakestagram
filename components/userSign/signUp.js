@@ -13,24 +13,29 @@ class NoSigned extends Component {
 	}
 	
 	register = values => {
-		// console.log(values)
+		const user = {
+			...values,
+			avatar: this.props.avatar
+		}
+		console.log('values: ', user)
 		this.props.userRegister(values)
 	}
 
 	render(){
-		const { navigation } = this.props
+		const { navigation, avatar } = this.props
 		return (
 		<View style={styles.container}>
 			<Text> Sign up </Text>
 			<ImagePickerComp />
-			<SingUpForm action={this.register} navigation={navigation.goBack} />
+			<SingUpForm action={this.register} navigation={navigation.goBack} avatar={avatar} />
 		
 		</View>
 	)}
 }
 
 const mapStateToProps = state => ({
-	numero: state.defaultReducer
+	numero: state.defaultReducer,
+	avatar: state.setAvatar
 })
 
 const mapDisaptchToProps = dispatch => ({
