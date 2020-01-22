@@ -1,7 +1,22 @@
 import {takeEvery, call} from 'redux-saga/effects'
 import {authService, dataBaseService} from '../servicios/firebase'
+import { storage } from 'firebase'
 
-const avatar = "https://ui-avatars.com/api/?name=John+Doe"
+// const avatar = "https://ui-avatars.com/api/?name=John+Doe"
+
+const saveAvatar= avatar => {
+	let imgRef = storage.ref()
+	let imageObj = imgRef.child('users/avatar.jpg')
+	const path = imageObj.fullPath
+	const uploadTask = imageObj.put(avatar)
+
+	uploadTask.then( snapshot => {
+		console.log('uploadded avatar')
+		return snapshot
+	}), error => {
+		console.log(error)
+	}
+}
 
 const handleRegister = data => 
 	authService.createUserWithEmailAndPassword(data.email, data.password)
@@ -24,12 +39,15 @@ handleLogin = ({email, password}) => {
 function* registerService(values) {
 	try {
 		console.log('init') 
+
 		const register =  yield call(handleRegister, values.payload)
-		// console.log(register)
+		const avatarGen = yield call(setAvatar,  avatar)
 		console.log(values)
+		console.log('avatar: ', avatarGen)
 		const {uid, email} = register
-		const {payload:{username}} = values
-		yield call(saveUser, {uid, email, username, avatar})
+		const {payload:{username, avatar}} = values
+		yield call(saveUser, {uid, email, username})
+
 		console.log('end')
 	} catch (error) {
 		console.log("error: ",error)		

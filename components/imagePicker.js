@@ -16,7 +16,7 @@ class ImagePickerComp extends React.Component {
   render() {
     let { image } = this.state;
     let { avatar } = this.props
-    console.log(avatar)
+    // console.log(avatar)
 
     return (
       <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
@@ -66,7 +66,7 @@ class ImagePickerComp extends React.Component {
     } else {
       this.props.setAvatarImg(null)
     }
-    console.log('redux: ', this.props);
+    // console.log('redux: ', this.props);
 
     if (!result.cancelled) {
       this.setState({ image: result ? result.uri : null });

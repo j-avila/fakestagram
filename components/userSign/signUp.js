@@ -17,8 +17,8 @@ class NoSigned extends Component {
 			...values,
 			avatar: this.props.avatar
 		}
-		console.log('values: ', user)
-		this.props.userRegister(values)
+		// console.log('values: ', user)
+		this.props.userRegister(values, this.props.avatar)
 	}
 
 	render(){
@@ -39,8 +39,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDisaptchToProps = dispatch => ({
-	userRegister: (values) => {
-		dispatch(registerAction(REGISTER, values))
+	userRegister: (values, avatar) => {
+		dispatch(registerAction(REGISTER, {values, avatar}))
+		console.log({values, avatar})
 	}
 })
 
