@@ -1,30 +1,46 @@
-import { takeEvery, call } from 'redux-saga/effects'
+import { takeEvery, call, putResolve } from 'redux-saga/effects'
 import { authService, dataBaseService, storageService } from '../servicios/firebase'
+import RNFetchBlob from 'react-native-fetch-blob'
 import { storage } from 'firebase'
 
-// const avatar = "https://ui-avatars.com/api/?name=John+Doe"
 
-const setAvatar = avatar => {
+// url ref: https://github.com/dailydrip/react-native-firebase-storage/blob/master/src/App.js#L43-L69
+
+const setAvatar =(avatar, mime='application/octet-stream') => {
 	const { uri, type } = avatar
-	let imgRef = storageService.ref()
-	let imageObj = imgRef.child('users/avatar.jpg')
-
-	const splitName = avatar.split('/')
-	const name = [...splitName].pop()
-
-	const metadata = {
-		contentType: 'image/jpeg',
-	}
-	console.log('file sended: ', name)
-	const uploadTask = imageObj.put(name, metadata)
-
-	uploadTask.then( snapshot => {
-		console.log('uploadded avatar')
-		return snapshot
-	}), error => {
-		console.log(error)
-	}
+	
+	// Prepare Blob support
+	return new Promise((resolve, reject) => {
+		const Blob = RNFetchBlob.polyfill.Blob
+		const fs = RNFetchBlob.fs
+		window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+		window.Blob = Blob
+		let imageRef = storageService.ref().child('users/avatar.jpg')
+		const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
+		let uploadBlob = null
+	
+		// procesing blob
+		fs.readFile(uploadUri, 'base64')
+			.then( data => {
+				return Blob.build(data, {type: `${mime};BASE64` })
+			})
+			.them( blob => {
+				uploadBlob = blob
+				return imageRef.put(blob, {contentType: mime})
+			})
+			.then( () => {
+				uploadBlob.close()
+				return imageRef.getDownloadURL()
+			})
+			.then( url => {
+				resolve(url)
+			})
+			.cath( error => {
+				PromiseRejectionEvent(error)
+			})
+	})
 }
+
 
 const handleRegister = data => 
 	authService.createUserWithEmailAndPassword(data.email, data.password)
