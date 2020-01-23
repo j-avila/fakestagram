@@ -1,14 +1,22 @@
-import {takeEvery, call} from 'redux-saga/effects'
-import {authService, dataBaseService} from '../servicios/firebase'
+import { takeEvery, call } from 'redux-saga/effects'
+import { authService, dataBaseService, storageService } from '../servicios/firebase'
 import { storage } from 'firebase'
 
 // const avatar = "https://ui-avatars.com/api/?name=John+Doe"
 
-const saveAvatar= avatar => {
-	let imgRef = storage.ref()
+const setAvatar = avatar => {
+	const { uri, type } = avatar
+	let imgRef = storageService.ref()
 	let imageObj = imgRef.child('users/avatar.jpg')
-	const path = imageObj.fullPath
-	const uploadTask = imageObj.put(avatar)
+
+	const splitName = avatar.split('/')
+	const name = [...splitName].pop()
+
+	const metadata = {
+		contentType: 'image/jpeg',
+	}
+	console.log('file sended: ', name)
+	const uploadTask = imageObj.put(name, metadata)
 
 	uploadTask.then( snapshot => {
 		console.log('uploadded avatar')
@@ -40,9 +48,9 @@ function* registerService(values) {
 	try {
 		console.log('init') 
 
-		const register =  yield call(handleRegister, values.payload)
-		const avatarGen = yield call(setAvatar,  avatar)
-		console.log(values)
+		const register =  yield call(handleRegister, values.payload.values)
+		const avatarGen = yield call(setAvatar,  values.payload.avatar)
+		// console.log(values)
 		console.log('avatar: ', avatarGen)
 		const {uid, email} = register
 		const {payload:{username, avatar}} = values

@@ -41,7 +41,7 @@ const mapStateToProps = state => ({
 const mapDisaptchToProps = dispatch => ({
 	userRegister: (values, avatar) => {
 		dispatch(registerAction(REGISTER, {values, avatar}))
-		console.log({values, avatar})
+		// console.log({values, avatar})
 	}
 })
 

@@ -64,8 +64,6 @@ const validate = values => {
 const SignUpForm = props => { 
 	const { handleSubmit, action, navigation, avatar } = props
 
-	console.log('avatar: ', avatar)
-
 	return (
 		<View style={styles.form}>
 			<Text> Registro de usuario: </Text>

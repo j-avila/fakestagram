@@ -61,6 +61,8 @@ class ImagePickerComp extends React.Component {
       quality: 1
     });
 
+    console.log('imgObj: ', result)
+
     if(result.uri){
       this.props.setAvatarImg(result.uri)
     } else {

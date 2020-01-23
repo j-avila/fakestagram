@@ -18,6 +18,7 @@ const defaultReducer = (state=[], action) => {
 const setAvatar = (state=null, action) => {
 	switch(action.type) {
 		case 'SET_AVATAR':
+			console.log('payload-reducer',action)
 			return action.payload
 		case 'DELETE_AVATAR':
 			return action.payload
