@@ -1,56 +1,80 @@
 import { takeEvery, call, putResolve } from 'redux-saga/effects'
 import { authService, dataBaseService, storageService } from '../servicios/firebase'
-import RNFetchBlob from 'react-native-fetch-blob'
-import { storage } from 'firebase'
 
 
 // url ref: https://github.com/dailydrip/react-native-firebase-storage/blob/master/src/App.js#L43-L69
 
-const setAvatar =(avatar, mime='application/octet-stream') => {
+/* const setAvatar = (avatar) => {
 	const { uri, type } = avatar
 	
 	// Prepare Blob support
-	return new Promise((resolve, reject) => {
-		const Blob = RNFetchBlob.polyfill.Blob
-		const fs = RNFetchBlob.fs
-		window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
-		window.Blob = Blob
-		let imageRef = storageService.ref().child('users/avatar.jpg')
-		const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
-		let uploadBlob = null
-	
-		// procesing blob
-		fs.readFile(uploadUri, 'base64')
-			.then( data => {
-				return Blob.build(data, {type: `${mime};BASE64` })
-			})
-			.them( blob => {
-				uploadBlob = blob
-				return imageRef.put(blob, {contentType: mime})
-			})
-			.then( () => {
-				uploadBlob.close()
-				return imageRef.getDownloadURL()
-			})
-			.then( url => {
-				resolve(url)
-			})
-			.cath( error => {
-				PromiseRejectionEvent(error)
-			})
+	// let imageRef = storageService.ref().child('users/avatar.jpg')
+	const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
+	let file = RNFetchBlob.wrap(uploadUri)
+	const uploadImg = imageRef.put(blob, {contentType: mime})
+
+	// procesing blob
+	RNFetchBlob.fetch(uploadImg, file)
+	.then( resp => {
+		console.log(resp.text())
+	})
+	.cath( error => {
+		console.log(error)
+	})
+}
+ */
+
+
+
+ // Prepare Blob support
+const setAvatar = uri => {
+	return new Promise( (resolve, reject) => {
+		const xhr = new XMLHttpRequest()
+
+		xhr.onload = () => {
+			resolve(xhr.response)
+		}
+		xhr.onerror = () => {
+			reject(new Error('uriToBlobFailed'))
+		}
+
+		xhr.responseType = 'blob'
+		xhr.open('GET', uri, true)
+		xhr.send(null)
 	})
 }
 
 
-const handleRegister = data => 
-	authService.createUserWithEmailAndPassword(data.email, data.password)
-	.then( response => response.user)
+const uploadToFirebase = (blob) => {
+  return new Promise((resolve, reject) => {
+    var storageRef = storageService.ref();
+    storageRef.child('users/photo.jpg').put(blob, {
+      contentType: 'image/jpeg'
+    }).then((snapshot)=>{
+      blob.close();
+      resolve(snapshot);
+    }).catch((error)=>{
+      reject(error);
+    });
+  });
+}
 
-const saveUser = ({username, email, avatar, uid}) => {
+const handleRegister = data => {
+	console.log('usertoregister: ', data)
+
+	return authService.createUserWithEmailAndPassword(data.email, data.password)
+				.then( response => {
+					return response.user
+				})
+				.then( blob => 
+					uploadToFirebase(blob)
+				)
+}
+
+const saveUser = async ({username, email, avatar, uid}) => {
 	dataBaseService.ref(`users/${uid}`).set({
 		name: username,
 		email,
-		avatar
 	});
 }
 
@@ -65,7 +89,7 @@ function* registerService(values) {
 		console.log('init') 
 
 		const register =  yield call(handleRegister, values.payload.values)
-		const avatarGen = yield call(setAvatar,  values.payload.avatar)
+		const avatarGen = yield call(uploadToFirebase, setAvatar(values.payload.avatar))
 		// console.log(values)
 		console.log('avatar: ', avatarGen)
 		const {uid, email} = register
