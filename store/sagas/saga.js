@@ -27,10 +27,10 @@ uploadToFirebase = (blob, userId) => {
 		var storageRef = storageService.ref();
 		storageRef.child(`users/${userId}/uploads/${blob._data.name}`).put(blob, {
 			contentType: 'image/jpeg'
-		}).then((snapshot)=>{
+		}).then(async (snapshot)=>{
 			blob.close();
-			console.log('imgUrl', snapshot.ref.getDownloadURL)
-			resolve(snapshot);
+			urlImg = await snapshot.ref.getDownloadURL().then(url => { return url } )
+			resolve(urlImg);
 		}).catch((error)=>{
 			reject(error);
 		});
@@ -44,7 +44,8 @@ const handleRegister = data => {
 	})
 	.then( async resp => { 
 		let avatar = await uriToBlob(data.avatar)
-		return {user: resp ,image: uploadToFirebase(avatar, resp.uid)}
+		let genAvatar = uploadToFirebase(avatar, resp.uid).then( url => url )
+		return {user: resp, avatar: await genAvatar}
 	})
 }
 
@@ -52,6 +53,7 @@ const saveUser = async ({username, email, avatar, uid}) => {
 	dataBaseService.ref(`users/${uid}`).set({
 		name: username,
 		email,
+		avatar
 	});
 }
 
@@ -65,10 +67,10 @@ function* registerService(data) {
 		console.log('init:')
 
 		const register =  yield call(handleRegister, data.payload)
-		const {uid, email} = register.user
-		const {values:{username, avatar}} = data.payload
-		yield call(saveUser, {uid, email, username})
-
+		// console.log(register)
+		const {user:{uid, email}, avatar} = register
+		const {values:{username}} = data.payload
+		yield call(saveUser, {uid, email, username, avatar})
 		console.log('end')
 	} catch (error) {
 		console.log("error: ",error)
@@ -79,7 +81,6 @@ function* loginService(values) {
 	try {
 		console.log('init')
 		const logged = yield call(handleLogin, values.payload)
-		// console.log(logged)
 	} catch (error) {
 		// Handle Errors here.
 		var errorCode = error.code;
