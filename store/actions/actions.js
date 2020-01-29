@@ -19,3 +19,8 @@ export const setAvatar = (type, payload) => ({
 	payload
 })
 
+export const setPostImg = (type, image) => ({
+	type,
+	image
+})
+

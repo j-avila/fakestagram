@@ -18,10 +18,22 @@ const defaultReducer = (state=[], action) => {
 const setAvatar = (state=null, action) => {
 	switch(action.type) {
 		case 'SET_AVATAR':
-			console.log('payload-reducer',action)
+			// console.log('payload-reducer',action)
 			return action.payload
 		case 'DELETE_AVATAR':
 			return action.payload
+		default:
+			return state
+	}
+}
+
+const postImg = (state={image: null}, action) => {
+	switch(action.type) {
+		case 'SET_POST_PHOTO':
+			// console.log('payload-reducer',actaction.imageion)
+			return {image: action.image}
+		case 'REMOVE_POST_PHOTO':
+			return {image: null}
 		default:
 			return state
 	}
@@ -44,7 +56,8 @@ const reducers = combineReducers({
 	defaultReducer,
 	form,
 	setAvatar,
-	sessionHandler
+	sessionHandler,
+	postImg
 })
 
 
