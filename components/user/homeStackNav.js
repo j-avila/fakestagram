@@ -41,11 +41,6 @@ HomeStackNav.navigationOptions = ({navigation}) => {
 	excludeRoute && excludeRoute.routeName === 'Comments' ? tabBarVisible = false  : false
 	// console.log(screenRoutes, excludeRoute)
 	return {tabBarVisible}
-
-
-
-
-
 }
 
 export default HomeStackNav  

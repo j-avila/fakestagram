@@ -7,16 +7,21 @@ import { setPostImg } from '../../store/actions/actions'
 import { SET_POST_PHOTO } from '../../store/actions/types'
 
 export class CreatePost extends Component {
+  constructor() {
+    super()
+  }
   static propTypes = {
     prop: PropTypes
   }
 
   render() {
-    const  {loadImg, image} = this.props
     return (
       <View style={styles.body}>
         <Text> create a post </Text>
-        <ImagePicker image={imageObj.image}  load={loadImg} />
+        <ImagePicker
+         	 imageObj={this.props.image}
+           action={this.props.setImg}
+        />
         <Button
           title="Post this image"
         />
@@ -35,12 +40,13 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state) => ({
-  imageObj: this.state.setPostImg
+  ...state,
+  image: state.setPostImg
 })
 
 const mapDispatchToProps = dispatch => ({
-  loadImg: img => {
-    dispatch(setPostImg(SET_POST_PHOTO, img))
+  setImg: (image) => {
+    dispatch(setPostImg(SET_POST_PHOTO, image))
   }
 })
 

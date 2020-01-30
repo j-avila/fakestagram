@@ -5,7 +5,7 @@ import { CreatePost } from './createPost';
 const StackAdd = createStackNavigator({
   Add:{
     screen: Add,
-    navigationOptions: () => {
+    navigationOptions: ({navigation}) => {
       title: 'Add'
     }
   },
@@ -15,5 +15,15 @@ const StackAdd = createStackNavigator({
   }
 })
 
+
+StackAdd.navigationOptions = ({navigation}) => { 
+	let tabBarVisible = true
+	const screenRoutes = navigation.state
+	const excludeRoute = screenRoutes.routes.filter( item => item.routeName === 'Add')[0]
+
+	excludeRoute && excludeRoute.routeName === 'Add' ? tabBarVisible = false  : false
+	console.log(screenRoutes, excludeRoute)
+	return {tabBarVisible}
+}
 
 export default StackAdd

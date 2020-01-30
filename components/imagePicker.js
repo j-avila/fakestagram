@@ -15,19 +15,21 @@ class ImagePickerComp extends React.Component {
 
   render() {
     let { image } = this.state;
-    let { avatar } = this.props
-    // console.log(avatar)
+    let { imageObj, radius, avatarSize } = this.props
+    const radiusImg = { borderRadius: radius ? 100 : 0}
+    const aspectRatio = { width: avatarSize ? 200 : 500, height: avatarSize ? 200 : 400 }
+    // console.log(this.props)
 
     return (
       <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
        <TouchableHighlight onPress={this._pickImage}>
-          {avatar ?
-            <Image source={{ uri: avatar }} style={styles.thumb} />
+          {image ?
+            <Image source={{ uri: imageObj }} style={{...aspectRatio, ...radiusImg}} />
           :
-            <Image source={require('../assets/default_user.png')} style={styles.thumb} />
+            <Image source={require('../assets/default_user.png')} style={{...aspectRatio, ...radiusImg}} />
           }
        </TouchableHighlight>
-        {avatar &&
+        {image &&
           <TouchableHighlight style={styles.delete} onPress={this._deleteImage}>
             <Text>Delete avatar</Text>
           </TouchableHighlight>
@@ -64,9 +66,9 @@ class ImagePickerComp extends React.Component {
     // console.log('imgObj: ', result)
 
     if(result.uri){
-      this.props.setAvatarImg(result.uri)
+      this.props.action(result.uri)
     } else {
-      this.props.setAvatarImg(null)
+      this.props.action(null)
     }
     // console.log('redux: ', this.props);
 
@@ -76,28 +78,9 @@ class ImagePickerComp extends React.Component {
   };
 }
 
-const mapStateToProps = state => ({
-  ...state,
-  avatar: state.setAvatar
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  setAvatarImg: (image) => { 
-    dispatch(setAvatar(SET_AVATAR, image))
-  },
-  deleteAvatar: () => {
-    dispatch(setAvatar(DELETE_AVATAR, null))
-  }
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ImagePickerComp)
+export default ImagePickerComp
 
 const styles = StyleSheet.create({
-  thumb: {
-    width: 200,
-    height: 200,
-    borderRadius: 100
-  },
   delete: {
     marginVertical: 20
   }
