@@ -1,6 +1,6 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import Add from './add';
-import { CreatePost } from './createPost';
+import CreatePost from './createPost';
 
 const StackAdd = createStackNavigator({
   Add:{
@@ -22,7 +22,7 @@ StackAdd.navigationOptions = ({navigation}) => {
 	const excludeRoute = screenRoutes.routes.filter( item => item.routeName === 'Add')[0]
 
 	excludeRoute && excludeRoute.routeName === 'Add' ? tabBarVisible = false  : false
-	console.log(screenRoutes, excludeRoute)
+	// console.log(screenRoutes, excludeRoute)
 	return {tabBarVisible}
 }
 

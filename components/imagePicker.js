@@ -18,7 +18,7 @@ class ImagePickerComp extends React.Component {
     let { imageObj, radius, avatarSize } = this.props
     const radiusImg = { borderRadius: radius ? 100 : 0}
     const aspectRatio = { width: avatarSize ? 200 : 500, height: avatarSize ? 200 : 400 }
-    // console.log(this.props)
+    // console.log(image)
 
     return (
       <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
@@ -30,7 +30,7 @@ class ImagePickerComp extends React.Component {
           }
        </TouchableHighlight>
         {image &&
-          <TouchableHighlight style={styles.delete} onPress={this._deleteImage}>
+          <TouchableHighlight style={styles.delete} onPress={this.props.removeImg}>
             <Text>Delete avatar</Text>
           </TouchableHighlight>
         }
@@ -42,6 +42,14 @@ class ImagePickerComp extends React.Component {
     this.getPermissionAsync();
   }
 
+  componentDidUpdate(prevProps) {
+    prevProps.imageObj !== this.props.imageObj &&
+    this.setState({
+      image: this.props.imageObj
+    })
+  }
+  
+
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -49,10 +57,6 @@ class ImagePickerComp extends React.Component {
         alert('Sorry, we need camera roll permissions to make this work!');
       }
     }
-  }
-
-  _deleteImage = async () => {
-    this.props.deleteAvatar()
   }
 
   _pickImage = async () => {
@@ -63,14 +67,11 @@ class ImagePickerComp extends React.Component {
       quality: 1
     });
 
-    // console.log('imgObj: ', result)
-
     if(result.uri){
       this.props.action(result.uri)
     } else {
       this.props.action(null)
     }
-    // console.log('redux: ', this.props);
 
     if (!result.cancelled) {
       this.setState({ image: result ? result.uri : null });
