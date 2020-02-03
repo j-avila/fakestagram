@@ -1,12 +1,9 @@
 import * as React from 'react';
-import { Button, Image, View, Text, StyleSheet } from 'react-native';
+import { Image, View, Text, StyleSheet, Button } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import { TouchableHighlight } from 'react-native-gesture-handler';
-import { connect } from 'react-redux';
-import { SET_AVATAR, DELETE_AVATAR } from '../store/actions/types';
-import { setAvatar } from '../store/actions/actions';
 
 class ImagePickerComp extends React.Component {
   state = {
@@ -17,16 +14,16 @@ class ImagePickerComp extends React.Component {
     let { image } = this.state;
     let { imageObj, radius, avatarSize } = this.props
     const radiusImg = { borderRadius: radius ? 100 : 0}
-    const aspectRatio = { width: avatarSize ? 200 : 500, height: avatarSize ? 200 : 400 }
+    const aspectRatio = { width: avatarSize ? 200 : 400, height: avatarSize ? 200 : 400 }
     // console.log(image)
 
     return (
-      <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ flex: 3, alignItems: 'center' }}>
        <TouchableHighlight onPress={this._pickImage}>
           {image ?
             <Image source={{ uri: imageObj }} style={{...aspectRatio, ...radiusImg}} />
           :
-            <Image source={require('../assets/default_user.png')} style={{...aspectRatio, ...radiusImg}} />
+            <Image source={require('../assets/upload_media.png')} style={{...aspectRatio, ...radiusImg}} />
           }
        </TouchableHighlight>
         {image &&
@@ -83,6 +80,6 @@ export default ImagePickerComp
 
 const styles = StyleSheet.create({
   delete: {
-    marginVertical: 20
+    marginVertical: 0
   }
 })

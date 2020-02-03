@@ -1,5 +1,5 @@
 import React, { useCallback, Component } from 'react'
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { useSelector, useDispatch, connect } from 'react-redux'
 import {REGISTER, SET_AVATAR, DELETE_AVATAR} from '../../store/actions/types'
 import SingUpForm from './singUpForm';
@@ -25,14 +25,16 @@ class NoSigned extends Component {
 		const { navigation, avatar,setAvatarImg, deleteAvatar } = this.props
 		return (
 		<View style={styles.container}>
-			<Text> Sign up </Text>
-			<ImagePickerComp 
-				imageObj={this.props.avatar}
-				action={this.props.setAvatarImg}
-				avatarSize
-				radius
-			/>
-			<SingUpForm action={this.register} navigation={navigation.goBack} avatar={avatar} />
+			<KeyboardAvoidingView style={{flex: 1, alignItems: "center", justifyContent: "center"}} behavior="padding" enabled>
+				<Text> Sign up </Text>
+				<ImagePickerComp 
+					imageObj={this.props.avatar}
+					action={this.props.setAvatarImg}
+					avatarSize
+					radius
+				/>
+				<SingUpForm action={this.register} navigation={navigation.goBack} avatar={avatar} />
+			</KeyboardAvoidingView>
 		
 		</View>
 	)}

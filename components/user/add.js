@@ -10,12 +10,14 @@ export default class Add extends Component {
         <Text>add</Text>
         <Button
           title="take a photo"
-          onPress={() => {navigation.navigate('Add')}}
+          onPress={ () => { navigation.navigate('Selection')}}
         />
-       <TouchableHighlight onPress={() => {navigation.navigate('Selection')}}>
+       <TouchableHighlight style={styles.textTouch} onPress={() => {navigation.navigate('Selection', {
+          gallery: true
+        }
+       )}}>
         <Text>or select from gallery</Text>
        </TouchableHighlight>
-
       </View> 
     )
   }
@@ -27,5 +29,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#e0e3d4'
+  },
+  textTouch: {
+    marginVertical: 20
   }
 })

@@ -86,7 +86,7 @@ export default reduxForm({
 
 const styles = StyleSheet.create({
 	form: {
-		flex: 3,
+		flex: 2,
 		marginVertical: 0
 	},
   input: {

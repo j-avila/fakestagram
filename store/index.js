@@ -30,7 +30,7 @@ const setAvatar = (state=null, action) => {
 const postImg = (state={image: null}, action) => {
 	switch(action.type) {
 		case 'SET_POST_PHOTO':
-			// console.log('payload-reducer',actaction.imageion)
+			// console.log('payload-reducer', action.image)
 			return {image: action.image}
 		case 'REMOVE_POST_PHOTO':
 			return {image: null}
