@@ -39,6 +39,16 @@ const postImg = (state={image: null}, action) => {
 	}
 }
 
+const createPost = (state=null, action) => {
+	switch(action.type) {
+		case 'CREATE_POST' :
+			console.log('in store: ', action.post)
+			return action.post
+		default:
+			return state
+	}
+}
+
 const sessionHandler = (state=null, action) => {
 	switch (action.type) {
 		case type.USER_LOGGED:
@@ -57,7 +67,8 @@ const reducers = combineReducers({
 	form,
 	setAvatar,
 	sessionHandler,
-	postImg
+	postImg,
+	createPost,
 })
 
 

@@ -62,6 +62,15 @@ handleLogin = ({email, password}) => {
 	.then(succcess => succcess)
 }
 
+handlePost = () => {
+	return new Promise( () => {
+		// upload the image
+
+		// save it into  the database
+	})
+}
+
+// sagas
 function* registerService(data) {
 	try {
 		console.log('init:')

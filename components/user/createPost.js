@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Button, KeyboardAvoidingView } from 'react-native'
+import { View, Text, Image, StyleSheet, Button, KeyboardAvoidingView } from 'react-native'
 import { connect } from 'react-redux'
 import ImagePicker from '../imagePicker'
-import { setPostImg } from '../../store/actions/actions'
-import { SET_POST_PHOTO, REMOVE_POST_PHOTO } from '../../store/actions/types'
+import { setPostImg, setCreatePost } from '../../store/actions/actions'
+import { SET_POST_PHOTO, REMOVE_POST_PHOTO, CREATE_POST } from '../../store/actions/types'
 import PostForm from './postForm'
-import { RNCamera } from 'react-native-camera'
 import CameraPicker from './cameraPickerExpo'
 
 class CreatePost extends Component {
@@ -13,13 +12,18 @@ class CreatePost extends Component {
     super()
   }
 
+  handleCreatePost = (post, image) => {
+    // console.log('to post: ', post.values, image)
+    this.props.setPost(post.values, image)
+  }
+
   render() {
-    const {gallery, navigation} = this.props
+    const {gallery, navigation, imageObj, postPrev} = this.props
     const navProps = JSON.stringify(navigation.getParam('gallery'))
 
     return (
       <View style={styles.body}>
-          <KeyboardAvoidingView styles={styles.holder} behavior="padding" enabled>
+        <KeyboardAvoidingView styles={styles.holder} behavior="padding" enabled>
           {navProps ? 
             <ImagePicker
               type='text'
@@ -34,18 +38,22 @@ class CreatePost extends Component {
               removeImg={this.props.delImg}
             />
           }
-            <PostForm />
+            <PostForm
+              image={this.props.imageObj}
+              post={this.props.post}
+              handleSubmit={this.handleCreatePost}
+            />
           </KeyboardAvoidingView>
       </View>
-
     )
   }
 }
 
 const mapStateToProps = (state) => {
-  // console.log('stateImg :',state.postImg)
   return ({
-  imageObj: state.postImg
+  imageObj: state.postImg,
+  post: state.form.createPost,
+  postPrev: state.createPost
 })}
 
 const mapDispatchToProps = dispatch => ({
@@ -54,6 +62,9 @@ const mapDispatchToProps = dispatch => ({
   },
   delImg: () => {
     dispatch(setPostImg(REMOVE_POST_PHOTO))
+  },
+  setPost: (post, image) => {
+    dispatch(setCreatePost(CREATE_POST, {post, image}))
   }
 })
 

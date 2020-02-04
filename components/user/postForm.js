@@ -65,6 +65,7 @@ class PostForm extends Component {
   }
 
   render() {
+		const {handleSubmit, image, post} = this.props
     return (
         <View style={styles.form}>
           <Text> Description of the photo: </Text>
@@ -75,7 +76,10 @@ class PostForm extends Component {
             multiline
           /> 
           <Button
-            title="Post"
+						title="Post"
+						onPress={
+							() => handleSubmit(post, image)
+						}
           />
         </View>
     )

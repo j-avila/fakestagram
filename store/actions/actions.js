@@ -24,3 +24,7 @@ export const setPostImg = (type, image) => ({
 	image
 })
 
+export const setCreatePost = (type, post) => ({
+	type,
+	post
+})
