@@ -48,9 +48,9 @@ uploadToFirebase = (blob, userId, dir) => {
 const handleRegister = async data => {
   const response = await authService
 		.createUserWithEmailAndPassword(data.values.email, data.values.password);
-	const resp = response.user;
+	const resp = response.user; 
 	let avatar = await uriToBlob(data.avatar);
-	let genAvatar = uploadToFirebase(avatar, resp.uid, 'uploads').then(url => url);
+	let genAvatar = uploadToFirebase(avatar, resp.uid, 'uploads').then(url => url); // setear el userId no se de donde
 	return { user: resp, avatar: await genAvatar };
 };
 
@@ -71,7 +71,7 @@ handleLogin = async ({ email, password }) => {
 handlePost = data => {
     // upload the image
     let avatar = await uriToBlob(data.image);
-		let genAvatar = uploadToFirebase(avatar, resp.uid, 'uploads/posts').then(url => url);
+		let genAvatar = uploadToFirebase(avatar, resp.uid, 'uploads/posts').then(url => url); // setear id tambien?
 		// save it into  the database
 		dataBaseService
 		.ref(`users/posts/`)
