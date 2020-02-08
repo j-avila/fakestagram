@@ -23,9 +23,9 @@ class CreatePost extends Component {
     super()
   }
 
-  handleCreatePost = (post, postPic) => {
+  handleCreatePost = (post, postPic, uid) => {
     // console.log('to post: ', image)
-    this.props.setPost(post.values, postPic.image)
+    this.props.setPost(post.values, postPic.image, uid)
   }
 
   render() {
@@ -52,6 +52,7 @@ class CreatePost extends Component {
           <PostForm
             image={this.props.imageObj}
             post={this.props.post}
+            uid={this.props.userData.uid}
             handleSubmit={this.handleCreatePost}
           />
         </KeyboardAvoidingView>
@@ -61,11 +62,11 @@ class CreatePost extends Component {
 }
 
 const mapStateToProps = state => {
-  // console.log('state of create:', state);
   return {
     imageObj: state.postImg,
     post: state.form.createPost,
-    postPrev: state.createPost
+    postPrev: state.createPost,
+    userData: state.sessionHandler
   }
 }
 
@@ -76,8 +77,14 @@ const mapDispatchToProps = dispatch => ({
   delImg: () => {
     dispatch(setPostImg(REMOVE_POST_PHOTO))
   },
-  setPost: (post, image) => {
-    dispatch(setCreatePost(CREATE_POST, { postDesc: post, imgUrl: image }))
+  setPost: (post, image, userData) => {
+    dispatch(
+      setCreatePost(CREATE_POST, {
+        postDesc: post,
+        userID: userData,
+        imgUrl: image
+      })
+    )
   }
 })
 

@@ -29,14 +29,17 @@ uriToBlob = uri => {
 uploadToFirebase = (blob, userId, dir) => {
   return new Promise((resolve, reject) => {
     var storageRef = storageService.ref()
+    let urlToUpload = `users/${userId}/${dir}/${blob._data.name}`
+    console.log(urlToUpload)
     storageRef
-      .child(`users/${userId}/${dir}/${blob._data.name}`)
+      .child(urlToUpload)
       .put(blob, {
         contentType: 'image/jpeg'
       })
       .then(async snapshot => {
         blob.close()
         urlImg = await snapshot.ref.getDownloadURL().then(url => url)
+        console.log(urlImg)
         resolve(urlImg)
       })
       .catch(error => {
@@ -52,7 +55,7 @@ const handleRegister = async data => {
   )
   const resp = response.user
   let avatar = await uriToBlob(data.avatar)
-  let genAvatar = uploadToFirebase(avatar, resp.uid, 'uploads').then(url => url) // setear el userId no se de donde
+  let genAvatar = uploadToFirebase(avatar, resp.uid, 'uploads').then(url => url)
   return { user: resp, avatar: await genAvatar }
 }
 
@@ -71,20 +74,21 @@ const handleLogin = async ({ email, password }) => {
 
 const handlePost = async data => {
   // upload the image
-  console.log('handlePost: ', data)
-  let snap = await uriToBlob(data.imgUrl)
-  let imgPost = uploadToFirebase(snap, resp.uid, 'uploads/posts').then(
+  const { post } = data
+  let snap = await uriToBlob(post.imgUrl)
+  let imgPost = await uploadToFirebase(snap, post.userID, 'uploads/posts').then(
     url => url
-  ) // setear id tambien?
+  )
   // save it into  the database
   dataBaseService
-    .ref(`users/posts/`)
-    .put({
-      post: data.post,
+    .ref(`posts/`)
+    .push({
+      userId: post.userID,
+      post: post.postDesc,
       image: imgPost
     })
     .then(response => {
-      console.log('resp.', response)
+      console.log('posted in:', response)
     })
 }
 
@@ -130,7 +134,7 @@ function* createPostService(data) {
   try {
     console.log('saving post init')
     const post = yield call(handlePost, data)
-    console.log('end: ', post)
+    console.log('end')
   } catch (error) {
     alert(error)
   }
