@@ -62,13 +62,25 @@ const sessionHandler = (state = null, action) => {
   }
 }
 
+const getPostsHandler = (state = [], action) => {
+  switch (action.type) {
+    case 'GET_POSTS':
+      console.log('action', action)
+      return action
+    default:
+      return state
+      break
+  }
+}
+
 const reducers = combineReducers({
   defaultReducer,
   form,
   setAvatar,
   sessionHandler,
   postImg,
-  createPost
+  createPost,
+  getPostsHandler
 })
 
 const sagaMiddleware = createSagaMiddleware()

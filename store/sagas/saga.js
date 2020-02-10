@@ -1,4 +1,4 @@
-import { takeEvery, call, putResolve } from 'redux-saga/effects'
+import { takeEvery, call } from 'redux-saga/effects'
 import {
   authService,
   dataBaseService,
@@ -72,6 +72,14 @@ const handleLogin = async ({ email, password }) => {
   return succcess
 }
 
+const handlePosts = async () => {
+  const postsTimeLine = await dataBaseService
+    .ref('posts/')
+    .once('value')
+    .then(response => response)
+  return postsTimeLine
+}
+
 const handlePost = async data => {
   // upload the image
   const { post } = data
@@ -140,10 +148,19 @@ function* createPostService(data) {
   }
 }
 
+function* getPostsService() {
+  try {
+    const postsTimeline = yield call(handlePosts)
+  } catch (error) {
+    alert(error)
+  }
+}
+
 export function* defaultSaga(values) {
   // yield
   yield takeEvery('REGISTER', registerService)
   yield takeEvery('LOGIN', loginService)
   yield takeEvery('CREATE_POST', createPostService)
+  yield takeEvery('GET_POSTS', getPostsService)
   console.log('saganding')
 }
