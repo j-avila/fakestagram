@@ -1,3 +1,5 @@
+import { GET_POSTS } from './types'
+
 export const registerAction = (type, payload) => ({
   type,
   payload
@@ -28,7 +30,6 @@ export const setCreatePost = (type, post) => ({
   post
 })
 
-export const getPosts = (type, posts) => ({
-  type,
-  posts
+export const getPosts = () => ({
+  type: GET_POSTS
 })

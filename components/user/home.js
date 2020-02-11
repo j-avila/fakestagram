@@ -12,8 +12,8 @@ class Home extends Component {
     }
   }
 
-  async componentDidMount() {
-    await this.props.handleGetPosts()
+  componentDidMount() {
+    this.props.handleGetPosts()
     console.log(this.props.timeline)
   }
 
@@ -58,7 +58,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   handleGetPosts: () => {
-    dispatch(getPosts(GET_POSTS))
+    dispatch(getPosts())
   }
 })
 

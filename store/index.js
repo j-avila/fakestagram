@@ -66,7 +66,7 @@ const getPostsHandler = (state = [], action) => {
   switch (action.type) {
     case 'GET_POSTS':
       console.log('action', action)
-      return action
+      return action.posts
     default:
       return state
       break

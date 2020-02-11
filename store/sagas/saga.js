@@ -4,7 +4,7 @@ import {
   dataBaseService,
   storageService
 } from '../servicios/firebase'
-
+import { GET_POSTS, REGISTER, LOGIN, CREATE_POST } from '../actions/types'
 // Prepare Blob support
 uriToBlob = uri => {
   return new Promise((resolve, reject) => {
@@ -72,13 +72,11 @@ const handleLogin = async ({ email, password }) => {
   return succcess
 }
 
-const handlePosts = async () => {
-  const postsTimeLine = await dataBaseService
+const handleTimeline = () =>
+  dataBaseService
     .ref('posts/')
     .once('value')
     .then(response => response)
-  return postsTimeLine
-}
 
 const handlePost = async data => {
   // upload the image
@@ -148,19 +146,23 @@ function* createPostService(data) {
   }
 }
 
-function* getPostsService() {
+// no ejecuta la saga
+function* getTimelineService() {
+  console.log('dafuck?')
   try {
-    const postsTimeline = yield call(handlePosts)
+    const postsTimeline = yield call(handleTimeline)
+    console.log(postsTimeline)
   } catch (error) {
+    console.log('pass error')
     alert(error)
   }
 }
 
 export function* defaultSaga(values) {
   // yield
-  yield takeEvery('REGISTER', registerService)
-  yield takeEvery('LOGIN', loginService)
-  yield takeEvery('CREATE_POST', createPostService)
-  yield takeEvery('GET_POSTS', getPostsService)
+  yield takeEvery(REGISTER, registerService)
+  yield takeEvery(LOGIN, loginService)
+  yield takeEvery(CREATE_POST, createPostService)
+  yield takeEvery(GET_POSTS, getTimelineService)
   console.log('saganding')
 }
