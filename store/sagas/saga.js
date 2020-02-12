@@ -1,10 +1,11 @@
-import { takeEvery, call } from 'redux-saga/effects'
+import { takeEvery, call, put } from 'redux-saga/effects'
 import {
   authService,
   dataBaseService,
   storageService
 } from '../servicios/firebase'
 import { GET_POSTS, REGISTER, LOGIN, CREATE_POST } from '../actions/types'
+import { setTimeline } from '../actions/actions'
 // Prepare Blob support
 uriToBlob = uri => {
   return new Promise((resolve, reject) => {
@@ -76,7 +77,16 @@ const handleTimeline = () =>
   dataBaseService
     .ref('posts/')
     .once('value')
-    .then(response => response)
+    .then(snapshot => {
+      let timeline = []
+      snapshot.forEach(post => {
+        const { key } = post
+        const posted = post.val()
+        posted.key = key
+        timeline.push(posted)
+      })
+      return timeline
+    })
 
 const handlePost = async data => {
   // upload the image
@@ -146,14 +156,13 @@ function* createPostService(data) {
   }
 }
 
-// no ejecuta la saga
 function* getTimelineService() {
   console.log('dafuck?')
   try {
     const postsTimeline = yield call(handleTimeline)
-    console.log(postsTimeline)
+    // console.log(postsTimeline)
+    yield put(setTimeline(postsTimeline))
   } catch (error) {
-    console.log('pass error')
     alert(error)
   }
 }

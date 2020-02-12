@@ -65,11 +65,19 @@ const sessionHandler = (state = null, action) => {
 const getPostsHandler = (state = [], action) => {
   switch (action.type) {
     case 'GET_POSTS':
-      console.log('action', action)
-      return action.posts
     default:
       return state
       break
+  }
+}
+
+const setTimelineHandler = (state = [], action) => {
+  // console.log('to store', action)
+  switch (action.type) {
+    case 'SET_TIMELINE':
+      return [...state, ...action.timeline]
+    default:
+      return state
   }
 }
 
@@ -80,7 +88,8 @@ const reducers = combineReducers({
   sessionHandler,
   postImg,
   createPost,
-  getPostsHandler
+  getPostsHandler,
+  setTimelineHandler
 })
 
 const sagaMiddleware = createSagaMiddleware()

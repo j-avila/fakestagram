@@ -1,8 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Text, StyleSheet, View, Button } from 'react-native'
+import {
+  Text,
+  StyleSheet,
+  View,
+  SafeAreaView,
+  Button,
+  FlatList
+} from 'react-native'
 import { GET_POSTS } from '../../store/actions/types'
 import { getPosts } from '../../store/actions/actions'
+import postItem from './postItem'
 
 class Home extends Component {
   constructor() {
@@ -12,47 +20,37 @@ class Home extends Component {
     }
   }
 
-  componentDidMount() {
-    this.props.handleGetPosts()
-    console.log(this.props.timeline)
+  async componentDidMount() {
+    await this.props.handleGetPosts()
   }
 
   render() {
-    const { navigation } = this.props
-    const { timeline } = this.state
+    const { navigation, timeline } = this.props
+    // console.log('render', timeline)
     return (
-      <View style={styles.body}>
-        <Text>textInComponent home</Text>
-        {timeline && timeline.length > 1 ? (
-          timeline.map(post => (
-            <>
-              <Text key={post.post.description}>{post.post.description}</Text>
-              <Button
-                title="go to profile"
-                onPress={() => {
-                  navigation.navigate('Profile')
-                }}
+      <SafeAreaView style={styles.body}>
+        {timeline && timeline.length >= 1 ? (
+          <FlatList
+            data={timeline}
+            renderItem={({ item }) => (
+              <PostItem
+                data={item}
+                profileRoute={() => navigation.navigate('Profile')}
+                commentsRoute={() => navigation.navigate('Comments')}
               />
-              <Button
-                title="view Comments"
-                onPress={() => {
-                  navigation.navigate('Comments')
-                }}
-              />
-            </>
-          ))
+            )}
+          />
         ) : (
-          <Text>no posts</Text>
+          <Text>nothing to see here</Text>
         )}
-      </View>
+      </SafeAreaView>
     )
   }
 }
 
 const mapStateToProps = state => {
-  console.log('estado', state.getPostsHandler)
   return {
-    timeline: state.getPostsHandler
+    timeline: state.setTimelineHandler
   }
 }
 
@@ -65,8 +63,9 @@ const mapDispatchToProps = dispatch => ({
 const styles = StyleSheet.create({
   body: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignSelf: 'stretch',
+    // alignItems: 'center',
+    // justifyContent: 'center',
     backgroundColor: '#e0e3d4'
   }
 })
