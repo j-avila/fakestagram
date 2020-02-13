@@ -4,6 +4,7 @@ import { Text, StyleSheet, View, Button, Image, Dimensions } from 'react-native'
 export default PostItem = props => {
   const { data, profileRoute, commentsRoute } = props
   const { width } = Dimensions.get('window')
+  console.log('postauth', props.author)
   return (
     <View style={styles.item}>
       <View style={styles.title}>

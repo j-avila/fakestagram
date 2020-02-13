@@ -81,6 +81,15 @@ const setTimelineHandler = (state = [], action) => {
   }
 }
 
+const setAuthorsHandler = (state = [], action) => {
+  switch (action.type) {
+    case 'SET_AUTHORS':
+      return action.authors
+    default:
+      return state
+  }
+}
+
 const reducers = combineReducers({
   defaultReducer,
   form,
@@ -89,7 +98,8 @@ const reducers = combineReducers({
   postImg,
   createPost,
   getPostsHandler,
-  setTimelineHandler
+  setTimelineHandler,
+  setAuthorsHandler
 })
 
 const sagaMiddleware = createSagaMiddleware()

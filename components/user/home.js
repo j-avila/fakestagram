@@ -25,16 +25,16 @@ class Home extends Component {
   }
 
   render() {
-    const { navigation, timeline } = this.props
-    // console.log('render', timeline)
+    const { navigation, timeline, authors } = this.props
     return (
       <SafeAreaView style={styles.body}>
         {timeline && timeline.length >= 1 ? (
           <FlatList
             data={timeline}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <PostItem
                 data={item}
+                author={authors[index]}
                 profileRoute={() => navigation.navigate('Profile')}
                 commentsRoute={() => navigation.navigate('Comments')}
               />
@@ -50,7 +50,8 @@ class Home extends Component {
 
 const mapStateToProps = state => {
   return {
-    timeline: state.setTimelineHandler
+    timeline: state.setTimelineHandler,
+    authors: state.setAuthorsHandler
   }
 }
 
@@ -64,8 +65,6 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
     alignSelf: 'stretch',
-    // alignItems: 'center',
-    // justifyContent: 'center',
     backgroundColor: '#e0e3d4'
   }
 })

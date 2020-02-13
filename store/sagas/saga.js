@@ -1,11 +1,11 @@
-import { takeEvery, call, put } from 'redux-saga/effects'
+import { takeEvery, call, put, all } from 'redux-saga/effects'
 import {
   authService,
   dataBaseService,
   storageService
 } from '../servicios/firebase'
 import { GET_POSTS, REGISTER, LOGIN, CREATE_POST } from '../actions/types'
-import { setTimeline } from '../actions/actions'
+import { setTimeline, setAuthors } from '../actions/actions'
 // Prepare Blob support
 uriToBlob = uri => {
   return new Promise((resolve, reject) => {
@@ -108,6 +108,12 @@ const handlePost = async data => {
     })
 }
 
+const getAuthors = uid =>
+  dataBaseService
+    .ref(`users/${uid}`)
+    .once('value')
+    .then(resp => resp)
+
 // sagas
 function* registerService(data) {
   try {
@@ -157,11 +163,14 @@ function* createPostService(data) {
 }
 
 function* getTimelineService() {
-  console.log('dafuck?')
   try {
     const postsTimeline = yield call(handleTimeline)
     // console.log(postsTimeline)
+    const authors = yield all(
+      postsTimeline.map(post => call(getAuthors, post.userId))
+    )
     yield put(setTimeline(postsTimeline))
+    yield put(setAuthors(authors))
   } catch (error) {
     alert(error)
   }

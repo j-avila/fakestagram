@@ -1,4 +1,4 @@
-import { GET_POSTS, SET_TIMELINE } from './types'
+import { GET_POSTS, SET_TIMELINE, SET_AUTHORS } from './types'
 
 export const registerAction = (type, payload) => ({
   type,
@@ -37,4 +37,9 @@ export const getPosts = () => ({
 export const setTimeline = posts => ({
   type: SET_TIMELINE,
   timeline: posts
+})
+
+export const setAuthors = authors => ({
+  type: SET_AUTHORS,
+  authors: authors
 })
