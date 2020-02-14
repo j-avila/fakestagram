@@ -26,15 +26,16 @@ class Home extends Component {
 
   render() {
     const { navigation, timeline, authors } = this.props
+    // console.log(this.props)
     return (
       <SafeAreaView style={styles.body}>
-        {timeline && timeline.length >= 1 ? (
+        {timeline && authors.length > 1 && timeline.length >= 1 ? (
           <FlatList
             data={timeline}
             renderItem={({ item, index }) => (
               <PostItem
                 data={item}
-                author={authors[index]}
+                authorMeta={authors[index]}
                 profileRoute={() => navigation.navigate('Profile')}
                 commentsRoute={() => navigation.navigate('Comments')}
               />

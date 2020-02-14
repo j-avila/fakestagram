@@ -1,14 +1,28 @@
 import React from 'react'
-import { Text, StyleSheet, View, Button, Image, Dimensions } from 'react-native'
+import {
+  Text,
+  StyleSheet,
+  View,
+  Button,
+  Image,
+  Dimensions,
+  TouchableHighlightBase
+} from 'react-native'
+import { TouchableHighlight } from 'react-native-gesture-handler'
+import { auth } from 'firebase'
 
 export default PostItem = props => {
-  const { data, profileRoute, commentsRoute } = props
+  const { data, profileRoute, commentsRoute, authorMeta } = props
   const { width } = Dimensions.get('window')
-  console.log('postauth', props.author)
+  const obj = JSON.stringify(authorMeta)
+  const author = JSON.parse(obj)
   return (
     <View style={styles.item}>
       <View style={styles.title}>
-        <Text key={data.post.description}>{data.post.description}</Text>
+        <Image style={styles.avatar} source={{ uri: author.avatar }} />
+        <TouchableHighlight onPress={profileRoute}>
+          <Text style={styles.titleTxt}>{author.name}</Text>
+        </TouchableHighlight>
       </View>
       <View style={styles.container}>
         <Image
@@ -17,8 +31,19 @@ export default PostItem = props => {
           style={{ width: width, height: width }}
         />
       </View>
-      <Button title="go to profile" onPress={profileRoute} />
-      <Button title="view Comments" onPress={commentsRoute} />
+      <View style={styles.meta}>
+        <View style={styles.actions}>
+          <TouchableHighlight style={styles.icon}>
+            <Text>Like</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.icon} onPress={commentsRoute}>
+            <Text>Comments</Text>
+          </TouchableHighlight>
+        </View>
+        <Text
+          key={data.post.description}
+        >{`${author.name} : ${data.post.description}`}</Text>
+      </View>
     </View>
   )
 }
@@ -30,14 +55,36 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     marginVertical: 8
   },
+  actions: {
+    flex: 1,
+    flexDirection: 'row'
+  },
+  icon: {
+    marginRight: 10,
+    paddingVertical: 12
+  },
+  meta: {
+    flex: 1,
+    padding: 10
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    marginRight: 20,
+    borderRadius: 20
+  },
   container: {
     flex: 1,
     alignItems: 'stretch'
-    // justifyContent: 'center',
-    // backgroundColor: '#F5FCFF'
   },
   title: {
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 8,
     paddingVertical: 12
+  },
+  titleTxt: {
+    fontWeight: 'bold',
+    fontSize: 18
   }
 })
