@@ -9,7 +9,11 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 import ImagePicker from '../imagePicker'
-import { setPostImg, setCreatePost } from '../../store/actions/actions'
+import {
+  setPostImg,
+  setCreatePost,
+  getPosts
+} from '../../store/actions/actions'
 import {
   SET_POST_PHOTO,
   REMOVE_POST_PHOTO,
@@ -23,13 +27,15 @@ class CreatePost extends Component {
     super()
   }
 
-  handleCreatePost = (post, postPic, uid) => {
+  handleCreatePost = async (post, postPic, uid) => {
     // console.log('to post: ', image)
-    this.props.setPost(post.values, postPic.image, uid)
+    await this.props.setPost(post.values, postPic.image, uid)
+    this.props.navigation.navigate('Home')
+    this.props.updateTimeline()
   }
 
   render() {
-    const { gallery, navigation, imageObj, postPrev } = this.props
+    const { navigation } = this.props
     const navProps = JSON.stringify(navigation.getParam('gallery'))
 
     return (
@@ -85,6 +91,9 @@ const mapDispatchToProps = dispatch => ({
         imgUrl: image
       })
     )
+  },
+  updateTimeline: () => {
+    dispatch(getPosts())
   }
 })
 

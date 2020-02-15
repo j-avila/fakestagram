@@ -2,9 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 5140,
-  "expoServerNgrokUrl": "https://zb-cy2.anonymous.fakestagram.exp.direct",
-  "packagerNgrokUrl": "https://packager.zb-cy2.anonymous.fakestagram.exp.direct",
-  "ngrokPid": 500,
+  "packagerPid": 10020,
+  "expoServerNgrokUrl": "https://gu-vb4.anonymous.fakestagram.exp.direct",
+  "packagerNgrokUrl": "https://packager.gu-vb4.anonymous.fakestagram.exp.direct",
+  "ngrokPid": 19588,
   "webpackServerPort": null
 }

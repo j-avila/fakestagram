@@ -5,7 +5,7 @@ import {
   storageService
 } from '../servicios/firebase'
 import { GET_POSTS, REGISTER, LOGIN, CREATE_POST } from '../actions/types'
-import { setTimeline, setAuthors } from '../actions/actions'
+import { setTimeline, setAuthors, fetchTimeline } from '../actions/actions'
 // Prepare Blob support
 uriToBlob = uri => {
   return new Promise((resolve, reject) => {
@@ -169,8 +169,8 @@ function* getTimelineService() {
     const authors = yield all(
       postsTimeline.map(post => call(getAuthors, post.userId))
     )
-    yield put(setTimeline(postsTimeline))
-    yield put(setAuthors(authors))
+    yield put(setTimeline(postsTimeline.reverse()))
+    yield put(setAuthors(authors.reverse()))
   } catch (error) {
     alert(error)
   }

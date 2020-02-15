@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Text,
   StyleSheet,
@@ -8,21 +8,24 @@ import {
   Dimensions,
   TouchableHighlightBase
 } from 'react-native'
-import { TouchableHighlight } from 'react-native-gesture-handler'
-import { auth } from 'firebase'
+import { Ionicons } from '@expo/vector-icons'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 export default PostItem = props => {
   const { data, profileRoute, commentsRoute, authorMeta } = props
   const { width } = Dimensions.get('window')
   const obj = JSON.stringify(authorMeta)
   const author = JSON.parse(obj)
+
+  const [like, setLike] = useState(false)
+
   return (
     <View style={styles.item}>
       <View style={styles.title}>
         <Image style={styles.avatar} source={{ uri: author.avatar }} />
-        <TouchableHighlight onPress={profileRoute}>
+        <TouchableOpacity onPress={profileRoute}>
           <Text style={styles.titleTxt}>{author.name}</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
       <View style={styles.container}>
         <Image
@@ -33,12 +36,16 @@ export default PostItem = props => {
       </View>
       <View style={styles.meta}>
         <View style={styles.actions}>
-          <TouchableHighlight style={styles.icon}>
-            <Text>Like</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.icon} onPress={commentsRoute}>
-            <Text>Comments</Text>
-          </TouchableHighlight>
+          <TouchableOpacity style={styles.icon} onPress={() => setLike(!like)}>
+            <Ionicons
+              name={like ? 'md-heart' : 'md-heart-empty'}
+              size={32}
+              color={like ? 'tomato' : 'black'}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.icon} onPress={commentsRoute}>
+            <Ionicons name="md-chatbubbles" size={32} color="black" />
+          </TouchableOpacity>
         </View>
         <Text
           key={data.post.description}
@@ -60,7 +67,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   icon: {
-    marginRight: 10,
+    marginRight: 20,
     paddingVertical: 12
   },
   meta: {
@@ -84,7 +91,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12
   },
   titleTxt: {
-    fontWeight: 'bold',
+    fontWeight: '900',
     fontSize: 18
   }
 })

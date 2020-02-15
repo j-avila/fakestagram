@@ -90,6 +90,15 @@ const setAuthorsHandler = (state = [], action) => {
   }
 }
 
+const isfetching = (state = [], action) => {
+  switch (action.type) {
+    case 'FETCH_TIMELINE':
+      return action.fetching
+    default:
+      return state
+  }
+}
+
 const reducers = combineReducers({
   defaultReducer,
   form,

@@ -16,22 +16,35 @@ class Home extends Component {
   constructor() {
     super()
     this.state = {
-      timeline: []
+      timelineLocal: [],
+      isFetching: false
     }
   }
 
-  async componentDidMount() {
+  onRefresh = async () => {
     await this.props.handleGetPosts()
+    this.setState({
+      timelineLocal: this.props.timeline
+    })
+    console.log('timeline: fetched', this.props.timeline)
+  }
+
+  async componentDidMount() {
+    this.onRefresh()
   }
 
   render() {
     const { navigation, timeline, authors } = this.props
+    const { isFetching, timelineLocal } = this.state
     // console.log(this.props)
     return (
       <SafeAreaView style={styles.body}>
-        {timeline && authors.length > 1 && timeline.length >= 1 ? (
+        <Button title="actualizar" onPress={() => this.onRefresh()} />
+        {timelineLocal && authors.length > 1 && timelineLocal.length >= 1 ? (
           <FlatList
-            data={timeline}
+            data={timelineLocal}
+            refreshing={isFetching}
+            onRefresh={() => this.onRefresh()}
             renderItem={({ item, index }) => (
               <PostItem
                 data={item}
@@ -42,7 +55,7 @@ class Home extends Component {
             )}
           />
         ) : (
-          <Text>nothing to see here</Text>
+          <Text style={{ textAlign: 'center' }}>nothing to see here</Text>
         )}
       </SafeAreaView>
     )
