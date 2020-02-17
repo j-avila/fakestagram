@@ -16,7 +16,6 @@ export default PostItem = props => {
   const { width } = Dimensions.get('window')
   const obj = JSON.stringify(authorMeta)
   const author = JSON.parse(obj)
-
   const [like, setLike] = useState(false)
 
   return (

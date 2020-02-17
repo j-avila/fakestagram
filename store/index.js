@@ -53,12 +53,10 @@ const sessionHandler = (state = null, action) => {
   switch (action.type) {
     case type.USER_LOGGED:
       return action.payload
-      break
     case type.USER_NO_LOGGED:
       return null
     default:
       return state
-      break
   }
 }
 
@@ -67,7 +65,6 @@ const getPostsHandler = (state = [], action) => {
     case 'GET_POSTS':
     default:
       return state
-      break
   }
 }
 
@@ -108,7 +105,8 @@ const reducers = combineReducers({
   createPost,
   getPostsHandler,
   setTimelineHandler,
-  setAuthorsHandler
+  setAuthorsHandler,
+  isfetching
 })
 
 const sagaMiddleware = createSagaMiddleware()

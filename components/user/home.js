@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 import { GET_POSTS } from '../../store/actions/types'
 import { getPosts } from '../../store/actions/actions'
-import postItem from './postItem'
+import PostItem from './postItem'
 
 class Home extends Component {
   constructor() {
@@ -23,10 +23,6 @@ class Home extends Component {
 
   onRefresh = async () => {
     await this.props.handleGetPosts()
-    this.setState({
-      timelineLocal: this.props.timeline
-    })
-    console.log('timeline: fetched', this.props.timeline)
   }
 
   async componentDidMount() {
@@ -34,16 +30,16 @@ class Home extends Component {
   }
 
   render() {
-    const { navigation, timeline, authors } = this.props
-    const { isFetching, timelineLocal } = this.state
+    const { navigation, timeline, authors, loading } = this.props
+    const { timelineLocal } = this.state
     // console.log(this.props)
     return (
       <SafeAreaView style={styles.body}>
         <Button title="actualizar" onPress={() => this.onRefresh()} />
-        {timelineLocal && authors.length > 1 && timelineLocal.length >= 1 ? (
+        {timeline && authors.length > 1 && timeline.length >= 1 ? (
           <FlatList
-            data={timelineLocal}
-            refreshing={isFetching}
+            data={timeline}
+            refreshing={loading}
             onRefresh={() => this.onRefresh()}
             renderItem={({ item, index }) => (
               <PostItem
@@ -63,9 +59,11 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log('fetching', state.isfetching)
   return {
     timeline: state.setTimelineHandler,
-    authors: state.setAuthorsHandler
+    authors: state.setAuthorsHandler,
+    loading: state.isfetching
   }
 }
 

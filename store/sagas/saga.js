@@ -164,6 +164,7 @@ function* createPostService(data) {
 
 function* getTimelineService() {
   try {
+    yield put(fetchTimeline(true))
     const postsTimeline = yield call(handleTimeline)
     // console.log(postsTimeline)
     const authors = yield all(
@@ -171,6 +172,8 @@ function* getTimelineService() {
     )
     yield put(setTimeline(postsTimeline.reverse()))
     yield put(setAuthors(authors.reverse()))
+    yield put(fetchTimeline(false))
+    console.log('fetched')
   } catch (error) {
     alert(error)
   }

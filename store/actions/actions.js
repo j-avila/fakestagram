@@ -46,5 +46,5 @@ export const setAuthors = authors => ({
 
 export const fetchTimeline = loading => ({
   type: FETCH_TIMELINE,
-  fething: loading
+  fetching: loading
 })
