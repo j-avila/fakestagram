@@ -9,7 +9,7 @@ import {
   FlatList
 } from 'react-native'
 import { GET_POSTS } from '../../store/actions/types'
-import { getPosts } from '../../store/actions/actions'
+import { getPosts, setLike } from '../../store/actions/actions'
 import PostItem from './postItem'
 
 class Home extends Component {
@@ -17,6 +17,7 @@ class Home extends Component {
     super()
     this.state = {
       timelineLocal: [],
+      authorsLocal: {},
       isFetching: false
     }
   }
@@ -25,28 +26,53 @@ class Home extends Component {
     await this.props.handleGetPosts()
   }
 
+  userlike = async (postId, userId, like) => {
+    const likeObj = {
+      [postId]: {
+        [userId]: like
+      }
+    }
+
+    await this.props.handleLike({ postId, userId, like })
+    // console.log('likeIn', likeObj)
+  }
+
   async componentDidMount() {
-    this.onRefresh()
+    await this.onRefresh()
+  }
+
+  async componentDidUpdate(prevProps, prevState) {
+    this.state.timelineLocal != this.props.timeline &&
+      this.setState({
+        timelineLocal: this.props.timeline,
+        authorsLocal: this.props.authorMeta
+      })
+    this.props.loading != this.state.isfetching &&
+      this.setState({
+        isfetching: this.props.loading
+      })
   }
 
   render() {
-    const { navigation, timeline, authors, loading } = this.props
-    const { timelineLocal } = this.state
-    // console.log(this.props)
+    const { navigation, timeline, authors, loading, currentUser } = this.props
+    const { timelineLocal, isfetching, authorsLocal } = this.state
+    // console.log('home: ', currentUser)
     return (
       <SafeAreaView style={styles.body}>
         <Button title="actualizar" onPress={() => this.onRefresh()} />
-        {timeline && authors.length > 1 && timeline.length >= 1 ? (
+        {authors.length >= 1 && timeline.length >= 1 ? (
           <FlatList
             data={timeline}
-            refreshing={loading}
+            refreshing={isfetching}
             onRefresh={() => this.onRefresh()}
             renderItem={({ item, index }) => (
               <PostItem
+                currentUser={currentUser}
                 data={item}
                 authorMeta={authors[index]}
                 profileRoute={() => navigation.navigate('Profile')}
                 commentsRoute={() => navigation.navigate('Comments')}
+                handleLike={this.userlike}
               />
             )}
           />
@@ -59,8 +85,8 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log('fetching', state.isfetching)
   return {
+    currentUser: state.sessionHandler.uid,
     timeline: state.setTimelineHandler,
     authors: state.setAuthorsHandler,
     loading: state.isfetching
@@ -70,6 +96,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   handleGetPosts: () => {
     dispatch(getPosts())
+  },
+  handleLike: data => {
+    dispatch(setLike(data))
   }
 })
 

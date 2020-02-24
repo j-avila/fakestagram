@@ -12,11 +12,19 @@ import { Ionicons } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
 export default PostItem = props => {
-  const { data, profileRoute, commentsRoute, authorMeta } = props
+  const { data, profileRoute, commentsRoute, authorMeta, currentUser } = props
+  // console.log('autor: ', authorMeta)
   const { width } = Dimensions.get('window')
   const obj = JSON.stringify(authorMeta)
   const author = JSON.parse(obj)
   const [like, setLike] = useState(false)
+
+  const likeAction = async (key, user, like) => {
+    await setLike(!like)
+    props.handleLike(key, user, !like)
+  }
+
+  // console.log(props.data.key)
 
   return (
     <View style={styles.item}>
@@ -35,7 +43,10 @@ export default PostItem = props => {
       </View>
       <View style={styles.meta}>
         <View style={styles.actions}>
-          <TouchableOpacity style={styles.icon} onPress={() => setLike(!like)}>
+          <TouchableOpacity
+            style={styles.icon}
+            onPress={() => likeAction(data.key, currentUser, like)}
+          >
             <Ionicons
               name={like ? 'md-heart' : 'md-heart-empty'}
               size={32}

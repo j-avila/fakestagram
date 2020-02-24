@@ -4,8 +4,19 @@ import {
   dataBaseService,
   storageService
 } from '../servicios/firebase'
-import { GET_POSTS, REGISTER, LOGIN, CREATE_POST } from '../actions/types'
-import { setTimeline, setAuthors, fetchTimeline } from '../actions/actions'
+import {
+  GET_POSTS,
+  REGISTER,
+  LOGIN,
+  CREATE_POST,
+  SET_LIKE
+} from '../actions/types'
+import {
+  setTimeline,
+  setAuthors,
+  fetchTimeline,
+  setLike
+} from '../actions/actions'
 // Prepare Blob support
 uriToBlob = uri => {
   return new Promise((resolve, reject) => {
@@ -108,6 +119,20 @@ const handlePost = async data => {
     })
 }
 
+const handleLike = data => {
+  console.log(data)
+  const { payload } = data
+  const likeObj = { [payload.userId]: payload.like }
+  // console.log('data', likeObj)
+
+  dataBaseService
+    .ref(`posts/${payload.postId}/likes/`)
+    .push(likeObj)
+    .then(response => {
+      console.log('firebase says:', response)
+    })
+}
+
 const getAuthors = uid =>
   dataBaseService
     .ref(`users/${uid}`)
@@ -179,11 +204,21 @@ function* getTimelineService() {
   }
 }
 
+function* likeService(data) {
+  try {
+    yield put(setLike(handleLike(data)))
+  } catch (error) {
+    console.log(error)
+    alert(error)
+  }
+}
+
 export function* defaultSaga(values) {
   // yield
   yield takeEvery(REGISTER, registerService)
   yield takeEvery(LOGIN, loginService)
   yield takeEvery(CREATE_POST, createPostService)
   yield takeEvery(GET_POSTS, getTimelineService)
+  yield takeEvery(SET_LIKE, likeService)
   console.log('saganding')
 }

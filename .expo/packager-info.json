@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
   "expoServerPort": 19000,
-  "packagerPort": null,
-  "packagerPid": null,
+  "packagerPort": 19001,
+  "packagerPid": 8512,
   "expoServerNgrokUrl": "https://gu-vb4.anonymous.fakestagram.exp.direct",
   "packagerNgrokUrl": "https://packager.gu-vb4.anonymous.fakestagram.exp.direct",
-  "ngrokPid": 15940,
+  "ngrokPid": 19472,
   "webpackServerPort": null
 }

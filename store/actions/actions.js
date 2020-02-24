@@ -1,4 +1,10 @@
-import { GET_POSTS, SET_TIMELINE, SET_AUTHORS, FETCH_TIMELINE } from './types'
+import {
+  GET_POSTS,
+  SET_TIMELINE,
+  SET_AUTHORS,
+  FETCH_TIMELINE,
+  SET_LIKE
+} from './types'
 
 export const registerAction = (type, payload) => ({
   type,
@@ -32,6 +38,11 @@ export const setCreatePost = (type, post) => ({
 
 export const getPosts = () => ({
   type: GET_POSTS
+})
+
+export const setLike = data => ({
+  type: SET_LIKE,
+  payload: data
 })
 
 export const setTimeline = posts => ({
