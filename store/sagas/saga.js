@@ -122,12 +122,12 @@ const handlePost = async data => {
 const handleLike = data => {
   console.log(data)
   const { payload } = data
-  const likeObj = { [payload.userId]: payload.like }
+  const likeObj = { likes: [{ [payload.userId]: payload.like }] }
   // console.log('data', likeObj)
 
   dataBaseService
-    .ref(`posts/${payload.postId}/likes/`)
-    .push(likeObj)
+    .ref(`posts/${payload.postId}`)
+    .update(likeObj)
     .then(response => {
       console.log('firebase says:', response)
     })

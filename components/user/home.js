@@ -34,7 +34,6 @@ class Home extends Component {
     }
 
     await this.props.handleLike({ postId, userId, like })
-    // console.log('likeIn', likeObj)
   }
 
   async componentDidMount() {

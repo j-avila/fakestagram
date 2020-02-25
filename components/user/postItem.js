@@ -24,7 +24,7 @@ export default PostItem = props => {
     props.handleLike(key, user, !like)
   }
 
-  // console.log(props.data.key)
+  console.log(props.data.likes)
 
   return (
     <View style={styles.item}>
@@ -53,6 +53,7 @@ export default PostItem = props => {
               color={like ? 'tomato' : 'black'}
             />
           </TouchableOpacity>
+          <Text>{data.likes}</Text>
           <TouchableOpacity style={styles.icon} onPress={commentsRoute}>
             <Ionicons name="md-chatbubbles" size={32} color="black" />
           </TouchableOpacity>
