@@ -8,9 +8,9 @@ import {
   Button,
   FlatList
 } from 'react-native'
-import { GET_POSTS } from '../../store/actions/types'
 import { getPosts, setLike } from '../../store/actions/actions'
 import PostItem from './postItem'
+import { Ionicons } from '@expo/vector-icons'
 
 class Home extends Component {
   constructor() {
@@ -76,7 +76,17 @@ class Home extends Component {
             )}
           />
         ) : (
-          <Text style={{ textAlign: 'center' }}>nothing to see here</Text>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'space-around',
+              alignContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            <Ionicons name="md-compass" size={200} color="teal" />
+            <Text style={{ textAlign: 'center' }}>nothing to see here</Text>
+          </View>
         )}
       </SafeAreaView>
     )

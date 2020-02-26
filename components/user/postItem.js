@@ -24,7 +24,15 @@ export default PostItem = props => {
     props.handleLike(key, user, !like)
   }
 
-  console.log(props.data.likes)
+  const likesCount = () => {
+    const likesObj = props.data.likes
+    console.log(`'${currentUser}'`)
+    const likesArr = likesObj ? delete likesObj[`'${currentUser}'`] : {}
+    console.log('p', Object.keys(props.data.likes).filter)
+    // const likesTotal = likesArr ? Object.keys(likesCount.likes).length : 0
+
+    // return likesTotal
+  }
 
   return (
     <View style={styles.item}>
@@ -53,11 +61,15 @@ export default PostItem = props => {
               color={like ? 'tomato' : 'black'}
             />
           </TouchableOpacity>
-          <Text>{data.likes}</Text>
           <TouchableOpacity style={styles.icon} onPress={commentsRoute}>
             <Ionicons name="md-chatbubbles" size={32} color="black" />
           </TouchableOpacity>
         </View>
+        <TouchableOpacity
+          style={{ textAlign: 'left', fontWeight: 'bold', marginVertical: 5 }}
+        >
+          <Text>{likesCount()} likes</Text>
+        </TouchableOpacity>
         <Text
           key={data.post.description}
         >{`${author.name} : ${data.post.description}`}</Text>
@@ -71,15 +83,18 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'stretch',
     backgroundColor: '#FFFFFF',
-    marginVertical: 8
+    marginVertical: 8,
+    paddingBottom: 15
   },
   actions: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   icon: {
     marginRight: 20,
-    paddingVertical: 12
+    paddingVertical: 12,
+    alignSelf: 'center'
   },
   meta: {
     flex: 1,
