@@ -26,12 +26,19 @@ export default PostItem = props => {
 
   const likesCount = () => {
     const likesObj = props.data.likes
-    console.log(`'${currentUser}'`)
-    const likesArr = likesObj ? delete likesObj[`'${currentUser}'`] : {}
-    console.log('p', Object.keys(props.data.likes).filter)
-    // const likesTotal = likesArr ? Object.keys(likesCount.likes).length : 0
+    const likesArr = () => {
+      const result = []
+      const likes = likesObj && Object.entries(likesObj)
+      likes &&
+        likes.forEach(([key, value]) => result.push({ id: key, like: value }))
+      return result
+    }
 
-    // return likesTotal
+    const testArr = likesArr()
+    const test = testArr.filter(i => i.like == true && i.id != currentUser)
+    const likesTotal = test.length
+    // console.log('result', test)
+    return likesTotal
   }
 
   return (
