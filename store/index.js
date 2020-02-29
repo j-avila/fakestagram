@@ -96,6 +96,16 @@ const isfetching = (state = [], action) => {
   }
 }
 
+const commentsHandler = (state = [], action) => {
+  switch (action.type) {
+    case 'SET_COMMENTS':
+      return action.payload
+
+    default:
+      return state
+  }
+}
+
 const reducers = combineReducers({
   defaultReducer,
   form,
@@ -106,7 +116,8 @@ const reducers = combineReducers({
   getPostsHandler,
   setTimelineHandler,
   setAuthorsHandler,
-  isfetching
+  isfetching,
+  commentsHandler
 })
 
 const sagaMiddleware = createSagaMiddleware()

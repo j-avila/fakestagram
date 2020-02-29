@@ -1,4 +1,4 @@
-import React, { useState } from 'React'
+import React, { useState, useEffect } from 'React'
 import { View, StyleSheet, KeyboardAvoidingView } from 'react-native'
 import { useSelector } from 'react-redux'
 import Comment from '../shared/comment'
@@ -50,14 +50,25 @@ const commentsDummy = [
 ]
 
 const Comments = props => {
+  initialState = ''
   const user = useSelector(state => state.sessionHandler.email)
   const [load, setLoad] = useState(false)
+  const [message, setMessage] = useState(initialState)
+
+  const messageHandler = e => {
+    let typed = e.nativeEvent.text
+    setMessage(typed)
+  }
+
+  const handleCommentMessage = comment => {
+    console.log('send: ', comment)
+  }
 
   console.log(user)
   return (
     <KeyboardAvoidingView
       keyboardVerticalOffset={80}
-      behavior="height"
+      behavior="padding"
       style={styles.body}
       enabled
     >
@@ -82,9 +93,10 @@ const Comments = props => {
             multiline={true}
             numberOfLines={1}
             style={styles.commentInput}
+            onChange={e => messageHandler(e)}
             placeholder="escribe un comentario"
           />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => handleCommentMessage(message)}>
             <Ionicons name="md-send" size={32} color="black" />
           </TouchableOpacity>
         </View>

@@ -3,7 +3,8 @@ import {
   SET_TIMELINE,
   SET_AUTHORS,
   FETCH_TIMELINE,
-  SET_LIKE
+  SET_LIKE,
+  SET_COMMENTS
 } from './types'
 
 export const registerAction = (type, payload) => ({
@@ -58,4 +59,9 @@ export const setAuthors = authors => ({
 export const fetchTimeline = loading => ({
   type: FETCH_TIMELINE,
   fetching: loading
+})
+
+export const setComments = comments => ({
+  type: SET_COMMENTS,
+  payload: comments
 })

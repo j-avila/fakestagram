@@ -2,9 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 5980,
+  "packagerPid": 3968,
   "expoServerNgrokUrl": "https://pr-buv.jla13.fakestagram.exp.direct",
   "packagerNgrokUrl": "https://packager.pr-buv.jla13.fakestagram.exp.direct",
-  "ngrokPid": 7980,
+  "ngrokPid": 8584,
   "webpackServerPort": null
 }
