@@ -9,6 +9,7 @@ import {
   TouchableHighlightBase
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
+import Avatar from '../shared/avatar'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
 export default PostItem = props => {
@@ -44,7 +45,11 @@ export default PostItem = props => {
   return (
     <View style={styles.item}>
       <View style={styles.title}>
-        <Image style={styles.avatar} source={{ uri: author.avatar }} />
+        {/* <Image style={styles.avatar} source={{ uri: author.avatar }} /> */}
+        <Avatar
+          image={{ uri: author.avatar }}
+          size={{ height: 40, width: 40 }}
+        />
         <TouchableOpacity onPress={profileRoute}>
           <Text style={styles.titleTxt}>{author.name}</Text>
         </TouchableOpacity>
@@ -106,12 +111,6 @@ const styles = StyleSheet.create({
   meta: {
     flex: 1,
     padding: 10
-  },
-  avatar: {
-    width: 40,
-    height: 40,
-    marginRight: 20,
-    borderRadius: 20
   },
   container: {
     flex: 1,

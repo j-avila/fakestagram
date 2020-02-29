@@ -9,7 +9,7 @@ import {
   FlatList
 } from 'react-native'
 import { getPosts, setLike } from '../../store/actions/actions'
-import PostItem from './postItem'
+import PostItem from '../shared/postItem'
 import { Ionicons } from '@expo/vector-icons'
 
 class Home extends Component {
