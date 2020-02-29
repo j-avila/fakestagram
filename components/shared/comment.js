@@ -6,9 +6,9 @@ import Avatar from '../shared/avatar'
 const Comment = props => {
   const { image, username, text, id, responses } = props
   return (
-    <KeyboardAvoidingView styles={styles.body} behavior="padding" enabled>
+    <View style={styles.body}>
+      <Avatar image={image} size={{ height: 30, width: 30 }} />
       <View style={styles.comment}>
-        <Avatar image={image} size={{ height: 20, width: 20 }} />
         <View style={StyleSheet.txt}>
           <Text style={styles.userName}>{username}</Text>
           <Text>{text}</Text>
@@ -17,21 +17,24 @@ const Comment = props => {
           <Text>Responder</Text>
         </TouchableOpacity>
       </View>
-    </KeyboardAvoidingView>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   body: {
-    flex: 1
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   comment: {
-    marginVertical: 8,
-    padding: 5,
-    borderWidth: 1
+    marginVertical: 6,
+    paddingHorizontal: 6,
+    paddingVertical: 10
   },
   userName: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: 16
   }
 })
 
