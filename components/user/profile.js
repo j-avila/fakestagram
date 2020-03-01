@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Text, StyleSheet, View, Button } from 'react-native'
+import { TouchableHighlight } from 'react-native-gesture-handler'
+import { authService } from '../../store/servicios/firebase'
 
 export default class Profile extends Component {
   render() {
@@ -13,6 +15,9 @@ export default class Profile extends Component {
             navigation.navigate('Post')
           }}
         />
+        <TouchableHighlight onPress={ () => { authService.signOut() } }>
+          <Text>Sign out</Text>
+        </TouchableHighlight>
       </View>
     )
   }

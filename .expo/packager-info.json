@@ -2,9 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 18400,
-  "expoServerNgrokUrl": "https://vn-ehd.anonymous.fakestagram.exp.direct",
-  "packagerNgrokUrl": "https://packager.vn-ehd.anonymous.fakestagram.exp.direct",
-  "ngrokPid": 24660,
+  "packagerPid": 22092,
+  "expoServerNgrokUrl": "https://dt-sa6.jla13.fakestagram.exp.direct",
+  "packagerNgrokUrl": "https://packager.dt-sa6.jla13.fakestagram.exp.direct",
+  "ngrokPid": 18592,
   "webpackServerPort": null
 }

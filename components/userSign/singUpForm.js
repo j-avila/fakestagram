@@ -1,7 +1,10 @@
 import React from 'react'
-import {StyleSheet, View, TextInput, Button, Text} from 'react-native'
+import {StyleSheet, View, TextInput, Button, Text, TouchableHighlight} from 'react-native'
 import {reduxForm, Field} from 'redux-form'
-import {authService} from '../../store/servicios/firebase'
+
+import {primary} from '../../styles/colors'
+
+
 const submit = values => console.log(values)
 
 const RenderInput = props => { 
@@ -59,16 +62,19 @@ const validate = values => {
 }
 
 const SignUpForm = props => { 
-	const { handleSubmit, action } = props
+	const { handleSubmit, action, navigation, avatar } = props
 
 	return (
-		<View style={props.styles}>
+		<View style={styles.form}>
 			<Text> Registro de usuario: </Text>
 			<Field name="username" component={RenderInput} ph="ejem: alberto tonas" /> 
 			<Field name="email" component={RenderInput} ph="correofalso@correocaliente.com" />
 			<Field name="password" component={RenderInput} ph="password" />
 			<Field name="confirm" component={RenderInput} ph="confirmar password" />
-			<Button color="tomato" title="ingresar" onPress={ handleSubmit( values => action(values)) } />
+			<Button color={primary} title="ingresar" onPress={ handleSubmit( values => action(values)) } disabled={avatar == null ? true : false} />
+			<TouchableHighlight onPress={() => navigation()} >
+					<Text style={styles.touchTxt} >Ya tienes una cuenta? ingresa</Text> 
+			</TouchableHighlight>
 		</View>
 	)
 }
@@ -79,6 +85,10 @@ export default reduxForm({
 })(SignUpForm)
 
 const styles = StyleSheet.create({
+	form: {
+		flex: 2,
+		marginVertical: 0
+	},
   input: {
 		borderColor: 'black',
 		padding: 10,
@@ -87,6 +97,10 @@ const styles = StyleSheet.create({
 		width: 250,
 		marginBottom: 10
 	}, 
+	touchTxt: {
+		textAlign: 'center',
+		paddingVertical: 10,
+	},
 	errorTxt: {
 		color: 'tomato',
 		marginVertical: 4
