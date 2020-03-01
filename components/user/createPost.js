@@ -8,7 +8,7 @@ import {
   KeyboardAvoidingView
 } from 'react-native'
 import { connect } from 'react-redux'
-import ImagePicker from '../imagePicker'
+import ImagePicker from '../shared/imagePicker'
 import {
   setPostImg,
   setCreatePost,

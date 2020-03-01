@@ -61,7 +61,10 @@ export const fetchTimeline = loading => ({
   fetching: loading
 })
 
-export const setComments = comments => ({
-  type: SET_COMMENTS,
-  payload: comments
-})
+export const setComments = comments => {
+  console.log('actions: ')
+  return {
+    type: SET_COMMENTS,
+    payload: comments
+  }
+}

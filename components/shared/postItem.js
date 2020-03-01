@@ -14,7 +14,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 
 export default PostItem = props => {
   const { data, profileRoute, commentsRoute, authorMeta, currentUser } = props
-  // console.log('autor: ', authorMeta)
+  // console.log('post id: ', data.key)
   const { width } = Dimensions.get('window')
   const obj = JSON.stringify(authorMeta)
   const author = JSON.parse(obj)
@@ -45,7 +45,6 @@ export default PostItem = props => {
   return (
     <View style={styles.item}>
       <View style={styles.title}>
-        {/* <Image style={styles.avatar} source={{ uri: author.avatar }} /> */}
         <Avatar
           image={{ uri: author.avatar }}
           size={{ height: 40, width: 40 }}

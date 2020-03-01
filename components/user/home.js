@@ -70,7 +70,12 @@ class Home extends Component {
                 data={item}
                 authorMeta={authors[index]}
                 profileRoute={() => navigation.navigate('Profile')}
-                commentsRoute={() => navigation.navigate('Comments')}
+                commentsRoute={() =>
+                  navigation.navigate('Comments', {
+                    currentUser: currentUser,
+                    postId: item.key
+                  })
+                }
                 handleLike={this.userlike}
               />
             )}

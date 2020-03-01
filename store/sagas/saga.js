@@ -9,13 +9,15 @@ import {
   REGISTER,
   LOGIN,
   CREATE_POST,
-  SET_LIKE
+  SET_LIKE,
+  SET_COMMENTS
 } from '../actions/types'
 import {
   setTimeline,
   setAuthors,
   fetchTimeline,
-  setLike
+  setLike,
+  setComments
 } from '../actions/actions'
 // Prepare Blob support
 uriToBlob = uri => {
@@ -37,6 +39,12 @@ uriToBlob = uri => {
     xhr.send(null)
   })
 }
+
+const getAuthors = uid =>
+  dataBaseService
+    .ref(`users/${uid}`)
+    .once('value')
+    .then(resp => resp)
 
 uploadToFirebase = (blob, userId, dir) => {
   return new Promise((resolve, reject) => {
@@ -133,11 +141,14 @@ const handleLike = data => {
     })
 }
 
-const getAuthors = uid =>
-  dataBaseService
-    .ref(`users/${uid}`)
-    .once('value')
-    .then(resp => resp)
+const handleComments = async data => {
+  const { message, postId, user } = data.payload
+  console.log('from saga', user)
+  await dataBaseService
+    .ref(`posts/${postId}/comments`)
+    .set({ message, user })
+    .then(res => console.log('commented!'))
+}
 
 // sagas
 function* registerService(data) {
@@ -213,6 +224,14 @@ function* likeService(data) {
   }
 }
 
+function* commentsService(data) {
+  try {
+    yield put(setComments(handleComments(data)))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function* defaultSaga(values) {
   // yield
   yield takeEvery(REGISTER, registerService)
@@ -220,5 +239,6 @@ export function* defaultSaga(values) {
   yield takeEvery(CREATE_POST, createPostService)
   yield takeEvery(GET_POSTS, getTimelineService)
   yield takeEvery(SET_LIKE, likeService)
+  yield takeEvery(SET_COMMENTS, commentsService)
   console.log('saganding')
 }

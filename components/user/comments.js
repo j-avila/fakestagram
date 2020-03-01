@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'React'
+import React, { useState, useEffect, useCallback } from 'React'
 import { View, StyleSheet, KeyboardAvoidingView } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import Comment from '../shared/comment'
 import {
   TextInput,
@@ -8,7 +8,8 @@ import {
   FlatList
 } from 'react-native-gesture-handler'
 import { Ionicons } from '@expo/vector-icons'
-import { withOrientation, SafeAreaView } from 'react-navigation'
+import { SafeAreaView } from 'react-navigation'
+import { setComments } from '../../store/actions/actions'
 
 const commentsDummy = [
   {
@@ -51,20 +52,29 @@ const commentsDummy = [
 
 const Comments = props => {
   initialState = ''
-  const user = useSelector(state => state.sessionHandler.email)
+  const currentUser = useSelector(state => state.sessionHandler.uid)
   const [load, setLoad] = useState(false)
   const [message, setMessage] = useState(initialState)
+  const dispatch = useDispatch()
+  const { params } = props.navigation.state
 
   const messageHandler = e => {
     let typed = e.nativeEvent.text
     setMessage(typed)
   }
 
-  const handleCommentMessage = comment => {
-    console.log('send: ', comment)
+  const handleCommentMessage = (comment, currentUser, postId) => {
+    // console.log('send: ', comment, currentUser, postId)
+    console.log('click, click')
+    dispatch(
+      setComments({
+        postId: postId,
+        user: currentUser,
+        message: comment
+      })
+    )
   }
 
-  console.log(user)
   return (
     <KeyboardAvoidingView
       keyboardVerticalOffset={80}
@@ -80,6 +90,7 @@ const Comments = props => {
             onRefresh={() => setLoad(true)}
             renderItem={({ item, index }) => (
               <Comment
+                currentUser={currentUser}
                 username={item.name}
                 id={item.id}
                 text={item.comment}
@@ -96,7 +107,11 @@ const Comments = props => {
             onChange={e => messageHandler(e)}
             placeholder="escribe un comentario"
           />
-          <TouchableOpacity onPress={() => handleCommentMessage(message)}>
+          <TouchableOpacity
+            onPress={() =>
+              handleCommentMessage(message, params.currentUser, params.postId)
+            }
+          >
             <Ionicons name="md-send" size={32} color="black" />
           </TouchableOpacity>
         </View>
