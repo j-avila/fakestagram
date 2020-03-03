@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'React'
-import { View, StyleSheet, KeyboardAvoidingView } from 'react-native'
+import { View, StyleSheet, KeyboardAvoidingView, Button } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import Comment from '../shared/comment'
 import {
@@ -9,7 +9,8 @@ import {
 } from 'react-native-gesture-handler'
 import { Ionicons } from '@expo/vector-icons'
 import { SafeAreaView } from 'react-navigation'
-import { setComments } from '../../store/actions/actions'
+import { setComments, fetchCommentsStream } from '../../store/actions/actions'
+import { GET_COMMENTS, SET_COMMENTS } from '../../store/actions/types'
 
 const commentsDummy = [
   {
@@ -50,9 +51,18 @@ const commentsDummy = [
   }
 ]
 
+const genId = () =>
+  Math.random()
+    .toString(36)
+    .substring(2, 15) +
+  Math.random()
+    .toString(36)
+    .substring(2, 15)
+
 const Comments = props => {
   initialState = ''
   const currentUser = useSelector(state => state.sessionHandler.uid)
+  const commentsStream = useSelector(state => state.commentsStream)
   const [load, setLoad] = useState(false)
   const [message, setMessage] = useState(initialState)
   const dispatch = useDispatch()
@@ -68,12 +78,27 @@ const Comments = props => {
     console.log('click, click')
     dispatch(
       setComments({
-        postId: postId,
-        user: currentUser,
-        message: comment
+        type: SET_COMMENTS,
+        payload: {
+          id: genId(),
+          postId: postId,
+          user: currentUser,
+          message: comment
+        }
       })
     )
   }
+
+  const getCommentsStream = id => {
+    dispatch(fetchCommentsStream({ type: GET_COMMENTS, postId: id }))
+  }
+
+  useEffect(() => {
+    getCommentsStream()
+    return () => {
+      console.log(commentsStream)
+    }
+  }, [])
 
   return (
     <KeyboardAvoidingView

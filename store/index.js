@@ -96,11 +96,19 @@ const isfetching = (state = [], action) => {
   }
 }
 
+const commentsStream = (state = [], action) => {
+  switch (action.type) {
+    case 'GET_COMMENTS':
+      return state
+    default:
+      return state
+  }
+}
+
 const commentsHandler = (state = [], action) => {
   switch (action.type) {
     case 'SET_COMMENTS':
       return action.payload
-
     default:
       return state
   }
@@ -117,7 +125,8 @@ const reducers = combineReducers({
   setTimelineHandler,
   setAuthorsHandler,
   isfetching,
-  commentsHandler
+  commentsHandler,
+  commentsStream
 })
 
 const sagaMiddleware = createSagaMiddleware()

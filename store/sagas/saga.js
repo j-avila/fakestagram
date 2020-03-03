@@ -17,7 +17,8 @@ import {
   setAuthors,
   fetchTimeline,
   setLike,
-  setComments
+  setComments,
+  fetchCommentsStream
 } from '../actions/actions'
 // Prepare Blob support
 uriToBlob = uri => {
@@ -142,12 +143,26 @@ const handleLike = data => {
 }
 
 const handleComments = async data => {
-  const { message, postId, user } = data.payload
+  const { message, postId, user, id } = data.payload
   console.log('from saga', user)
   await dataBaseService
-    .ref(`posts/${postId}/comments`)
-    .set({ message, user })
+    .ref(`posts/${postId}/comments/${id}`)
+    .set({ id, message, user })
     .then(res => console.log('commented!'))
+}
+
+const handleCommentsStream = postId => {
+  dataBaseService
+    .ref(`/post/&{postId}/comments`)
+    .once('value')
+    .then(snapshot => {
+      let comments = []
+      snapshot.forEach(comment => {
+        comments.push(comment)
+      })
+      console.log(comments)
+      return comments
+    })
 }
 
 // sagas
@@ -215,6 +230,12 @@ function* getTimelineService() {
   }
 }
 
+function* getStreamComments(data) {
+  try {
+    yield put(handleCommentsStream(data))
+  } catch (error) {}
+}
+
 function* likeService(data) {
   try {
     yield put(setLike(handleLike(data)))
@@ -239,6 +260,6 @@ export function* defaultSaga(values) {
   yield takeEvery(CREATE_POST, createPostService)
   yield takeEvery(GET_POSTS, getTimelineService)
   yield takeEvery(SET_LIKE, likeService)
-  yield takeEvery(SET_COMMENTS, commentsService)
+  yield takeEvery(SET_COMMENTS, getStreamComments)
   console.log('saganding')
 }
