@@ -103,9 +103,6 @@ const Comments = props => {
 
   useEffect(() => {
     getCommentsStream(params.postId)
-    return () => {
-      console.log('from state', commentsStream)
-    }
   }, [])
 
   return (
