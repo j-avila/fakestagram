@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'React'
-import { View, StyleSheet, KeyboardAvoidingView, Button } from 'react-native'
+import {
+  View,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Button,
+  Text
+} from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import Comment from '../shared/comment'
 import {
@@ -75,7 +81,8 @@ const Comments = props => {
 
   const handleCommentMessage = (comment, currentUser, postId) => {
     // console.log('send: ', comment, currentUser, postId)
-    console.log('click, click')
+    let timeStamp = Date.now()
+    console.log('click, click at: ', timeStamp)
     dispatch(
       setComments({
         type: SET_COMMENTS,
@@ -83,7 +90,8 @@ const Comments = props => {
           id: genId(),
           postId: postId,
           user: currentUser,
-          message: comment
+          message: comment,
+          date: timeStamp
         }
       })
     )
@@ -94,9 +102,9 @@ const Comments = props => {
   }
 
   useEffect(() => {
-    getCommentsStream()
+    getCommentsStream(params.postId)
     return () => {
-      console.log(commentsStream)
+      console.log('from state', commentsStream)
     }
   }, [])
 
@@ -109,20 +117,24 @@ const Comments = props => {
     >
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.list}>
-          <FlatList
-            data={commentsDummy}
-            refreshing={load}
-            onRefresh={() => setLoad(true)}
-            renderItem={({ item, index }) => (
-              <Comment
-                currentUser={currentUser}
-                username={item.name}
-                id={item.id}
-                text={item.comment}
-                responses={item.responses}
-              />
-            )}
-          />
+          {commentsStream.length >= 1 ? (
+            <FlatList
+              data={commentsStream}
+              refreshing={load}
+              onRefresh={() => setLoad(true)}
+              renderItem={({ item, index }) => (
+                <Comment
+                  currentUser={currentUser}
+                  username={item.name}
+                  id={item.id}
+                  text={item.comment}
+                  responses={item.responses}
+                />
+              )}
+            />
+          ) : (
+            <Text>loading</Text>
+          )}
         </View>
         <View style={styles.commentArea}>
           <TextInput
@@ -133,9 +145,10 @@ const Comments = props => {
             placeholder="escribe un comentario"
           />
           <TouchableOpacity
-            onPress={() =>
-              handleCommentMessage(message, params.currentUser, params.postId)
-            }
+            onPress={() => {
+              console.log(params.postId)
+              handleCommentMessage(message, currentUser, params.postId)
+            }}
           >
             <Ionicons name="md-send" size={32} color="black" />
           </TouchableOpacity>

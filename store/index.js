@@ -99,7 +99,7 @@ const isfetching = (state = [], action) => {
 const commentsStream = (state = [], action) => {
   switch (action.type) {
     case 'GET_COMMENTS':
-      return state
+      return [...state, ...action.payload]
     default:
       return state
   }

@@ -53,7 +53,7 @@ export const setTimeline = posts => ({
 
 export const fetchCommentsStream = comments => ({
   type: comments.type,
-  comments: comments.payload
+  postId: comments.postId
 })
 
 export const setAuthors = authors => ({
@@ -66,10 +66,9 @@ export const fetchTimeline = loading => ({
   fetching: loading
 })
 
-export const setComments = comments => {
-  console.log('actions: ')
+export const setComments = comment => {
   return {
-    type: comments.type,
-    payload: comments.postId
+    type: comment.type,
+    payload: comment.postId
   }
 }

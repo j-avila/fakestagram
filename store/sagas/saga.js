@@ -10,7 +10,8 @@ import {
   LOGIN,
   CREATE_POST,
   SET_LIKE,
-  SET_COMMENTS
+  SET_COMMENTS,
+  GET_COMMENTS
 } from '../actions/types'
 import {
   setTimeline,
@@ -143,24 +144,23 @@ const handleLike = data => {
 }
 
 const handleComments = async data => {
-  const { message, postId, user, id } = data.payload
+  const { message, postId, user, id, date } = data.payload
   console.log('from saga', user)
   await dataBaseService
     .ref(`posts/${postId}/comments/${id}`)
-    .set({ id, message, user })
+    .set({ id, message, user, date })
     .then(res => console.log('commented!'))
 }
 
-const handleCommentsStream = postId => {
+const handleCommentsStream = posts => {
+  const { postId } = posts
+  // console.log(postId)
   dataBaseService
-    .ref(`/post/&{postId}/comments`)
+    .ref(`/posts/${postId}/comments/`)
     .once('value')
     .then(snapshot => {
-      let comments = []
-      snapshot.forEach(comment => {
-        comments.push(comment)
-      })
-      console.log(comments)
+      let comments = snapshot
+      console.log('saga stream', comments)
       return comments
     })
 }
@@ -232,7 +232,12 @@ function* getTimelineService() {
 
 function* getStreamComments(data) {
   try {
-    yield put(handleCommentsStream(data))
+    console.log('fetching-comments')
+    yield put(fetchTimeline(true))
+    const commentStream = yield call(handleCommentsStream(data))
+    yield put(fetchCommentsStream(commentStream))
+    yield put(fetchTimeline(false))
+    console.log('comments fetch done!')
   } catch (error) {}
 }
 
@@ -260,6 +265,8 @@ export function* defaultSaga(values) {
   yield takeEvery(CREATE_POST, createPostService)
   yield takeEvery(GET_POSTS, getTimelineService)
   yield takeEvery(SET_LIKE, likeService)
-  yield takeEvery(SET_COMMENTS, getStreamComments)
+  yield takeEvery(SET_COMMENTS, commentsService)
+  yield takeEvery(GET_COMMENTS, getStreamComments)
+
   console.log('saganding')
 }
