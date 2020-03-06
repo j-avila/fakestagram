@@ -4,7 +4,8 @@ import {
   SET_AUTHORS,
   FETCH_TIMELINE,
   SET_LIKE,
-  SET_COMMENTS
+  SET_COMMENTS,
+  GET_COMMENTS
 } from './types'
 
 export const registerAction = (type, payload) => ({
@@ -52,8 +53,8 @@ export const setTimeline = posts => ({
 })
 
 export const fetchCommentsStream = comments => ({
-  type: comments.type,
-  postId: comments.postId
+  type: GET_COMMENTS,
+  postId: comments
 })
 
 export const setAuthors = authors => ({

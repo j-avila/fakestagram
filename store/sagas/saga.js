@@ -160,7 +160,7 @@ const handleCommentsStream = posts => {
     .once('value')
     .then(snapshot => {
       let comments = snapshot
-      console.log('saga stream', comments)
+      // console.log('saga stream', comments)
       return comments
     })
 }
