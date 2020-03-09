@@ -19,7 +19,8 @@ import {
   fetchTimeline,
   setLike,
   setComments,
-  fetchCommentsStream
+  fetchCommentsStream,
+  setCommentsStream
 } from '../actions/actions'
 // Prepare Blob support
 uriToBlob = uri => {
@@ -106,7 +107,25 @@ const handleTimeline = () =>
         posted.key = key
         timeline.push(posted)
       })
+      // console.log('timeline', timeline)
       return timeline
+    })
+
+const handleCommentsStream = posts =>
+  dataBaseService
+    .ref(`/posts/${posts.postId}/comments/`)
+    .once('value')
+    .then(snapshot => {
+      const streamList = []
+      console.log('steramed')
+      snapshot.forEach(post => {
+        const { id } = post
+        const comment = post.message
+        comment.id = id
+        streamList.push(posted)
+      })
+      console.log('saga stream', streamList)
+      // return snapshot
     })
 
 const handlePost = async data => {
@@ -150,19 +169,6 @@ const handleComments = async data => {
     .ref(`posts/${postId}/comments/${id}`)
     .set({ id, message, user, date })
     .then(res => console.log('commented!'))
-}
-
-const handleCommentsStream = posts => {
-  const { postId } = posts
-  // console.log(postId)
-  dataBaseService
-    .ref(`/posts/${postId}/comments/`)
-    .once('value')
-    .then(snapshot => {
-      let comments = snapshot
-      // console.log('saga stream', comments)
-      return comments
-    })
 }
 
 // sagas
@@ -232,10 +238,11 @@ function* getTimelineService() {
 
 function* getStreamComments(data) {
   try {
-    console.log('fetching-comments')
+    // console.log('fetching-comments')
     yield put(fetchTimeline(true))
     const commentStream = yield call(handleCommentsStream(data))
-    yield put(fetchCommentsStream(commentStream))
+    console.log('hago un llamado', commentStream)
+    yield put(setCommentsStream(commentStream))
     yield put(fetchTimeline(false))
     console.log('comments fetch done!')
   } catch (error) {}

@@ -5,6 +5,7 @@ import {
   FETCH_TIMELINE,
   SET_LIKE,
   SET_COMMENTS,
+  SET_COMMENTS_STREAM,
   GET_COMMENTS
 } from './types'
 
@@ -52,10 +53,18 @@ export const setTimeline = posts => ({
   timeline: posts
 })
 
-export const fetchCommentsStream = comments => ({
+export const fetchCommentsStream = comment => ({
   type: GET_COMMENTS,
-  postId: comments
+  postId: comment.postId
 })
+
+export const setCommentsStream = comments => {
+  console.log(comments)
+  return {
+    type: SET_COMMENTS_STREAM,
+    payload: comments
+  }
+}
 
 export const setAuthors = authors => ({
   type: SET_AUTHORS,
@@ -70,6 +79,6 @@ export const fetchTimeline = loading => ({
 export const setComments = comment => {
   return {
     type: comment.type,
-    payload: comment.postId
+    payload: comment.payload
   }
 }

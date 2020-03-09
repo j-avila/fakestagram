@@ -3,6 +3,7 @@ import { reducer as form } from 'redux-form'
 import createSagaMiddleware from 'redux-saga'
 import { defaultSaga } from '../store/sagas/saga'
 import * as type from '../store/actions/types'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 const defaultReducer = (state = [], action) => {
   switch (action.type) {
@@ -98,7 +99,7 @@ const isfetching = (state = [], action) => {
 
 const commentsStream = (state = [], action) => {
   switch (action.type) {
-    case 'GET_COMMENTS':
+    case 'SET_COMMENTS_STREAM':
       console.log('reducer', action)
       return [...state, ...action.payload]
     default:
@@ -134,7 +135,7 @@ const sagaMiddleware = createSagaMiddleware()
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const store = createStore(
   reducers,
-  composeEnhancers(applyMiddleware(sagaMiddleware))
+  composeWithDevTools(applyMiddleware(sagaMiddleware))
 )
 
 sagaMiddleware.run(defaultSaga)

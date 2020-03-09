@@ -103,6 +103,7 @@ const Comments = props => {
 
   useEffect(() => {
     getCommentsStream(params.postId)
+    console.log(commentsStream)
   }, [])
 
   return (
@@ -130,7 +131,13 @@ const Comments = props => {
               )}
             />
           ) : (
-            <Text>loading</Text>
+            <>
+              <Text>loading</Text>
+              <Button
+                title="get"
+                onPress={() => getCommentsStream(params.postId)}
+              />
+            </>
           )}
         </View>
         <View style={styles.commentArea}>
