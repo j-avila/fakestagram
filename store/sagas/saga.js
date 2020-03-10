@@ -84,6 +84,7 @@ const handleRegister = async data => {
 
 const saveUser = async ({ username, email, avatar, uid }) => {
   dataBaseService.ref(`users/${uid}`).set({
+    id: uid,
     name: username,
     email,
     avatar
@@ -117,15 +118,21 @@ const handleCommentsStream = posts =>
     .once('value')
     .then(snapshot => {
       const streamList = []
-      console.log('steramed')
       snapshot.forEach(post => {
-        const { id } = post
-        const comment = post.message
-        comment.id = id
-        streamList.push(posted)
+        let postRaw = JSON.stringify(post)
+        let postObj = JSON.parse(postRaw)
+        // console.log('post', postObj)
+        const { id, date, user, message } = postObj
+        let comment = {
+          id,
+          date,
+          user,
+          message
+        }
+
+        streamList.push(comment)
       })
-      console.log('saga stream', streamList)
-      // return snapshot
+      return streamList
     })
 
 const handlePost = async data => {
@@ -223,7 +230,6 @@ function* getTimelineService() {
   try {
     yield put(fetchTimeline(true))
     const postsTimeline = yield call(handleTimeline)
-    // console.log(postsTimeline)
     const authors = yield all(
       postsTimeline.map(post => call(getAuthors, post.userId))
     )
@@ -240,8 +246,7 @@ function* getStreamComments(data) {
   try {
     // console.log('fetching-comments')
     yield put(fetchTimeline(true))
-    const commentStream = yield call(handleCommentsStream(data))
-    console.log('hago un llamado', commentStream)
+    const commentStream = yield call(handleCommentsStream, data)
     yield put(setCommentsStream(commentStream))
     yield put(fetchTimeline(false))
     console.log('comments fetch done!')

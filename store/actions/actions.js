@@ -58,13 +58,10 @@ export const fetchCommentsStream = comment => ({
   postId: comment.postId
 })
 
-export const setCommentsStream = comments => {
-  console.log(comments)
-  return {
-    type: SET_COMMENTS_STREAM,
-    payload: comments
-  }
-}
+export const setCommentsStream = comments => ({
+  type: SET_COMMENTS_STREAM,
+  payload: comments
+})
 
 export const setAuthors = authors => ({
   type: SET_AUTHORS,

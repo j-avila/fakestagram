@@ -18,45 +18,6 @@ import { SafeAreaView } from 'react-navigation'
 import { setComments, fetchCommentsStream } from '../../store/actions/actions'
 import { GET_COMMENTS, SET_COMMENTS } from '../../store/actions/types'
 
-const commentsDummy = [
-  {
-    name: 'pablo la chingada',
-    comment: 'hijos de la chingada, chiguense ya',
-    id: 123456788,
-    reposnses: []
-  },
-  {
-    name: 'pablo la chingada',
-    comment: 'hijos de la chingada, chiguense ya',
-    id: 123456788,
-    reposnses: []
-  },
-  {
-    name: 'pablo la chingada',
-    comment: 'hijos de la chingada, chiguense ya',
-    id: 123456788,
-    reposnses: []
-  },
-  {
-    name: 'pablo la chingada',
-    comment: 'hijos de la chingada, chiguense ya',
-    id: 123456788,
-    reposnses: []
-  },
-  {
-    name: 'pablo la chingada',
-    comment: 'hijos de la chingada, chiguense ya',
-    id: 123456788,
-    reposnses: []
-  },
-  {
-    name: 'pablo la chingada',
-    comment: 'hijos de la chingada, chiguense ya',
-    id: 123456788,
-    reposnses: []
-  }
-]
-
 const genId = () =>
   Math.random()
     .toString(36)
@@ -68,8 +29,10 @@ const genId = () =>
 const Comments = props => {
   initialState = ''
   const currentUser = useSelector(state => state.sessionHandler.uid)
+  const usersList = useSelector(state => state.setAuthorsHandler)
   const commentsStream = useSelector(state => state.commentsStream)
   const [load, setLoad] = useState(false)
+  const [stream, setStream] = useState([])
   const [message, setMessage] = useState(initialState)
   const dispatch = useDispatch()
   const { params } = props.navigation.state
@@ -97,13 +60,22 @@ const Comments = props => {
     )
   }
 
+  const getUserName = (list, id) => {
+    const uList = list.filter(user => user.id === id)
+    console.log(list, id)
+    return uList
+  }
+
   const getCommentsStream = id => {
     dispatch(fetchCommentsStream({ type: GET_COMMENTS, postId: id }))
   }
 
   useEffect(() => {
     getCommentsStream(params.postId)
-    console.log(commentsStream)
+    // console.log(usersList)
+    if (stream.current) {
+      setStream(commentsStream)
+    }
   }, [])
 
   return (
@@ -120,15 +92,21 @@ const Comments = props => {
               data={commentsStream}
               refreshing={load}
               onRefresh={() => setLoad(true)}
-              renderItem={({ item, index }) => (
-                <Comment
-                  currentUser={currentUser}
-                  username={item.name}
-                  id={item.id}
-                  text={item.comment}
-                  responses={item.responses}
-                />
-              )}
+              renderItem={({ item, index }) => {
+                let name = getUserName(usersList, item.id)
+                console.log(name)
+                return (
+                  <Comment
+                    currentUser={currentUser}
+                    username={name}
+                    id={item.id}
+                    user={item.user}
+                    text={item.message}
+                    date={item.date}
+                    responses={item.responses}
+                  />
+                )
+              }}
             />
           ) : (
             <>

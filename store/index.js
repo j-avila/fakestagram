@@ -100,8 +100,7 @@ const isfetching = (state = [], action) => {
 const commentsStream = (state = [], action) => {
   switch (action.type) {
     case 'SET_COMMENTS_STREAM':
-      console.log('reducer', action)
-      return [...state, ...action.payload]
+      return [...action.payload]
     default:
       return state
   }
