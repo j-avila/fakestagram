@@ -1,3 +1,4 @@
+import React from 'react'
 import { createStackNavigator } from 'react-navigation-stack'
 import Home from './home'
 import Post from './post'
@@ -17,20 +18,20 @@ const HomeStackNav = createStackNavigator({
   Post: {
     screen: Post,
     navigationOptions: () => ({
-      title: 'post'
+      title: 'Publicacion'
     })
   },
   Profile: {
     screen: Profile,
     navigationOptions: () => ({
-      title: 'Profile'
+      title: 'Perfil'
     })
   },
   Comments: {
     screen: Comments,
     tabBarVisible: false,
     navigationOptions: ({ navigation }) => ({
-      title: 'Comments'
+      title: 'Comentarios'
     })
   }
 })
