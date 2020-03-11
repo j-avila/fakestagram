@@ -1,5 +1,6 @@
 import React from 'react'
 import { createStackNavigator } from 'react-navigation-stack'
+import { Button } from 'react-native'
 import Home from './home'
 import Post from './post'
 import Profile from './profile'
@@ -10,9 +11,9 @@ import HomeHeader from '../shared/homeHeader'
 const HomeStackNav = createStackNavigator({
   Home: {
     screen: Home,
-    navigationOptions: () => ({
+    navigationOptions: navigation => ({
       title: 'Home',
-      headerTitle: props => <HomeHeader />
+      headerTitle: props => <HomeHeader {...navigation} />
     })
   },
   Post: {

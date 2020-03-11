@@ -2,21 +2,23 @@ import React from 'react'
 import { StyleSheet, View, Image } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
-const HomeHeader = () => {
+const HomeHeader = props => {
+  console.log('header', props)
+  const { navigation } = props
   return (
     <View style={styles.head}>
       <View style={styles.logoHolder}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Post')}>
           <Image
             style={styles.camIcon}
             source={require('../../assets/camera.png')}
           />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
           <Image source={require('../../assets/letter-logo.png')} />
         </TouchableOpacity>
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Search')}>
         <Image
           style={styles.searchIcon}
           source={require('../../assets/search.png')}
