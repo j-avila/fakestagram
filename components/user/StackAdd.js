@@ -4,13 +4,13 @@ import { Button, TouchableOpacityBase } from 'react-native'
 import Add from './add'
 import CreatePost from './createPost'
 import { Ionicons } from '@expo/vector-icons'
+import DefaultHeader from '../shared/defaultHeader'
 
 const StackAdd = createStackNavigator({
   Add: {
     screen: Add,
     navigationOptions: navigation => ({
-      title: 'Add',
-      left: props => <Ionicons name="md-arrow-back" onPress={alert('poop')} />
+      title: 'agrear post'
     })
   },
   Selection: CreatePost,

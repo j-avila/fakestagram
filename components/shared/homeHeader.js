@@ -3,12 +3,12 @@ import { StyleSheet, View, Image } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const HomeHeader = props => {
-  console.log('header', props)
+  // console.log('header', props)
   const { navigation } = props
   return (
     <View style={styles.head}>
       <View style={styles.logoHolder}>
-        <TouchableOpacity onPress={() => navigation.navigate('Post')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Add')}>
           <Image
             style={styles.camIcon}
             source={require('../../assets/camera.png')}
