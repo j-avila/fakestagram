@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 14248,
-  "expoServerNgrokUrl": "https://t3-mpq.jla13.fakestagram.exp.direct",
-  "packagerNgrokUrl": "https://packager.t3-mpq.jla13.fakestagram.exp.direct",
-  "ngrokPid": 21476,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "webpackServerPort": null
 }
