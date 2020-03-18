@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { Text, StyleSheet, View, Button } from 'react-native'
 import { TouchableHighlight } from 'react-native-gesture-handler'
-import { authService } from '../../store/servicios/firebase'
 import Avatar from '../shared/avatar'
-
+import PostsGrid from '../shared/postsGrid'
 export default class Profile extends Component {
   statics = [
     {
@@ -20,6 +19,21 @@ export default class Profile extends Component {
     }
   ]
 
+  data = [
+    { key: 'A' },
+    { key: 'B' },
+    { key: 'C' },
+    { key: 'D' },
+    { key: 'E' },
+    { key: 'F' },
+    { key: 'G' },
+    { key: 'H' },
+    { key: 'I' },
+    { key: 'J' }
+    // { key: 'K' },
+    // { key: 'L' },
+  ]
+
   render() {
     const { navigation } = this.props
     return (
@@ -27,7 +41,7 @@ export default class Profile extends Component {
         <View style={styles.pic}>
           <View style={styles.picHolder}>
             <Avatar size={{ width: 100, height: 100, borderRadius: 50 }} />
-            <Text style={styles.txtTitles}>profile</Text>
+            <Text style={styles.txtTitles}>perfil</Text>
             {/*  <TouchableHighlight
               onPress={() => {
                 authService.signOut()
@@ -64,14 +78,10 @@ export default class Profile extends Component {
             <Text>mensaje</Text>
           </TouchableHighlight>
         </View>
-        <View style={styles.grid}>
-          <Button
-            title="Post"
-            onPress={() => {
-              navigation.navigate('Post')
-            }}
-          />
-        </View>
+        <PostsGrid
+          data={this.data}
+          navFunc={() => navigation.navigate('Post')}
+        />
       </View>
     )
   }
@@ -83,7 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e0e3d4'
   },
   grid: {
-    flex: 6,
+    flex: 10,
     backgroundColor: 'grey'
   },
   pic: {
