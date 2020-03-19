@@ -42,13 +42,6 @@ export default class Profile extends Component {
           <View style={styles.picHolder}>
             <Avatar size={{ width: 100, height: 100, borderRadius: 50 }} />
             <Text style={styles.txtTitles}>perfil</Text>
-            {/*  <TouchableHighlight
-              onPress={() => {
-                authService.signOut()
-              }}
-            >
-              <Text>Sign out</Text>
-            </TouchableHighlight> */}
           </View>
           <View style={styles.statics}>
             {this.statics &&
@@ -78,10 +71,10 @@ export default class Profile extends Component {
             <Text>mensaje</Text>
           </TouchableHighlight>
         </View>
-        <PostsGrid
+        {/* <PostsGrid
           data={this.data}
           navFunc={() => navigation.navigate('Post')}
-        />
+        /> */}
       </View>
     )
   }

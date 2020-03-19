@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 3520,
+  "expoServerNgrokUrl": "https://qt-puc.jla13.fakestagram.exp.direct",
+  "packagerNgrokUrl": "https://packager.qt-puc.jla13.fakestagram.exp.direct",
+  "ngrokPid": 2200,
   "webpackServerPort": null
 }
