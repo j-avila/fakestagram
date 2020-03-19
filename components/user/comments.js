@@ -93,14 +93,14 @@ const Comments = props => {
               refreshing={load}
               onRefresh={() => setLoad(true)}
               renderItem={({ item, index }) => {
-                let name = getUserName(usersList, item.id)
-                console.log(name)
                 return (
                   <Comment
                     currentUser={currentUser}
-                    username={name}
+                    name={item.userName}
                     id={item.id}
                     user={item.user}
+                    userName={item.userName}
+                    avatar={item.avatar}
                     text={item.message}
                     date={item.date}
                     responses={item.responses}

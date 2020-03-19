@@ -4,15 +4,7 @@ import {
   dataBaseService,
   storageService
 } from '../servicios/firebase'
-import {
-  GET_POSTS,
-  REGISTER,
-  LOGIN,
-  CREATE_POST,
-  SET_LIKE,
-  SET_COMMENTS,
-  GET_COMMENTS
-} from '../actions/types'
+import * as type from '../actions/types'
 import {
   setTimeline,
   setAuthors,
@@ -22,6 +14,16 @@ import {
   fetchCommentsStream,
   setCommentsStream
 } from '../actions/actions'
+import { database } from 'firebase'
+
+// parse the firebase obaject
+
+const parseObj = obj => {
+  let postRaw = JSON.stringify(obj)
+  let postObj = JSON.parse(postRaw)
+  return postObj
+}
+
 // Prepare Blob support
 uriToBlob = uri => {
   return new Promise((resolve, reject) => {
@@ -96,6 +98,11 @@ const handleLogin = async ({ email, password }) => {
   return succcess
 }
 
+const getUsers = async () => {
+  const users = await dataBaseService.ref(`/users/`).once('value')
+  return users
+}
+
 const handleTimeline = () =>
   dataBaseService
     .ref('posts/')
@@ -112,28 +119,49 @@ const handleTimeline = () =>
       return timeline
     })
 
-const handleCommentsStream = posts =>
-  dataBaseService
+const handleCommentsStream = async posts => {
+  let obj = getUsers()
+  const usersObj = await getUsers(obj)
+
+  const usersList = () => {
+    let usersOutput = []
+    usersObj.forEach(u => {
+      const uObj = parseObj(u)
+      const { name, id, avatar } = uObj
+      let user = {
+        name,
+        id,
+        avatar
+      }
+      usersOutput.push(user)
+    })
+    return usersOutput
+  }
+
+  return await dataBaseService
     .ref(`/posts/${posts.postId}/comments/`)
     .once('value')
     .then(snapshot => {
       const streamList = []
       snapshot.forEach(post => {
-        let postRaw = JSON.stringify(post)
-        let postObj = JSON.parse(postRaw)
-        // console.log('post', postObj)
-        const { id, date, user, message } = postObj
+        const arr = parseObj(post)
+        const { id, date, user, message } = arr
+        const pic = usersList().filter(u => u.id === user)[0]
+        // console.log(pic)
         let comment = {
           id,
           date,
           user,
-          message
+          avatar: pic.avatar,
+          message,
+          userName: pic.name
         }
-
+        console.log(comment)
         streamList.push(comment)
       })
       return streamList
     })
+}
 
 const handlePost = async data => {
   // upload the image
@@ -270,15 +298,24 @@ function* commentsService(data) {
   }
 }
 
+function* usersService(data) {
+  try {
+    yield put(setUsers(getUsers()))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function* defaultSaga(values) {
   // yield
-  yield takeEvery(REGISTER, registerService)
-  yield takeEvery(LOGIN, loginService)
-  yield takeEvery(CREATE_POST, createPostService)
-  yield takeEvery(GET_POSTS, getTimelineService)
-  yield takeEvery(SET_LIKE, likeService)
-  yield takeEvery(SET_COMMENTS, commentsService)
-  yield takeEvery(GET_COMMENTS, getStreamComments)
+  yield takeEvery(type.REGISTER, registerService)
+  yield takeEvery(type.LOGIN, loginService)
+  yield takeEvery(type.CREATE_POST, createPostService)
+  yield takeEvery(type.GET_POSTS, getTimelineService)
+  yield takeEvery(type.SET_LIKE, likeService)
+  yield takeEvery(type.SET_COMMENTS, commentsService)
+  yield takeEvery(type.GET_COMMENTS, getStreamComments)
+  yield takeEvery(type.GET_USERS, usersService)
 
   console.log('saganding')
 }

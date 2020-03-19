@@ -115,6 +115,15 @@ const commentsHandler = (state = [], action) => {
   }
 }
 
+const usersHandler = (state = [], action) => {
+  switch (action.type) {
+    case 'GET_USERS':
+      return action.payload
+    default:
+      return state
+  }
+}
+
 const reducers = combineReducers({
   defaultReducer,
   form,
@@ -127,7 +136,8 @@ const reducers = combineReducers({
   setAuthorsHandler,
   isfetching,
   commentsHandler,
-  commentsStream
+  commentsStream,
+  usersHandler
 })
 
 const sagaMiddleware = createSagaMiddleware()

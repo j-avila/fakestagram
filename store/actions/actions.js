@@ -6,7 +6,8 @@ import {
   SET_LIKE,
   SET_COMMENTS,
   SET_COMMENTS_STREAM,
-  GET_COMMENTS
+  GET_COMMENTS,
+  GET_USERS
 } from './types'
 
 export const registerAction = (type, payload) => ({
@@ -79,3 +80,8 @@ export const setComments = comment => {
     payload: comment.payload
   }
 }
+
+export const setUsers = users => ({
+  type: GET_USERS,
+  payload: users
+})

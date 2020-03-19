@@ -4,13 +4,13 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import Avatar from '../shared/avatar'
 
 const Comment = props => {
-  const { image, username, text, id, responses } = props
+  const { avatar, name, text, id, responses } = props
   return (
     <View style={styles.body}>
-      <Avatar image={image} size={{ height: 30, width: 30 }} />
+      <Avatar image={{ uri: avatar }} size={{ height: 30, width: 30 }} />
       <View style={styles.comment}>
         <View style={StyleSheet.txt}>
-          <Text style={styles.userName}>{username}</Text>
+          <Text style={styles.userName}>{name}</Text>
           <Text>{text}</Text>
         </View>
         <TouchableOpacity>
