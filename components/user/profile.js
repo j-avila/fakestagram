@@ -71,10 +71,10 @@ export default class Profile extends Component {
             <Text>mensaje</Text>
           </TouchableHighlight>
         </View>
-        {/* <PostsGrid
+        <PostsGrid
           data={this.data}
           navFunc={() => navigation.navigate('Post')}
-        /> */}
+        />
       </View>
     )
   }

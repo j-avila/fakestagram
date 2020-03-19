@@ -18,7 +18,9 @@ const formatData = (data, numColumns) => {
 }
 
 const GridItem = ({ item, index }) => {
-  return (
+  return item.empty ? (
+    <View style={[styles.item, styles.itemInvisible]} />
+  ) : (
     <View style={styles.item}>
       <TouchableHighlight>
         {/* <Image style={styles.itemText/ source={}> */}
@@ -32,9 +34,6 @@ const numColumns = 3
 const PostsGrid = props => {
   return (
     <View style={styles.container}>
-      item.empty ?
-      <View style={[styles.item, styles.itemInvisible]} />
-      :
       <FlatList
         data={formatData(props.data, numColumns)}
         style={styles.container}
