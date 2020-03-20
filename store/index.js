@@ -124,6 +124,15 @@ const usersHandler = (state = [], action) => {
   }
 }
 
+const profileHandler = (state = [], action) => {
+  switch (action.type) {
+    case 'GET_PROFILE':
+      return action.payload
+    default:
+      return state
+  }
+}
+
 const reducers = combineReducers({
   defaultReducer,
   form,
@@ -137,7 +146,8 @@ const reducers = combineReducers({
   isfetching,
   commentsHandler,
   commentsStream,
-  usersHandler
+  usersHandler,
+  profileHandler
 })
 
 const sagaMiddleware = createSagaMiddleware()

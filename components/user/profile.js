@@ -3,7 +3,9 @@ import { Text, StyleSheet, View, Button } from 'react-native'
 import { TouchableHighlight } from 'react-native-gesture-handler'
 import Avatar from '../shared/avatar'
 import PostsGrid from '../shared/postsGrid'
-export default class Profile extends Component {
+import { connect } from 'react-redux'
+import { setProfile } from '../../store/actions/actions'
+class Profile extends Component {
   statics = [
     {
       title: 'posts',
@@ -33,6 +35,10 @@ export default class Profile extends Component {
     // { key: 'K' },
     // { key: 'L' },
   ]
+
+  componentDidMount() {
+    this.props.handleProfileData()
+  }
 
   render() {
     const { navigation } = this.props
@@ -79,6 +85,18 @@ export default class Profile extends Component {
     )
   }
 }
+
+const mapStateToprops = state => ({
+  userData: state.profileHandler
+})
+
+const mapDispatchToProps = dispatch => ({
+  handleProfileData: () => {
+    dispatch(setProfile())
+  }
+})
+
+export default connect(mapStateToprops, mapDispatchToProps)(Profile)
 
 const styles = StyleSheet.create({
   body: {

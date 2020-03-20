@@ -12,7 +12,9 @@ import {
   setLike,
   setComments,
   fetchCommentsStream,
-  setCommentsStream
+  setCommentsStream,
+  setUsers,
+  setProfile
 } from '../actions/actions'
 import { database } from 'firebase'
 
@@ -156,7 +158,7 @@ const handleCommentsStream = async posts => {
           message,
           userName: pic.name
         }
-        console.log(comment)
+        // console.log(comment)
         streamList.push(comment)
       })
       return streamList
@@ -199,11 +201,33 @@ const handleLike = data => {
 
 const handleComments = async data => {
   const { message, postId, user, id, date } = data.payload
-  console.log('from saga', user)
+  // console.log('from saga', user)
   await dataBaseService
     .ref(`posts/${postId}/comments/${id}`)
     .set({ id, message, user, date })
     .then(res => console.log('commented!'))
+}
+
+const handleUserProfile = async () => {
+  const id = 'uTd7KULxZrMchtTdCcB0w1I0YEp2'
+  const userdata = dataBaseService
+    .ref(`users/${id}`)
+    .once('value')
+    .then(res => res)
+
+  await dataBaseService
+    .collection('posts')
+    .where('userid', '===', id)
+    .get()
+    .then(posts => {
+      console.log('user', userdata, posts)
+      let user = {
+        userData: userdata,
+        posts
+      }
+
+      return user
+    })
 }
 
 // sagas
@@ -306,6 +330,14 @@ function* usersService(data) {
   }
 }
 
+function* userProfileHandler() {
+  try {
+    yield put(setProfile(handleUserProfile()))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function* defaultSaga(values) {
   // yield
   yield takeEvery(type.REGISTER, registerService)
@@ -316,6 +348,6 @@ export function* defaultSaga(values) {
   yield takeEvery(type.SET_COMMENTS, commentsService)
   yield takeEvery(type.GET_COMMENTS, getStreamComments)
   yield takeEvery(type.GET_USERS, usersService)
-
+  yield takeEvery(type.GET_PROFILE, userProfileHandler)
   console.log('saganding')
 }

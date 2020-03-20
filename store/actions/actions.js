@@ -7,7 +7,8 @@ import {
   SET_COMMENTS,
   SET_COMMENTS_STREAM,
   GET_COMMENTS,
-  GET_USERS
+  GET_USERS,
+  GET_PROFILE
 } from './types'
 
 export const registerAction = (type, payload) => ({
@@ -84,4 +85,9 @@ export const setComments = comment => {
 export const setUsers = users => ({
   type: GET_USERS,
   payload: users
+})
+
+export const setProfile = user => ({
+  type: GET_PROFILE,
+  payload: user
 })
