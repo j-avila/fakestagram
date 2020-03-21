@@ -127,6 +127,7 @@ const usersHandler = (state = [], action) => {
 const profileHandler = (state = [], action) => {
   switch (action.type) {
     case 'GET_PROFILE':
+      console.log(action)
       return action.payload
     default:
       return state

@@ -210,7 +210,7 @@ const handleComments = async data => {
 
 const handleUserProfile = async () => {
   const id = 'uTd7KULxZrMchtTdCcB0w1I0YEp2'
-  const userdata = dataBaseService
+  const userdata = await dataBaseService
     .ref(`users/${id}`)
     .once('value')
     .then(res => res)
