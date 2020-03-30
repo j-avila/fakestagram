@@ -15,7 +15,7 @@ import {
 } from 'react-native-gesture-handler'
 import { Ionicons } from '@expo/vector-icons'
 import { SafeAreaView } from 'react-navigation'
-import { setComments, fetchCommentsStream } from '../../store/actions/actions'
+import { setComments, fetchCommentsStream } from '../../store/actions'
 import { GET_COMMENTS, SET_COMMENTS } from '../../store/actions/types'
 
 const genId = () =>

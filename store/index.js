@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { reducer as form } from 'redux-form'
 import createSagaMiddleware from 'redux-saga'
-import { defaultSaga } from '../store/sagas/saga'
+import { defaultSaga } from '../store/sagas'
 import * as type from '../store/actions/types'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
@@ -127,7 +127,15 @@ const usersHandler = (state = [], action) => {
 const profileHandler = (state = [], action) => {
   switch (action.type) {
     case 'GET_PROFILE':
-      console.log(action)
+      return action.payload
+    default:
+      return state
+  }
+}
+
+const setProfileData = (state = [], action) => {
+  switch (action.type) {
+    case 'SET_PROFILE':
       return action.payload
     default:
       return state
@@ -148,7 +156,7 @@ const reducers = combineReducers({
   commentsHandler,
   commentsStream,
   usersHandler,
-  profileHandler
+  setProfileData
 })
 
 const sagaMiddleware = createSagaMiddleware()

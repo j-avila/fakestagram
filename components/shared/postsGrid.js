@@ -46,7 +46,8 @@ const PostsGrid = props => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 10
+    flex: 6,
+    overflow: 'visible'
     // marginVertical: 20
   },
   item: {

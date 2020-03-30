@@ -3,7 +3,7 @@ import { View, Text } from 'react-native'
 import { connect } from 'react-redux'
 import { USER_LOGGED, USER_NO_LOGGED } from '../store/actions/types'
 import { authService } from '../store/servicios/firebase'
-import { manageSession } from '../store/actions/actions'
+import { manageSession } from '../store/actions'
 
 import NoSignedRoutes from './noUser/routes'
 import SignedRoutes from './user/routes'

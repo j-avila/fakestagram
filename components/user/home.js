@@ -8,7 +8,7 @@ import {
   Button,
   FlatList
 } from 'react-native'
-import { getPosts, setLike } from '../../store/actions/actions'
+import { getPosts, setLike } from '../../store/actions'
 import PostItem from '../shared/postItem'
 import { Ionicons } from '@expo/vector-icons'
 

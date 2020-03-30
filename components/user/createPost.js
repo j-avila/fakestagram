@@ -9,11 +9,7 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 import ImagePicker from '../shared/imagePicker'
-import {
-  setPostImg,
-  setCreatePost,
-  getPosts
-} from '../../store/actions/actions'
+import { setPostImg, setCreatePost, getPosts } from '../../store/actions'
 import {
   SET_POST_PHOTO,
   REMOVE_POST_PHOTO,
