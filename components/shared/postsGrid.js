@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, Image, StyleSheet, Dimensions } from 'react-native'
 import { TouchableHighlight, FlatList } from 'react-native-gesture-handler'
 
@@ -32,6 +32,7 @@ const GridItem = ({ item, index }) => {
 
 const numColumns = 3
 const PostsGrid = props => {
+  const [loading, setLoading] = useState(false)
   return (
     <View style={styles.container}>
       <FlatList
@@ -39,6 +40,8 @@ const PostsGrid = props => {
         style={styles.container}
         renderItem={GridItem}
         numColumns={numColumns}
+        refreshing={loading}
+        onRefresh={() => setLoading(!loading)}
       />
     </View>
   )
