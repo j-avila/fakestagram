@@ -49,7 +49,7 @@ const Profile = props => {
 
   useEffect(() => {
     getUserProfile('uTd7KULxZrMchtTdCcB0w1I0YEp2')
-  }, [profile])
+  }, [profileFetch])
 
   const { user, posts } = profile
   return (
