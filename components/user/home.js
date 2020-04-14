@@ -69,7 +69,9 @@ class Home extends Component {
                 currentUser={currentUser}
                 data={item}
                 authorMeta={authors[index]}
-                profileRoute={() => navigation.navigate('Profile')}
+                profileRoute={() =>
+                  navigation.navigate('Profile', { id: item.userId })
+                }
                 commentsRoute={() =>
                   navigation.navigate('Comments', {
                     currentUser: currentUser,

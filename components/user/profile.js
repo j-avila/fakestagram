@@ -38,20 +38,23 @@ data = [
 
 const Profile = props => {
   const dispatch = useDispatch()
-  const getUserProfile = async id => {
-    dispatch(await getProfile(id))
-    await setProfile(profileFetch)
-    console.log(profileFetch)
-  }
   const profileFetch = useSelector(state => state.setProfileData)
   const { navigation } = props
-  const [profile, setProfile] = useState({})
+  const [profile, setProfile] = useState(profileFetch)
+  const { id } = props.navigation.state.params
+
+  const getUsers = id => {
+    dispatch(getProfile(id))
+    // console.log(profileFetch.user)
+  }
 
   useEffect(() => {
-    getUserProfile('uTd7KULxZrMchtTdCcB0w1I0YEp2')
-  }, [profileFetch])
+    getUsers(id)
+    profile.current && setProfile(profileFetch)
+  }, [])
 
   const { user, posts } = profile
+
   return (
     <View style={styles.body}>
       {profile.user ? (
