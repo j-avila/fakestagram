@@ -5,6 +5,7 @@ import Avatar from '../shared/avatar'
 import PostsGrid from '../shared/postsGrid'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { getProfile } from '../../store/actions'
+import { GET_PROFILE } from '../../store/actions/types'
 
 statics = [
   {
@@ -38,20 +39,20 @@ data = [
 
 const Profile = props => {
   const dispatch = useDispatch()
-  const profileFetched = useSelector(state => state.setProfileData)
+  const profile = useSelector(state => state.setProfileData)
   const { navigation } = props
-  const [profile, setProfile] = useState([])
+  // const [profile, setProfile] = useState([])
   const { id } = props.navigation.state.params
 
   const getUsers = async id => {
-    await getProfile(id)
-    setProfile(profileFetched)
+    // getProfile(id)
+    dispatch(getProfile(id))
+    // setProfile(profileFetched)
   }
 
   useEffect(() => {
-    profile !== profileFetched && getUsers(id)
-    console.log(profileFetched)
-  }, [profile])
+    getUsers(id)
+  }, [])
 
   const { user, posts } = profile
 

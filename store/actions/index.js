@@ -93,7 +93,10 @@ export const getProfile = id => ({
   id
 })
 
-export const setProfile = user => ({
-  type: SET_PROFILE,
-  payload: user
-})
+export const setProfile = user => {
+  console.log('action', user)
+  return {
+    type: SET_PROFILE,
+    payload: user
+  }
+}
