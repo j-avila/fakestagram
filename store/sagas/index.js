@@ -235,7 +235,6 @@ const handleUserProfile = async ({ id }) => {
     user: await parseObj(user),
     posts: await objConverter(posts)
   }
-
   return result
 }
 
