@@ -136,7 +136,6 @@ const profileHandler = (state = [], action) => {
 const setProfileData = (state = [], action) => {
   switch (action.type) {
     case 'SET_PROFILE':
-      console.log('store', state)
       return action.payload
     default:
       return state

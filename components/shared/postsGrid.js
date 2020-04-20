@@ -23,8 +23,8 @@ const GridItem = ({ item, index }) => {
   ) : (
     <View style={styles.item}>
       <TouchableHighlight>
-        {/* <Image style={styles.itemText/ source={}> */}
-        <Text style={styles.itemText}>{item.key}</Text>
+        <Image style={styles.thumb} source={{ uri: item.image }} />
+        {/* <Text style={styles.itemText}>{item.key}</Text> */}
       </TouchableHighlight>
     </View>
   )
@@ -61,11 +61,12 @@ const styles = StyleSheet.create({
     margin: 1,
     height: Dimensions.get('window').width / numColumns // approximate a square
   },
+  thumb: {
+    width: Dimensions.get('window').width / numColumns,
+    height: Dimensions.get('window').width / numColumns
+  },
   itemInvisible: {
     backgroundColor: 'transparent'
-  },
-  itemText: {
-    color: '#fff'
   }
 })
 

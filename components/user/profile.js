@@ -41,13 +41,10 @@ const Profile = props => {
   const dispatch = useDispatch()
   const profile = useSelector(state => state.setProfileData)
   const { navigation } = props
-  // const [profile, setProfile] = useState([])
   const { id } = props.navigation.state.params
 
   const getUsers = async id => {
-    // getProfile(id)
     dispatch(getProfile(id))
-    // setProfile(profileFetched)
   }
 
   useEffect(() => {
