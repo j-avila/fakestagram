@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Text, StyleSheet, View } from 'react-native'
 import { TouchableHighlight } from 'react-native-gesture-handler'
 import Avatar from '../shared/avatar'
 import PostsGrid from '../shared/postsGrid'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getProfile } from '../../store/actions'
-import { GET_PROFILE } from '../../store/actions/types'
+import LinkButton from '../shared/linkButton'
 
 statics = [
   {
@@ -60,7 +60,12 @@ const Profile = props => {
           <View style={styles.pic}>
             <View style={styles.picHolder}>
               <Avatar
-                size={{ width: 100, height: 100, borderRadius: 50 }}
+                size={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: 50,
+                  ...styles.thumb
+                }}
                 image={{
                   uri: user.avatar
                 }}
@@ -82,9 +87,15 @@ const Profile = props => {
             </View>
           </View>
           <View style={styles.bio}>
-            <Text> descripcion</Text>
-            <Text>que haces?</Text>
-            <Text style={styles.link}>http://enalce.com</Text>
+            <Text>{user.bio}</Text>
+            <Text>{user.category}</Text>
+            {/* <Text style={styles.link}>{user.url}</Text> */}
+            <LinkButton
+              styles={styles.link}
+              url={user.url}
+              title={user.url}
+              type="touchable"
+            />
             <Text>pepo, chivato y roberta le siguen...</Text>
           </View>
           <View style={styles.actions}>
@@ -141,6 +152,12 @@ const styles = StyleSheet.create({
   },
   picHolder: {
     alignContent: 'center'
+  },
+  thumb: {
+    borderWidth: 2,
+    borderColor: '#005266',
+    backgroundColor: 'black',
+    marginBottom: 8
   },
   txtTitles: {
     textAlign: 'center'
