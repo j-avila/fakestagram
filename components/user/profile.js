@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Text, StyleSheet, View } from 'react-native'
 import { TouchableHighlight } from 'react-native-gesture-handler'
 import Avatar from '../shared/avatar'
@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getProfile } from '../../store/actions'
 import LinkButton from '../shared/linkButton'
 
-statics = [
+/* statics = [
   {
     title: 'posts',
     numbers: 12
@@ -20,22 +20,31 @@ statics = [
     title: 'seguidos',
     numbers: 12
   }
-]
+] */
 
-data = [
-  { key: 'A' },
-  { key: 'B' },
-  { key: 'C' },
-  { key: 'D' },
-  { key: 'E' },
-  { key: 'F' },
-  { key: 'G' },
-  { key: 'H' },
-  { key: 'I' },
-  { key: 'J' }
-  // { key: 'K' },
-  // { key: 'L' },
-]
+const genStatics = (objfollowers, objFollowings, objPosts) => {
+  const arrFollows = Object.entries(objfollowers)
+  const arrFollowings = Object.entries(objFollowings)
+  const arrPosts = Object.entries(objPosts)
+  console.log('booom bictch')
+  const follows = arrFollows.map(([key, val]) => ({
+    title: key,
+    value: val
+  }))
+  const followings = arrFollowings.map(([key, val]) => ({
+    title: key,
+    value: val
+  }))
+  const posts = arrPosts.map(([key, val]) => ({
+    title: key,
+    value: val
+  }))
+
+  const result = [...posts, ...follows, ...followings]
+
+  console.log('statics', result)
+  return result
+}
 
 const Profile = props => {
   const dispatch = useDispatch()
@@ -43,8 +52,17 @@ const Profile = props => {
   const { navigation } = props
   const { id } = props.navigation.state.params
 
+  // states
+  const [statics, setStatics] = useState([])
+
   const getUsers = async id => {
-    dispatch(getProfile(id))
+    dispatch(await getProfile(id))
+    const stats = genStatics(
+      profile.user.followers,
+      profile.user.following,
+      profile.posts
+    )
+    setStatics(stats)
   }
 
   useEffect(() => {
@@ -77,7 +95,7 @@ const Profile = props => {
                 statics.map((data, index) => (
                   <View key={index}>
                     <Text style={{ ...styles.txtTitles, ...styles.txtStatic }}>
-                      {data.numbers}
+                      {data.value}
                     </Text>
                     <Text style={(styles.txtTitles, styles.txtStatic)}>
                       {data.title}
