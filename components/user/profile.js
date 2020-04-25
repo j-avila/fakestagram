@@ -6,6 +6,7 @@ import PostsGrid from '../shared/postsGrid'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProfile } from '../../store/actions'
 import LinkButton from '../shared/linkButton'
+import { startSubmit } from 'redux-form'
 
 /* statics = [
   {
@@ -52,18 +53,22 @@ const Profile = props => {
   // states
   const [statics, setStatics] = useState([])
 
-  const getUsers = async id => {
+  const getUsers = id => {
     dispatch(getProfile(id))
+
     const stats = genStatics(
       profile.user.followers,
       profile.user.following,
       profile.posts
     )
-    setStatics(stats)
+    
+    return stats
+    console.log('stats done')
   }
 
   useEffect(() => {
-    getUsers(id)
+    // getUsers(id)
+    setStatics(getUsers(id))
   }, [])
 
   const { user, posts } = profile
