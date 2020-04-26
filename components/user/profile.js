@@ -8,21 +8,6 @@ import { getProfile } from '../../store/actions'
 import LinkButton from '../shared/linkButton'
 import { startSubmit } from 'redux-form'
 
-/* statics = [
-  {
-    title: 'posts',
-    numbers: 12
-  },
-  {
-    title: 'seguidores',
-    numbers: 12
-  },
-  {
-    title: 'seguidos',
-    numbers: 12
-  }
-] */
-
 const genStatics = (objfollowers, objFollowings, objPosts) => {
   const arrFollows = Object.entries(objfollowers)
   const arrFollowings = Object.entries(objFollowings)
@@ -39,13 +24,14 @@ const genStatics = (objfollowers, objFollowings, objPosts) => {
     title: 'posts',
     value: objPosts.length
   }
-  console.log('posts === ', posts)
+  // console.log('posts === ', posts)
   const result = [posts, follows, followings]
   return result
 }
 
 const Profile = props => {
   const dispatch = useDispatch()
+  const currentUser = useSelector(state => state.sessionHandler)
   const profile = useSelector(state => state.setProfileData)
   const { navigation } = props
   const { id } = props.navigation.state.params
@@ -53,23 +39,28 @@ const Profile = props => {
   // states
   const [statics, setStatics] = useState([])
 
-  const getUsers = id => {
-    dispatch(getProfile(id))
+  const getStatics = async id => {
+    let stats = {}
 
-    const stats = genStatics(
-      profile.user.followers,
-      profile.user.following,
-      profile.posts
-    )
-    
-    return stats
-    console.log('stats done')
+    if (profile.user) {
+      stats = genStatics(
+        profile.user.followers,
+        profile.user.following,
+        profile.posts
+      )
+      setStatics(stats)
+    }
+    // console.log('no-stats')
   }
 
   useEffect(() => {
-    // getUsers(id)
-    setStatics(getUsers(id))
+    dispatch(getProfile(id))
   }, [])
+
+  useEffect(() => {
+    getStatics(id)
+    console.log('upadted')
+  }, [profile])
 
   const { user, posts } = profile
 
@@ -94,6 +85,7 @@ const Profile = props => {
             </View>
             <View style={styles.statics}>
               {statics &&
+                statics.length > 0 &&
                 statics.map((data, index) => (
                   <View key={index}>
                     <Text style={{ ...styles.txtTitles, ...styles.txtStatic }}>

@@ -58,7 +58,6 @@ class Home extends Component {
     // console.log('home: ', currentUser)
     return (
       <SafeAreaView style={styles.body}>
-        <Button title="actualizar" onPress={() => this.onRefresh()} />
         {authors.length >= 1 && timeline.length >= 1 ? (
           <FlatList
             data={timeline}
