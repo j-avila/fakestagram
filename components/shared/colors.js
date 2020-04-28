@@ -1,0 +1,6 @@
+export const primary = '#632762'
+export const highlight = '#FFB000'
+export const text = '#221F1F'
+export const surface = '#FFFFFF'
+export const background = '#e0e3d4'
+export const error = '#E60000'

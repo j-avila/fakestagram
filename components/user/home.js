@@ -11,6 +11,7 @@ import {
 import { getPosts, setLike } from '../../store/actions'
 import PostItem from '../shared/postItem'
 import { Ionicons } from '@expo/vector-icons'
+import { background } from '../shared/colors'
 
 class Home extends Component {
   constructor() {
@@ -20,6 +21,14 @@ class Home extends Component {
       authorsLocal: {},
       isFetching: false
     }
+  }
+
+  updateLine = () => {
+    this.setState({ isFetching: true })
+    setTimeout(() => {
+      this.setState({ isFetching: false })
+    }, 500)
+    console.log('updated')
   }
 
   onRefresh = async () => {
@@ -62,7 +71,7 @@ class Home extends Component {
           <FlatList
             data={timeline}
             refreshing={isfetching}
-            onRefresh={() => this.onRefresh()}
+            onRefresh={() => this.updateLine()}
             renderItem={({ item, index }) => (
               <PostItem
                 currentUser={currentUser}
@@ -121,7 +130,7 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
     alignSelf: 'stretch',
-    backgroundColor: '#e0e3d4'
+    backgroundColor: background
   }
 })
 

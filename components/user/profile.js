@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getProfile } from '../../store/actions'
 import LinkButton from '../shared/linkButton'
 import { startSubmit } from 'redux-form'
+import { background, highlight, surface, primary } from '../shared/colors'
 
 const genStatics = (objfollowers, objFollowings, objPosts) => {
   const arrFollows = Object.entries(objfollowers)
@@ -112,10 +113,10 @@ const Profile = props => {
           </View>
           <View style={styles.actions}>
             <TouchableHighlight style={styles.actionButs}>
-              <Text>seguir</Text>
+              <Text style={styles.btnTxt}>seguir</Text>
             </TouchableHighlight>
             <TouchableHighlight style={styles.actionButs}>
-              <Text>mensaje</Text>
+              <Text style={styles.btnTxt}>mensaje</Text>
             </TouchableHighlight>
           </View>
         </>
@@ -140,11 +141,11 @@ export default Profile
 const styles = StyleSheet.create({
   body: {
     flex: 1,
-    backgroundColor: '#e0e3d4'
+    backgroundColor: background
   },
   grid: {
     flex: 10,
-    backgroundColor: 'grey'
+    backgroundColor: background
   },
   pic: {
     flex: 2,
@@ -160,15 +161,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignContent: 'center',
     justifyContent: 'center',
-    backgroundColor: '#d6d6d6'
+    borderColor: primary
+  },
+  btnTxt: {
+    color: primary
   },
   picHolder: {
     alignContent: 'center'
   },
   thumb: {
     borderWidth: 2,
-    borderColor: '#005266',
-    backgroundColor: 'black',
+    borderColor: primary,
+    backgroundColor: surface,
     marginBottom: 8
   },
   txtTitles: {

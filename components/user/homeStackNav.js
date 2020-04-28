@@ -1,6 +1,5 @@
 import React from 'react'
 import { createStackNavigator } from 'react-navigation-stack'
-import { Button, View } from 'react-native'
 import Home from './home'
 import Post from './post'
 import Profile from './profile'

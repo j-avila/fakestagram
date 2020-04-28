@@ -11,6 +11,7 @@ import {
 import { Ionicons } from '@expo/vector-icons'
 import Avatar from '../shared/avatar'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { surface } from './colors'
 
 export default PostItem = props => {
   const { data, profileRoute, commentsRoute, authorMeta, currentUser } = props
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
   item: {
     flex: 1,
     alignSelf: 'stretch',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: surface,
     marginVertical: 8,
     paddingBottom: 15
   },
