@@ -22,20 +22,20 @@ const SignedRoutes = createBottomTabNavigator(
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { routeName } = navigation.state
         let IconComponent = Ionicons
-        let iconName
-
-        routeName === 'Home'
-          ? iconName === focused
+        let iconName =
+          routeName === 'Home'
             ? 'md-home'
-            : 'md-home'
-          : routeName === 'Search'
-          ? iconName === focused
-            ? 'md-compass'
-            : 'md-search'
-          : ''
+            : routeName === 'Search'
+            ? 'md-search'
+            : routeName === 'Add'
+            ? 'md-add'
+            : routeName === 'Follow'
+            ? 'md-contacts'
+            : routeName === 'Profile'
+            ? 'md-person'
+            : 'md-pizza'
 
-        console.log()
-        return iconName
+        return <Ionicons name={iconName} size={20} />
       }
     }),
     tabBarOptions: {

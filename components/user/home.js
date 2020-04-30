@@ -32,7 +32,9 @@ class Home extends Component {
   }
 
   onRefresh = async () => {
+    this.setState({ isFetching: true })
     await this.props.handleGetPosts()
+    this.setState({ isFetching: false })
   }
 
   userlike = async (postId, userId, like) => {
@@ -50,14 +52,11 @@ class Home extends Component {
   }
 
   async componentDidUpdate(prevProps, prevState) {
+    console.log('loading? ', this.props.loading)
     this.state.timelineLocal != this.props.timeline &&
       this.setState({
         timelineLocal: this.props.timeline,
         authorsLocal: this.props.authorMeta
-      })
-    this.props.loading != this.state.isfetching &&
-      this.setState({
-        isfetching: this.props.loading
       })
   }
 
@@ -70,8 +69,8 @@ class Home extends Component {
         {authors.length >= 1 && timeline.length >= 1 ? (
           <FlatList
             data={timeline}
-            refreshing={isfetching}
-            onRefresh={() => this.updateLine()}
+            refreshing={loading}
+            onRefresh={() => this.onRefresh()}
             renderItem={({ item, index }) => (
               <PostItem
                 currentUser={currentUser}
