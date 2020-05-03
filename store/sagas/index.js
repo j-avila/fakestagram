@@ -206,7 +206,6 @@ const handlePost = async data => {
 }
 
 const handleLike = data => {
-  console.log(data)
   const { payload } = data
   const likeObj = { [payload.userId]: payload.like }
   // console.log('data', likeObj)
@@ -315,7 +314,9 @@ function* getStreamComments(data) {
 
 function* likeService(data) {
   try {
-    yield put(setLike(handleLike(data)))
+    yield put(fetching(true))
+    yield handleLike(data)
+    yield put(fetching(false))
   } catch (error) {
     console.log(error)
     alert(error)

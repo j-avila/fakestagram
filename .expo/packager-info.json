@@ -1,10 +1,10 @@
 {
   "webpackServerPort": null,
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 14508,
-  "expoServerNgrokUrl": "https://s3-bjq.jlavila13.fakestagram.exp.direct",
-  "packagerNgrokUrl": "https://packager.s3-bjq.jlavila13.fakestagram.exp.direct",
-  "ngrokPid": 12472
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }
