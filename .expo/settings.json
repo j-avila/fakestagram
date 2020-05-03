@@ -1,8 +1,8 @@
 {
+  "urlRandomness": "s3-bjq",
   "hostType": "lan",
   "lanType": "ip",
   "dev": true,
   "minify": false,
-  "urlRandomness": "dt-sa6",
-  "https": false
+  "https": true
 }

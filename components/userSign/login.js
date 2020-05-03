@@ -1,23 +1,23 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {LOGIN} from '../../store/actions/types'
-import { View, Text, Button, StyleSheet } from 'react-native';
-import LoginForm from './loginForm';
-import { TouchableHighlight } from 'react-native-gesture-handler';
-import { loginAction } from '../../store/actions/actions';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { LOGIN } from '../../store/actions/types'
+import { View, Text, Button, StyleSheet } from 'react-native'
+import LoginForm from './loginForm'
+import { TouchableHighlight } from 'react-native-gesture-handler'
+import { loginAction } from '../../store/actions'
 
 class SignIn extends Component {
-  constructor(){
+  constructor() {
     super()
   }
-  
-  handleLogin = (values) => {
+
+  handleLogin = values => {
     this.props.userLogin(values)
   }
-  
-  render(){
+
+  render() {
     const { navigation } = this.props
-    
+
     return (
       <View style={styles.container}>
         <Text>sign in</Text>
@@ -30,17 +30,13 @@ class SignIn extends Component {
   }
 }
 
-const mapStateToProps = () => ({
-
-})
+const mapStateToProps = () => ({})
 
 const mapDispatchToPops = dispatch => ({
-  userLogin: (values) => {
+  userLogin: values => {
     dispatch(loginAction(LOGIN, values))
   }
 })
-
-
 
 export default connect(mapStateToProps, mapDispatchToPops)(SignIn)
 

@@ -10,7 +10,7 @@ import { useSelector, useDispatch, connect } from 'react-redux'
 import { REGISTER, SET_AVATAR, DELETE_AVATAR } from '../../store/actions/types'
 import SingUpForm from './singUpForm'
 import { TouchableHighlight } from 'react-native-gesture-handler'
-import { registerAction, setAvatar } from '../../store/actions/actions'
+import { registerAction, setAvatar } from '../../store/actions'
 import ImagePickerComp from '../shared/imagePicker'
 
 class NoSigned extends Component {

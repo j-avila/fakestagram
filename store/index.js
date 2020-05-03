@@ -1,8 +1,9 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { reducer as form } from 'redux-form'
 import createSagaMiddleware from 'redux-saga'
-import { defaultSaga } from '../store/sagas/saga'
+import { defaultSaga } from '../store/sagas'
 import * as type from '../store/actions/types'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 const defaultReducer = (state = [], action) => {
   switch (action.type) {
@@ -72,7 +73,7 @@ const setTimelineHandler = (state = [], action) => {
   // console.log('to store', action)
   switch (action.type) {
     case 'SET_TIMELINE':
-      return [...state, ...action.timeline]
+      return action.timeline
     default:
       return state
   }
@@ -89,8 +90,17 @@ const setAuthorsHandler = (state = [], action) => {
 
 const isfetching = (state = [], action) => {
   switch (action.type) {
-    case 'FETCH_TIMELINE':
+    case 'FETCHING':
       return action.fetching
+    default:
+      return state
+  }
+}
+
+const commentsStream = (state = [], action) => {
+  switch (action.type) {
+    case 'SET_COMMENTS_STREAM':
+      return [...action.payload]
     default:
       return state
   }
@@ -100,7 +110,33 @@ const commentsHandler = (state = [], action) => {
   switch (action.type) {
     case 'SET_COMMENTS':
       return action.payload
+    default:
+      return state
+  }
+}
 
+const usersHandler = (state = [], action) => {
+  switch (action.type) {
+    case 'GET_USERS':
+      return action.payload
+    default:
+      return state
+  }
+}
+
+const profileHandler = (state = [], action) => {
+  switch (action.type) {
+    case 'GET_PROFILE':
+      return action.payload
+    default:
+      return state
+  }
+}
+
+const setProfileData = (state = [], action) => {
+  switch (action.type) {
+    case 'SET_PROFILE':
+      return action.payload
     default:
       return state
   }
@@ -117,14 +153,17 @@ const reducers = combineReducers({
   setTimelineHandler,
   setAuthorsHandler,
   isfetching,
-  commentsHandler
+  commentsHandler,
+  commentsStream,
+  usersHandler,
+  setProfileData
 })
 
 const sagaMiddleware = createSagaMiddleware()
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const store = createStore(
   reducers,
-  composeEnhancers(applyMiddleware(sagaMiddleware))
+  composeWithDevTools(applyMiddleware(sagaMiddleware))
 )
 
 sagaMiddleware.run(defaultSaga)

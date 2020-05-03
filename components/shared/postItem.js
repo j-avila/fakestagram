@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Text,
   StyleSheet,
@@ -11,6 +11,7 @@ import {
 import { Ionicons } from '@expo/vector-icons'
 import Avatar from '../shared/avatar'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { surface } from './colors'
 
 export default PostItem = props => {
   const { data, profileRoute, commentsRoute, authorMeta, currentUser } = props
@@ -21,11 +22,12 @@ export default PostItem = props => {
   const [like, setLike] = useState(false)
 
   const likeAction = async (key, user, like) => {
-    await setLike(!like)
-    props.handleLike(key, user, !like)
+    await props.handleLike(key, user, !like)
+    setLike(!like)
   }
 
   const likesCount = () => {
+    // console.log(data)
     const likesObj = props.data.likes
     const likesArr = () => {
       const result = []
@@ -36,11 +38,31 @@ export default PostItem = props => {
     }
 
     const testArr = likesArr()
-    const test = testArr.filter(i => i.like == true && i.id != currentUser)
-    const likesTotal = test.length
-    // console.log('result', test)
+    // const test = testArr.filter(i => i.like == true && i.id === currentUser)
+    const likesTotal = testArr.length
+
+    // props.data.key === '-M6LH70VHzUVDidrhCyJ' && console.log('result', testArr)
     return likesTotal
   }
+
+  const setLikeDefault = () => {
+    const likesObj = props.data.likes
+    const likesArr = () => {
+      const result = []
+      const likes = likesObj && Object.entries(likesObj)
+      likes &&
+        likes.forEach(([key, value]) => result.push({ id: key, like: value }))
+      return result
+    }
+
+    const testArr = likesArr()
+    const test = testArr.filter(i => i.like == true && i.id === currentUser)
+    test.length > 0 && setLike(true)
+  }
+
+  useEffect(() => {
+    setLikeDefault()
+  }, [])
 
   return (
     <View style={styles.item}>
@@ -93,7 +115,7 @@ const styles = StyleSheet.create({
   item: {
     flex: 1,
     alignSelf: 'stretch',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: surface,
     marginVertical: 8,
     paddingBottom: 15
   },

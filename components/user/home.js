@@ -8,9 +8,10 @@ import {
   Button,
   FlatList
 } from 'react-native'
-import { getPosts, setLike } from '../../store/actions/actions'
+import { getPosts, setLike } from '../../store/actions'
 import PostItem from '../shared/postItem'
 import { Ionicons } from '@expo/vector-icons'
+import { background } from '../shared/colors'
 
 class Home extends Component {
   constructor() {
@@ -22,8 +23,18 @@ class Home extends Component {
     }
   }
 
+  updateLine = () => {
+    this.setState({ isFetching: true })
+    setTimeout(() => {
+      this.setState({ isFetching: false })
+    }, 500)
+    console.log('updated')
+  }
+
   onRefresh = async () => {
+    this.setState({ isFetching: true })
     await this.props.handleGetPosts()
+    this.setState({ isFetching: false })
   }
 
   userlike = async (postId, userId, like) => {
@@ -41,14 +52,11 @@ class Home extends Component {
   }
 
   async componentDidUpdate(prevProps, prevState) {
+    console.log('loading? ', this.props.loading)
     this.state.timelineLocal != this.props.timeline &&
       this.setState({
         timelineLocal: this.props.timeline,
         authorsLocal: this.props.authorMeta
-      })
-    this.props.loading != this.state.isfetching &&
-      this.setState({
-        isfetching: this.props.loading
       })
   }
 
@@ -58,18 +66,19 @@ class Home extends Component {
     // console.log('home: ', currentUser)
     return (
       <SafeAreaView style={styles.body}>
-        <Button title="actualizar" onPress={() => this.onRefresh()} />
         {authors.length >= 1 && timeline.length >= 1 ? (
           <FlatList
             data={timeline}
-            refreshing={isfetching}
+            refreshing={loading}
             onRefresh={() => this.onRefresh()}
             renderItem={({ item, index }) => (
               <PostItem
                 currentUser={currentUser}
                 data={item}
                 authorMeta={authors[index]}
-                profileRoute={() => navigation.navigate('Profile')}
+                profileRoute={() =>
+                  navigation.navigate('Profile', { id: item.userId })
+                }
                 commentsRoute={() =>
                   navigation.navigate('Comments', {
                     currentUser: currentUser,
@@ -120,7 +129,7 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
     alignSelf: 'stretch',
-    backgroundColor: '#e0e3d4'
+    backgroundColor: background
   }
 })
 
