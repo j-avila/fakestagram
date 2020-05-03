@@ -73,7 +73,7 @@ const setTimelineHandler = (state = [], action) => {
   // console.log('to store', action)
   switch (action.type) {
     case 'SET_TIMELINE':
-      return [...state, ...action.timeline]
+      return action.timeline
     default:
       return state
   }
@@ -90,7 +90,7 @@ const setAuthorsHandler = (state = [], action) => {
 
 const isfetching = (state = [], action) => {
   switch (action.type) {
-    case 'FETCH_TIMELINE':
+    case 'FETCHING':
       return action.fetching
     default:
       return state

@@ -8,7 +8,7 @@ import * as type from '../actions/types'
 import {
   setTimeline,
   setAuthors,
-  fetchTimeline,
+  fetching,
   setLike,
   setComments,
   setCommentsStream,
@@ -288,14 +288,14 @@ function* createPostService(data) {
 
 function* getTimelineService() {
   try {
-    yield put(fetchTimeline(true))
+    yield put(fetching(true))
     const postsTimeline = yield call(handleTimeline)
     const authors = yield all(
       postsTimeline.map(post => call(getAuthors, post.userId))
     )
     yield put(setTimeline(postsTimeline.reverse()))
     yield put(setAuthors(authors.reverse()))
-    yield put(fetchTimeline(false))
+    yield put(fetching(false))
     console.log('fetched')
   } catch (error) {
     alert(error)
@@ -305,10 +305,10 @@ function* getTimelineService() {
 function* getStreamComments(data) {
   try {
     // console.log('fetching-comments')
-    yield put(fetchTimeline(true))
+    yield put(fetching(true))
     const commentStream = yield call(handleCommentsStream, data)
     yield put(setCommentsStream(commentStream))
-    yield put(fetchTimeline(false))
+    yield put(fetching(false))
     console.log('comments fetch done!')
   } catch (error) {}
 }

@@ -2,7 +2,7 @@ import {
   GET_POSTS,
   SET_TIMELINE,
   SET_AUTHORS,
-  FETCH_TIMELINE,
+  FETCHING,
   SET_LIKE,
   SET_COMMENTS,
   SET_COMMENTS_STREAM,
@@ -71,8 +71,8 @@ export const setAuthors = authors => ({
   authors: authors
 })
 
-export const fetchTimeline = loading => ({
-  type: FETCH_TIMELINE,
+export const fetching = loading => ({
+  type: FETCHING,
   fetching: loading
 })
 
