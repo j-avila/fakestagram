@@ -23,14 +23,6 @@ class Home extends Component {
     }
   }
 
-  updateLine = () => {
-    this.setState({ isFetching: true })
-    setTimeout(() => {
-      this.setState({ isFetching: false })
-    }, 500)
-    console.log('updated')
-  }
-
   onRefresh = async () => {
     this.setState({ isFetching: true })
     await this.props.handleGetPosts()
@@ -38,12 +30,6 @@ class Home extends Component {
   }
 
   userlike = async (postId, userId, like) => {
-    const likeObj = {
-      [postId]: {
-        [userId]: like
-      }
-    }
-
     await this.props.handleLike({ postId, userId, like })
   }
 
@@ -52,12 +38,8 @@ class Home extends Component {
   }
 
   async componentDidUpdate(prevProps, prevState) {
-    console.log('loading? ', this.props.loading)
-    this.state.timelineLocal != this.props.timeline &&
-      this.setState({
-        timelineLocal: this.props.timeline,
-        authorsLocal: this.props.authorMeta
-      })
+    console.log('loading: ', this.props.loading)
+    // prevProps.timeline !== this.props.timeline && this.onRefresh()
   }
 
   render() {
@@ -69,7 +51,9 @@ class Home extends Component {
         {authors.length >= 1 && timeline.length >= 1 ? (
           <FlatList
             data={timeline}
+            extraData={timeline}
             refreshing={loading}
+            initialNumToRender={10}
             onRefresh={() => this.onRefresh()}
             renderItem={({ item, index }) => (
               <PostItem

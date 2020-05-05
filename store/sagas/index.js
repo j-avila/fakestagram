@@ -201,6 +201,7 @@ const handlePost = async data => {
       image: imgPost
     })
     .then(response => {
+      getTimelineService()
       console.log('posted in:', response)
     })
 }
@@ -278,7 +279,8 @@ function* loginService(values) {
 function* createPostService(data) {
   try {
     console.log('saving post init')
-    const post = yield call(handlePost, data)
+    yield call(handlePost, data)
+    yield getTimelineService()
     console.log('end')
   } catch (error) {
     alert(error)
@@ -317,6 +319,7 @@ function* likeService(data) {
     yield put(fetching(true))
     yield handleLike(data)
     yield put(fetching(false))
+    yield getTimelineService()
   } catch (error) {
     console.log(error)
     alert(error)
