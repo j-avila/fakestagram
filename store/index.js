@@ -124,10 +124,10 @@ const usersHandler = (state = [], action) => {
   }
 }
 
-const profileHandler = (state = [], action) => {
+const currentUser = (state = [], action) => {
   switch (action.type) {
-    case 'GET_PROFILE':
-      return action.payload
+    case 'SET_CURRENT_PROFILE':
+      return action.user
     default:
       return state
   }
@@ -156,7 +156,8 @@ const reducers = combineReducers({
   commentsHandler,
   commentsStream,
   usersHandler,
-  setProfileData
+  setProfileData,
+  currentUser
 })
 
 const sagaMiddleware = createSagaMiddleware()

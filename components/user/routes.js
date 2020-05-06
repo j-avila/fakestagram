@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
@@ -8,6 +8,34 @@ import HomeStackNav from './homeStackNav'
 import StackFollow from './StackFollow'
 import StackAdd from './StackAdd'
 import { text, highlight } from '../shared/colors'
+import { useSelector, useDispatch } from 'react-redux'
+import Avatar from '../shared/avatar'
+import { getCurrentProfile } from '../../store/actions'
+
+const UserLink = props => {
+  const userLogged = useSelector(state => state.sessionHandler)
+  const currentUser = userLogged.hasOwnProperty('uid')
+    ? useSelector(state => state.currentUser)
+    : {}
+  const dispatch = useDispatch()
+
+  const getAvatar = async id => {
+    dispatch(getCurrentProfile(id))
+  }
+
+  useEffect(() => {
+    getAvatar(userLogged.uid)
+  }, [])
+
+  return currentUser.hasOwnProperty('user') ? (
+    <Avatar
+      image={{ uri: currentUser.user.avatar }}
+      size={{ height: 25, width: 25 }}
+    />
+  ) : (
+    <Avatar size={{ height: 25, width: 25 }} />
+  )
+}
 
 const SignedRoutes = createBottomTabNavigator(
   {
@@ -21,7 +49,6 @@ const SignedRoutes = createBottomTabNavigator(
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { routeName } = navigation.state
-        let IconComponent = Ionicons
         let iconName =
           routeName === 'Home'
             ? 'md-home'
@@ -31,12 +58,18 @@ const SignedRoutes = createBottomTabNavigator(
             ? 'md-add'
             : routeName === 'Follow'
             ? 'md-contacts'
-            : routeName === 'Profile'
-            ? 'md-person'
             : 'md-pizza'
 
-        return <Ionicons name={iconName} size={20} />
-      }
+        let ico =
+          routeName === 'Profile' ? (
+            <UserLink />
+          ) : (
+            <Ionicons name={iconName} size={20} />
+          )
+
+        return ico
+      },
+      title: navigation.state.routeName === 'Profile' && undefined
     }),
     tabBarOptions: {
       activeTintColor: highlight,

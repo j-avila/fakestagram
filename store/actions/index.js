@@ -9,7 +9,9 @@ import {
   GET_COMMENTS,
   GET_USERS,
   GET_PROFILE,
-  SET_PROFILE
+  SET_PROFILE,
+  GET_CURRENT_PROFILE,
+  SET_CURRENT_PROFILE
 } from './types'
 
 export const registerAction = (type, payload) => ({
@@ -91,6 +93,16 @@ export const setUsers = users => ({
 export const getProfile = id => ({
   type: GET_PROFILE,
   id
+})
+
+export const getCurrentProfile = id => ({
+  type: GET_CURRENT_PROFILE,
+  id
+})
+
+export const setCurrentProfile = user => ({
+  type: SET_CURRENT_PROFILE,
+  user
 })
 
 export const setProfile = user => {

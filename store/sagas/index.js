@@ -13,7 +13,9 @@ import {
   setComments,
   setCommentsStream,
   setUsers,
-  setProfile
+  setProfile,
+  getCurrentProfile,
+  setCurrentProfile
 } from '../actions'
 import { database } from 'firebase'
 
@@ -351,6 +353,15 @@ function* userProfileHandler(id) {
   }
 }
 
+function* currentUserHandler(id) {
+  try {
+    const profile = yield call(handleUserProfile, id)
+    yield put(setCurrentProfile(profile))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function* defaultSaga(values) {
   // yield
   yield takeEvery(type.REGISTER, registerService)
@@ -362,5 +373,6 @@ export function* defaultSaga(values) {
   yield takeEvery(type.GET_COMMENTS, getStreamComments)
   yield takeEvery(type.GET_USERS, usersService)
   yield takeEvery(type.GET_PROFILE, userProfileHandler)
+  yield takeEvery(type.GET_CURRENT_PROFILE, currentUserHandler)
   console.log('saganding')
 }
