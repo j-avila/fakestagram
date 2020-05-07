@@ -35,7 +35,9 @@ const Profile = props => {
   const currentUser = useSelector(state => state.sessionHandler)
   const profile = useSelector(state => state.setProfileData)
   const { navigation } = props
-  const { id } = props.navigation.state.params
+  const id =
+    props.navigation.state.params.id && props.navigation.state.params.id
+  let profileId = id ? id : currentUser.uid
 
   // states
   const [statics, setStatics] = useState([])
@@ -55,11 +57,11 @@ const Profile = props => {
   }
 
   useEffect(() => {
-    dispatch(getProfile(id))
+    dispatch(getProfile(profileId))
   }, [])
 
   useEffect(() => {
-    getStatics(id)
+    getStatics(profileId)
     console.log('upadted')
   }, [profile])
 
