@@ -35,8 +35,7 @@ const Profile = props => {
   const currentUser = useSelector(state => state.sessionHandler)
   const profile = useSelector(state => state.setProfileData)
   const { navigation } = props
-  const id =
-    props.navigation.state.params.id && props.navigation.state.params.id
+  const id = props.navigation.state.params && props.navigation.state.params.id
   let profileId = id ? id : currentUser.uid
 
   // states

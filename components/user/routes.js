@@ -69,7 +69,7 @@ const SignedRoutes = createBottomTabNavigator(
 
         return ico
       },
-      title: navigation.state.routeName === 'Profile' && undefined
+      name: navigation.state.routeName === 'Profile' ? 'booomer' : ''
     }),
     tabBarOptions: {
       activeTintColor: highlight,
