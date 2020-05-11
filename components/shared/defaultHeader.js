@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   headTitle: {
-    textAlign: 'center'
+    textAlign: 'left'
   },
   titleTxt: {
     fontWeight: 'bold',

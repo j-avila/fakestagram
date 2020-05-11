@@ -11,6 +11,10 @@ import { text, highlight } from '../shared/colors'
 import { useSelector, useDispatch } from 'react-redux'
 import Avatar from '../shared/avatar'
 import { getCurrentProfile } from '../../store/actions'
+import Home from '../../assets/home.svg'
+import Discover from '../../assets/explore.svg'
+import Add from '../../assets/add.svg'
+import Rss from '../../assets/rss.svg'
 
 const UserLink = props => {
   const userLogged = useSelector(state => state.sessionHandler)
@@ -50,22 +54,19 @@ const SignedRoutes = createBottomTabNavigator(
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { routeName } = navigation.state
         let iconName =
-          routeName === 'Home'
-            ? 'md-home'
-            : routeName === 'Search'
-            ? 'md-search'
-            : routeName === 'Add'
-            ? 'md-add'
-            : routeName === 'Follow'
-            ? 'md-contacts'
-            : 'md-pizza'
-
-        let ico =
-          routeName === 'Profile' ? (
-            <UserLink />
+          routeName === 'Home' ? (
+            <Home />
+          ) : routeName === 'Search' ? (
+            <Discover />
+          ) : routeName === 'Add' ? (
+            <Add />
+          ) : routeName === 'Follow' ? (
+            <Rss />
           ) : (
-            <Ionicons name={iconName} size={20} />
+            <Home />
           )
+
+        let ico = routeName === 'Profile' ? <UserLink /> : iconName
 
         return ico
       },
