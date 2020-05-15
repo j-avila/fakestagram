@@ -6,15 +6,20 @@ import {
   Button,
   KeyboardAvoidingView
 } from 'react-native'
-import { TouchableHighlight } from 'react-native-gesture-handler'
+import {
+  TouchableHighlight,
+  TouchableOpacity
+} from 'react-native-gesture-handler'
 import {
   SET_POST_PHOTO,
   REMOVE_POST_PHOTO,
   CREATE_POST
 } from '../../store/actions/types'
 import PostForm from './postForm'
+import { Camera } from 'expo-camera'
 import CameraPicker from './cameraPickerExpo'
 import ImagePicker from '../shared/imagePicker'
+import Shutter from '../../assets/shutter.svg'
 import { useSelector, useDispatch } from 'react-redux'
 import { getPosts, setPostImg, setCreatePost } from '../../store/actions'
 
@@ -57,7 +62,7 @@ const Add = props => {
   return (
     <View style={styles.body}>
       <KeyboardAvoidingView styles={styles.holder} behavior="padding" enabled>
-        {type === 'picker' ? (
+        {imageObj.image ? (
           <>
             <ImagePicker
               type="text"
@@ -65,12 +70,15 @@ const Add = props => {
               action={setImg}
               removeImg={delImg}
             />
-            <TouchableHighlight onPress={() => delImg()}>
-              <Text>quitar imagen</Text>
-            </TouchableHighlight>
-            <TouchableHighlight onPress={() => switchType('')}>
-              <Text>usar camara</Text>
-            </TouchableHighlight>
+            <TouchableOpacity onPress={() => this.removeImg()}>
+              <Text>descartar imagen</Text>
+            </TouchableOpacity>
+            <PostForm
+              image={imageObj}
+              post={post}
+              uid={userData.uid}
+              handleSubmit={handleCreatePost}
+            />
           </>
         ) : (
           <CameraPicker
@@ -78,20 +86,6 @@ const Add = props => {
             action={setImg}
             removeImg={delImg}
           />
-        )}
-        {imageObj.image ? (
-          <PostForm
-            image={imageObj}
-            post={post}
-            uid={userData.uid}
-            handleSubmit={handleCreatePost}
-          />
-        ) : (
-          <View>
-            <TouchableHighlight onPress={() => switchType('picker')}>
-              <Text>elegir de la galeria</Text>
-            </TouchableHighlight>
-          </View>
         )}
       </KeyboardAvoidingView>
     </View>
