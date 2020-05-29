@@ -38,12 +38,9 @@ class CreatePost extends Component {
       <View style={styles.body}>
         <KeyboardAvoidingView styles={styles.holder} behavior="padding" enabled>
           {navProps ? (
-            <ImagePicker
-              type="text"
-              imageObj={this.props.imageObj.image}
-              action={this.props.setImg}
-              removeImg={this.props.delImg}
-            />
+            <View>
+              <image src={this.props.imageObj.image} />
+            </View>
           ) : (
             <CameraPicker
               imageObj={this.props.imageObj.image}
@@ -51,6 +48,9 @@ class CreatePost extends Component {
               removeImg={this.props.delImg}
             />
           )}
+          <View>
+            <Text>vistaaa</Text>
+          </View>
           <PostForm
             image={this.props.imageObj}
             post={this.props.post}

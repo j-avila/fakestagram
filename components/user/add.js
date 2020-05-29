@@ -1,27 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import {
-  Text,
-  StyleSheet,
-  View,
-  Button,
-  KeyboardAvoidingView
-} from 'react-native'
-import {
-  TouchableHighlight,
-  TouchableOpacity
-} from 'react-native-gesture-handler'
+import { StyleSheet, View, KeyboardAvoidingView } from 'react-native'
 import {
   SET_POST_PHOTO,
   REMOVE_POST_PHOTO,
   CREATE_POST
 } from '../../store/actions/types'
-import PostForm from './postForm'
-import { Camera } from 'expo-camera'
 import CameraPicker from './cameraPickerExpo'
-import ImagePicker from '../shared/imagePicker'
-import Shutter from '../../assets/shutter.svg'
 import { useSelector, useDispatch } from 'react-redux'
 import { getPosts, setPostImg, setCreatePost } from '../../store/actions'
+import PostEditor from './postEditor'
 
 const Add = props => {
   const { navigation } = props
@@ -33,12 +20,9 @@ const Add = props => {
   const userData = useSelector(state => state.sessionHandler)
   const updateTimeline = dispatch(getPosts())
 
-  const setImg = image => {
-    dispatch(setPostImg(SET_POST_PHOTO, image))
-  }
-  const delImg = () => {
-    dispatch(setPostImg(REMOVE_POST_PHOTO))
-  }
+  const setImg = image => dispatch(setPostImg(SET_POST_PHOTO, image))
+  const delImg = () => dispatch(setPostImg(REMOVE_POST_PHOTO))
+
   const setPost = (post, image, userData) => {
     dispatch(
       setCreatePost(CREATE_POST, {
@@ -53,33 +37,27 @@ const Add = props => {
     navigation.navigate('Home')
     updateTimeline()
   }
-
   const switchType = async type => {
     await setStype(type)
     imageObj.image && delImg()
   }
 
+  useEffect(() => {
+    console.log('redux image', imageObj)
+  }, [imageObj])
+
   return (
     <View style={styles.body}>
       <KeyboardAvoidingView styles={styles.holder} behavior="padding" enabled>
         {imageObj.image ? (
-          <>
-            <ImagePicker
-              type="text"
-              imageObj={imageObj.image}
-              action={setImg}
-              removeImg={delImg}
-            />
-            <TouchableOpacity onPress={() => this.removeImg()}>
-              <Text>descartar imagen</Text>
-            </TouchableOpacity>
-            <PostForm
-              image={imageObj}
-              post={post}
-              uid={userData.uid}
-              handleSubmit={handleCreatePost}
-            />
-          </>
+          <PostEditor
+            imageObj={imageObj}
+            post={post}
+            userData={userData}
+            actionCreate={handleCreatePost}
+            actionDiscard={delImg}
+            actionFlash={switchType}
+          />
         ) : (
           <CameraPicker
             imageObj={imageObj.image}
