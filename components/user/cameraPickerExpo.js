@@ -25,7 +25,7 @@ export default class CameraExample extends React.Component {
 
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA)
-    const ratios = await Camera.getSupportedRatiosAsync()
+    // const ratios = await Camera.getSupportedRatiosAsync()
     this.setState({
       hasCameraPermission: status === 'granted',
       aspectAviable: ratios
