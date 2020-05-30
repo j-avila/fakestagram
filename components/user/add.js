@@ -48,24 +48,22 @@ const Add = props => {
 
   return (
     <View style={styles.body}>
-      <KeyboardAvoidingView styles={styles.holder} behavior="padding" enabled>
-        {imageObj.image ? (
-          <PostEditor
-            imageObj={imageObj}
-            post={post}
-            userData={userData}
-            actionCreate={handleCreatePost}
-            actionDiscard={delImg}
-            actionFlash={switchType}
-          />
-        ) : (
-          <CameraPicker
-            imageObj={imageObj.image}
-            action={setImg}
-            removeImg={delImg}
-          />
-        )}
-      </KeyboardAvoidingView>
+      {imageObj.image ? (
+        <PostEditor
+          imageObj={imageObj}
+          post={post}
+          userData={userData}
+          actionCreate={handleCreatePost}
+          actionDiscard={delImg}
+          actionFlash={switchType}
+        />
+      ) : (
+        <CameraPicker
+          imageObj={imageObj.image}
+          action={setImg}
+          removeImg={delImg}
+        />
+      )}
     </View>
   )
 }

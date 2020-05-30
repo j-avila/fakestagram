@@ -19,15 +19,20 @@ export default class CameraExample extends React.Component {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
     image: null,
-    flashMode: 'off'
+    flashMode: 'off',
+    aspectAviable: []
   }
 
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA)
-    this.setState({ hasCameraPermission: status === 'granted' })
+    const ratios = await Camera.getSupportedRatiosAsync()
+    this.setState({
+      hasCameraPermission: status === 'granted',
+      aspectAviable: ratios
+    })
   }
 
-  componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps) {
     prevProps.imageObj !== this.props.imageObj &&
       this.setState({
         image: this.props.imageObj
@@ -37,6 +42,7 @@ export default class CameraExample extends React.Component {
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+      console.log(ratios)
       if (status !== 'granted') {
         alert('Sorry, we need camera roll permissions to make this work!')
       }
@@ -97,6 +103,12 @@ export default class CameraExample extends React.Component {
     )
   }
 
+  changeAspect = param => {
+    this.setState({
+      aspectRatio: param
+    })
+  }
+
   render() {
     const { imageObj, aspectRatio, radiusImg } = this.props
     const { hasCameraPermission, image, flashMode } = this.state
@@ -113,7 +125,7 @@ export default class CameraExample extends React.Component {
               <Camera
                 style={{ flex: 1 }}
                 type={this.state.type}
-                ratio="16:1"
+                ratio={this.state.aspectRatio}
                 flashMode={Camera.Constants.FlashMode[`${flashMode}`]}
                 ref={ref => {
                   this.camera = ref
@@ -173,6 +185,32 @@ export default class CameraExample extends React.Component {
             )}
           </View>
           <View style={styles.actionArea}>
+            <View style={styles.aspectRatio}>
+              <TouchableOpacity
+                style={styles.aspectButton}
+                onPress={() => {
+                  this.changeAspect('4:3')
+                }}
+              >
+                <Text>4:3</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.aspectButton}
+                onPress={() => {
+                  this.changeAspect('16:9')
+                }}
+              >
+                <Text>16:9</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.aspectButton}
+                onPress={() => {
+                  this.changeAspect('1:1')
+                }}
+              >
+                <Text>1:1</Text>
+              </TouchableOpacity>
+            </View>
             <Shutter onPress={() => this.snap()} style={styles.shutter} />
             <TouchableHighlight
               onPress={this._pickImage}
@@ -199,6 +237,15 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     flexDirection: 'row',
     justifyContent: 'space-around'
+  },
+  aspectButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 4
+  },
+  aspectRatio: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   cameraAction: {
     flex: 1,
