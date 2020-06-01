@@ -4,6 +4,7 @@ import createSagaMiddleware from 'redux-saga'
 import { defaultSaga } from '../store/sagas'
 import * as type from '../store/actions/types'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import defaultHeader from '../components/shared/defaultHeader'
 
 const defaultReducer = (state = [], action) => {
   switch (action.type) {
@@ -142,6 +143,15 @@ const setProfileData = (state = [], action) => {
   }
 }
 
+const exploreFeed = (state = [], action) => {
+  switch (action.type) {
+    case 'SET_EXPLORE_PICS':
+      return action.payload
+    default:
+      return state
+  }
+}
+
 const reducers = combineReducers({
   defaultReducer,
   form,
@@ -157,7 +167,8 @@ const reducers = combineReducers({
   commentsStream,
   usersHandler,
   setProfileData,
-  currentUser
+  currentUser,
+  exploreFeed
 })
 
 const sagaMiddleware = createSagaMiddleware()

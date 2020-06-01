@@ -1,25 +1,44 @@
-import React, { Component } from 'react'
-import { Text, StyleSheet, View, Button } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, View } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
+import GridItem from '../shared/gridItem'
+import { getExploreFeed } from '../../store/actions'
+import { useDispatch, useSelector } from 'react-redux'
 
-export default class Search extends Component {
-  render() {
-    const {navigation} = this.props
-    return (
-      <View style={styles.body}>
-        <Text> textInComponent search </Text>
-        <Button
-          style={styles.button} 
-          title=' go to profile' 
-          onPress={ () => {navigation.navigate('Profile')} }
-        />
-        <Button
-          style={styles.button} 
-          title=' go to post' 
-          onPress={ () => {navigation.navigate('Post')} }
-        />
-      </View>
-    )
+const dumb = [
+  {
+    id: 1,
+    image: 'https://picsum.photos/200',
+    route: 'image'
+  },
+  {
+    id: 2,
+    image: 'https://picsum.photos/200',
+    route: 'image'
+  },
+  {
+    id: 3,
+    image: 'https://picsum.photos/200',
+    route: 'image'
   }
+]
+
+const Search = props => {
+  const { navigation } = props
+  const exploreFeed = useSelector(state => state.exploreFeed)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getExploreFeed())
+  }, [])
+
+  useEffect(() => {}, [exploreFeed])
+
+  return (
+    <View style={styles.body}>
+      <GridItem data={exploreFeed} />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -33,3 +52,5 @@ const styles = StyleSheet.create({
     marginBottom: 10
   }
 })
+
+export default Search

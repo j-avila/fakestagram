@@ -44,7 +44,7 @@ const UserLink = props => {
 const SignedRoutes = createBottomTabNavigator(
   {
     Home: HomeStackNav,
-    Search: StackSearchNav,
+    Explore: StackSearchNav,
     Add: StackAdd,
     Follow: StackFollow,
     Profile: Profile
@@ -56,7 +56,7 @@ const SignedRoutes = createBottomTabNavigator(
         let iconName =
           routeName === 'Home' ? (
             <Home />
-          ) : routeName === 'Search' ? (
+          ) : routeName === 'Explore' ? (
             <Discover />
           ) : routeName === 'Add' ? (
             <Add />

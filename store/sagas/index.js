@@ -15,9 +15,11 @@ import {
   setUsers,
   setProfile,
   getCurrentProfile,
-  setCurrentProfile
+  setCurrentProfile,
+  setExploreFeed
 } from '../actions'
 import { database } from 'firebase'
+import Axios from 'axios'
 
 // parse the firebase obaject
 
@@ -65,6 +67,11 @@ const getAuthors = uid =>
     .ref(`users/${uid}`)
     .once('value')
     .then(resp => resp)
+
+const getRandomPics = () =>
+  Axios.get('https://picsum.photos/v2/list')
+    .then(({ data }) => data)
+    .catch(error => console.log(error))
 
 uploadToFirebase = (blob, userId, dir) => {
   return new Promise((resolve, reject) => {
@@ -362,6 +369,15 @@ function* currentUserHandler(id) {
   }
 }
 
+function* fetchExploreFeed() {
+  try {
+    const feed = yield call(getRandomPics)
+    yield put(setExploreFeed(feed))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function* defaultSaga(values) {
   // yield
   yield takeEvery(type.REGISTER, registerService)
@@ -374,5 +390,6 @@ export function* defaultSaga(values) {
   yield takeEvery(type.GET_USERS, usersService)
   yield takeEvery(type.GET_PROFILE, userProfileHandler)
   yield takeEvery(type.GET_CURRENT_PROFILE, currentUserHandler)
+  yield takeEvery(type.FETCH_EXPLORE_PICS, fetchExploreFeed)
   console.log('saganding')
 }

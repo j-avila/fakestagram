@@ -11,7 +11,9 @@ import {
   GET_PROFILE,
   SET_PROFILE,
   GET_CURRENT_PROFILE,
-  SET_CURRENT_PROFILE
+  SET_CURRENT_PROFILE,
+  FETCH_EXPLORE_PICS,
+  SET_EXPLORE_PICS
 } from './types'
 
 export const registerAction = (type, payload) => ({
@@ -111,3 +113,13 @@ export const setProfile = user => {
     payload: user
   }
 }
+
+export const getExploreFeed = exploreFeed => ({
+  type: FETCH_EXPLORE_PICS,
+  exploreFeed
+})
+
+export const setExploreFeed = exploreFeed => ({
+  type: SET_EXPLORE_PICS,
+  payload: exploreFeed
+})

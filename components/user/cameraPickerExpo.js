@@ -20,15 +20,16 @@ export default class CameraExample extends React.Component {
     type: Camera.Constants.Type.back,
     image: null,
     flashMode: 'off',
-    aspectAviable: []
+    aspectAviable: [],
+    aspectRatio: '4:3'
   }
 
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA)
     // const ratios = await Camera.getSupportedRatiosAsync()
     this.setState({
-      hasCameraPermission: status === 'granted',
-      aspectAviable: ratios
+      hasCameraPermission: status === 'granted'
+      // aspectAviable: ratios
     })
   }
 
@@ -104,9 +105,12 @@ export default class CameraExample extends React.Component {
   }
 
   changeAspect = param => {
-    this.setState({
-      aspectRatio: param
-    })
+    this.setState(
+      {
+        aspectRatio: param
+      },
+      () => console.log(this.state.aspectRatio)
+    )
   }
 
   render() {
