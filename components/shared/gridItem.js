@@ -4,15 +4,15 @@ const screenWidth = Math.round(Dimensions.get('window').width)
 
 const FeatGrid = ({ pics, sided }) => {
   return (
-    <View style={styles.grid}>
+    <View style={styles.featGrid}>
       {sided === 'left' && (
         <Image
           source={{ uri: pics[2].download_url }}
           resizeMode="cover"
-          style={{ ...styles.largeThumb, order: 1 }}
+          style={{ ...styles.largeThumb }}
         />
       )}
-      <View style={{ flex: 2, order: 2 }}>
+      <View style={{ flex: 2 }}>
         <Image
           source={{ uri: pics[0].download_url }}
           resizeMode="cover"
@@ -28,7 +28,7 @@ const FeatGrid = ({ pics, sided }) => {
         <Image
           source={{ uri: pics[2].download_url }}
           resizeMode="cover"
-          style={{ ...styles.largeThumb, order: 1 }}
+          style={{ ...styles.largeThumb }}
         />
       )}
     </View>
@@ -37,18 +37,22 @@ const FeatGrid = ({ pics, sided }) => {
 
 const Grid = props => {
   const { data } = props
+
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: 'row',
-        // flexWrap: 'wrap',
-        justifyContent: 'space-between'
-      }}
-    >
-      {data.map(item => (
-        <Image source={{ uri: item.download_url }} style={{ flex: 4 }} />
-      ))}
+    <View style={styles.grid}>
+      {data.map((item, index) => {
+        if (index <= 5) {
+          return (
+            <Image
+              key={item.id}
+              source={{ uri: item.download_url }}
+              style={{ width: '32%', height: '50%', margin: 2 }}
+            />
+          )
+        } else {
+          return false
+        }
+      })}
     </View>
   )
 }
@@ -77,9 +81,15 @@ export default GridItem
 const styles = StyleSheet.create({
   grid: {
     flex: 1,
-    maxHeight: 250,
-    borderColor: 'red',
-    borderWidth: 2,
+    height: 250,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: 8,
+    justifyContent: 'space-between'
+  },
+  featGrid: {
+    flex: 1,
+    height: 250,
     width: screenWidth,
     flexDirection: 'row'
   },

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, ScrollView, Dimensions } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import GridItem from '../shared/gridItem'
 import { getExploreFeed } from '../../store/actions'
 import { useDispatch, useSelector } from 'react-redux'
+import { background } from '../shared/colors'
 
 const dumb = [
   {
@@ -23,21 +24,29 @@ const dumb = [
   }
 ]
 
+const { height } = Dimensions.get('window')
+
 const Search = props => {
   const { navigation } = props
   const exploreFeed = useSelector(state => state.exploreFeed)
   const dispatch = useDispatch()
+  const [screenHeight, setHeight] = useState(0)
+
+  const onChangeSize = (contentWidth, contentHeight) => {
+    setHeight(contentHeight)
+  }
 
   useEffect(() => {
     dispatch(getExploreFeed())
   }, [])
 
-  useEffect(() => {}, [exploreFeed])
+  const scrollEnabled = screenHeight > height
 
   return (
-    <View style={styles.body}>
+    <ScrollView>
       <GridItem data={exploreFeed} />
-    </View>
+      <GridItem data={exploreFeed} />
+    </ScrollView>
   )
 }
 
@@ -46,7 +55,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#e0e3d4'
+    backgroundColor: background
   },
   button: {
     marginBottom: 10

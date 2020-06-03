@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Text, StyleSheet, View } from 'react-native'
-import { TouchableHighlight } from 'react-native-gesture-handler'
+import { TouchableHighlight, ScrollView } from 'react-native-gesture-handler'
 import Avatar from '../shared/avatar'
 import PostsGrid from '../shared/postsGrid'
 import { useDispatch, useSelector } from 'react-redux'
@@ -67,7 +67,7 @@ const Profile = props => {
   const { user, posts } = profile
 
   return (
-    <View style={styles.body}>
+    <ScrollView style={styles.body}>
       {profile.user ? (
         <>
           <View style={styles.pic}>
@@ -133,7 +133,7 @@ const Profile = props => {
           <Text>loading</Text>
         </View>
       )}
-    </View>
+    </ScrollView>
   )
 }
 
