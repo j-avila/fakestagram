@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Text, StyleSheet, View } from 'react-native'
-import { TouchableHighlight } from 'react-native-gesture-handler'
+import { TouchableHighlight, ScrollView } from 'react-native-gesture-handler'
 import Avatar from '../shared/avatar'
 import PostsGrid from '../shared/postsGrid'
 import { useDispatch, useSelector } from 'react-redux'
@@ -35,7 +35,8 @@ const Profile = props => {
   const currentUser = useSelector(state => state.sessionHandler)
   const profile = useSelector(state => state.setProfileData)
   const { navigation } = props
-  const { id } = props.navigation.state.params
+  const id = props.navigation.state.params && props.navigation.state.params.id
+  let profileId = id ? id : currentUser.uid
 
   // states
   const [statics, setStatics] = useState([])
@@ -55,18 +56,18 @@ const Profile = props => {
   }
 
   useEffect(() => {
-    dispatch(getProfile(id))
+    dispatch(getProfile(profileId))
   }, [])
 
   useEffect(() => {
-    getStatics(id)
+    getStatics(profileId)
     console.log('upadted')
   }, [profile])
 
   const { user, posts } = profile
 
   return (
-    <View style={styles.body}>
+    <ScrollView style={styles.body}>
       {profile.user ? (
         <>
           <View style={styles.pic}>
@@ -132,7 +133,7 @@ const Profile = props => {
           <Text>loading</Text>
         </View>
       )}
-    </View>
+    </ScrollView>
   )
 }
 

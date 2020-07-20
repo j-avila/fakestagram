@@ -13,9 +13,13 @@ import {
   setComments,
   setCommentsStream,
   setUsers,
-  setProfile
+  setProfile,
+  getCurrentProfile,
+  setCurrentProfile,
+  setExploreFeed
 } from '../actions'
 import { database } from 'firebase'
+import Axios from 'axios'
 
 // parse the firebase obaject
 
@@ -63,6 +67,11 @@ const getAuthors = uid =>
     .ref(`users/${uid}`)
     .once('value')
     .then(resp => resp)
+
+const getRandomPics = () =>
+  Axios.get('https://picsum.photos/v2/list')
+    .then(({ data }) => data)
+    .catch(error => console.log(error))
 
 uploadToFirebase = (blob, userId, dir) => {
   return new Promise((resolve, reject) => {
@@ -201,6 +210,7 @@ const handlePost = async data => {
       image: imgPost
     })
     .then(response => {
+      getTimelineService()
       console.log('posted in:', response)
     })
 }
@@ -278,7 +288,8 @@ function* loginService(values) {
 function* createPostService(data) {
   try {
     console.log('saving post init')
-    const post = yield call(handlePost, data)
+    yield call(handlePost, data)
+    yield getTimelineService()
     console.log('end')
   } catch (error) {
     alert(error)
@@ -317,6 +328,7 @@ function* likeService(data) {
     yield put(fetching(true))
     yield handleLike(data)
     yield put(fetching(false))
+    yield getTimelineService()
   } catch (error) {
     console.log(error)
     alert(error)
@@ -348,6 +360,24 @@ function* userProfileHandler(id) {
   }
 }
 
+function* currentUserHandler(id) {
+  try {
+    const profile = yield call(handleUserProfile, id)
+    yield put(setCurrentProfile(profile))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* fetchExploreFeed() {
+  try {
+    const feed = yield call(getRandomPics)
+    yield put(setExploreFeed(feed))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function* defaultSaga(values) {
   // yield
   yield takeEvery(type.REGISTER, registerService)
@@ -359,5 +389,7 @@ export function* defaultSaga(values) {
   yield takeEvery(type.GET_COMMENTS, getStreamComments)
   yield takeEvery(type.GET_USERS, usersService)
   yield takeEvery(type.GET_PROFILE, userProfileHandler)
+  yield takeEvery(type.GET_CURRENT_PROFILE, currentUserHandler)
+  yield takeEvery(type.FETCH_EXPLORE_PICS, fetchExploreFeed)
   console.log('saganding')
 }

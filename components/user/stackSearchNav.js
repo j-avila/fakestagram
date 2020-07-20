@@ -1,32 +1,39 @@
+import React from 'react'
 import { createStackNavigator } from 'react-navigation-stack'
-import { createBottomTabNavigator } from 'react-navigation-tabs'
 import Search from './search'
-import Post from './post'
 import Profile from './profile'
 import Comments from './comments'
+import SearchHeader from '../shared/searchHeader'
+import SearchIndex from './searchIndex'
 
 const SearchStackNav = createStackNavigator({
-	Search: {
-		screen: Search,
-		navigationOptions: () => {
-			title: 'Search'
-		}
-	},
-	Profile: {
-		screen: Profile,
-		navigationOptions: () => ({
-			title: 'Profile'
-		})
-	},
-	Comments: {
-		screen: Comments,
-		navigationOptions: () => ({
-			title: 'Comments'
-		})
-	},
-	
+  Search: {
+    screen: Search,
+    navigationOptions: navigation => ({
+      title: 'Searcho',
+      headerTitle: props => <SearchHeader {...navigation} />
+    })
+  },
+  SearchIndex: {
+    screen: SearchIndex,
+    navigationOptions: navigation => ({
+      title: 'search index',
+      headerTitle: props => <SearchHeader searchOn={true} {...navigation} />
+    })
+  },
+  Profile: {
+    screen: Profile,
+    navigationOptions: () => ({
+      title: 'Profile'
+    })
+  },
+  Comments: {
+    screen: Comments,
+    navigationOptions: () => ({
+      title: 'Comments'
+    })
+  }
 })
-
 
 /* SearchStackNav.navigationOptions = ({navigation}) => { 
 	let tabBarVisible = true

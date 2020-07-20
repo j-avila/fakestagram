@@ -1,6 +1,9 @@
 import React from 'react'
 import { StyleSheet, View, Image } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import Camera from '../../assets/camera.svg'
+import LetterLogo from '../../assets/letterLogo.svg'
+import Search from '../../assets/search.svg'
 
 const HomeHeader = props => {
   // console.log('header', props)
@@ -9,20 +12,14 @@ const HomeHeader = props => {
     <View style={styles.head}>
       <View style={styles.logoHolder}>
         <TouchableOpacity onPress={() => navigation.navigate('Add')}>
-          <Image
-            style={styles.camIcon}
-            source={require('../../assets/camera.png')}
-          />
+          <Camera style={styles.camIcon} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          <Image source={require('../../assets/letter-logo.png')} />
+          <LetterLogo width="140" height="60" viewBox="0 0 271 48" />
         </TouchableOpacity>
       </View>
       <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-        <Image
-          style={styles.searchIcon}
-          source={require('../../assets/search.png')}
-        />
+        <Search style={styles.searchIcon} />
       </TouchableOpacity>
     </View>
   )
@@ -35,7 +32,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    alignContent: 'center'
   },
   logoHolder: {
     flex: 1,
@@ -43,10 +41,13 @@ const styles = StyleSheet.create({
   },
   camIcon: {
     padding: 10,
-    marginHorizontal: 10
+    margin: 15
+  },
+  letter: {
+    // marginVertical: 15
   },
   searchIcon: {
     padding: 10,
-    marginHorizontal: 10
+    marginHorizontal: 15
   }
 })

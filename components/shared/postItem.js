@@ -12,6 +12,7 @@ import { Ionicons } from '@expo/vector-icons'
 import Avatar from '../shared/avatar'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { surface } from './colors'
+import Comments from '../../assets/comments.svg'
 
 export default PostItem = props => {
   const { data, profileRoute, commentsRoute, authorMeta, currentUser } = props
@@ -33,7 +34,10 @@ export default PostItem = props => {
       const result = []
       const likes = likesObj && Object.entries(likesObj)
       likes &&
-        likes.forEach(([key, value]) => result.push({ id: key, like: value }))
+        likes.forEach(
+          ([key, value]) =>
+            value == true && result.push({ id: key, like: value })
+        )
       return result
     }
 
@@ -95,7 +99,7 @@ export default PostItem = props => {
             />
           </TouchableOpacity>
           <TouchableOpacity style={styles.icon} onPress={commentsRoute}>
-            <Ionicons name="md-chatbubbles" size={32} color="black" />
+            <Comments />
           </TouchableOpacity>
         </View>
         <TouchableOpacity

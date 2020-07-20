@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
@@ -8,11 +8,43 @@ import HomeStackNav from './homeStackNav'
 import StackFollow from './StackFollow'
 import StackAdd from './StackAdd'
 import { text, highlight } from '../shared/colors'
+import { useSelector, useDispatch } from 'react-redux'
+import Avatar from '../shared/avatar'
+import { getCurrentProfile } from '../../store/actions'
+import Home from '../../assets/home.svg'
+import Discover from '../../assets/explore.svg'
+import Add from '../../assets/add.svg'
+import Rss from '../../assets/rss.svg'
+
+const UserLink = props => {
+  const userLogged = useSelector(state => state.sessionHandler)
+  const currentUser = userLogged.hasOwnProperty('uid')
+    ? useSelector(state => state.currentUser)
+    : {}
+  const dispatch = useDispatch()
+
+  const getAvatar = async id => {
+    dispatch(getCurrentProfile(id))
+  }
+
+  useEffect(() => {
+    getAvatar(userLogged.uid)
+  }, [])
+
+  return currentUser.hasOwnProperty('user') ? (
+    <Avatar
+      image={{ uri: currentUser.user.avatar }}
+      size={{ height: 25, width: 25 }}
+    />
+  ) : (
+    <Avatar size={{ height: 25, width: 25 }} />
+  )
+}
 
 const SignedRoutes = createBottomTabNavigator(
   {
     Home: HomeStackNav,
-    Search: StackSearchNav,
+    Explore: StackSearchNav,
     Add: StackAdd,
     Follow: StackFollow,
     Profile: Profile
@@ -21,22 +53,24 @@ const SignedRoutes = createBottomTabNavigator(
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { routeName } = navigation.state
-        let IconComponent = Ionicons
         let iconName =
-          routeName === 'Home'
-            ? 'md-home'
-            : routeName === 'Search'
-            ? 'md-search'
-            : routeName === 'Add'
-            ? 'md-add'
-            : routeName === 'Follow'
-            ? 'md-contacts'
-            : routeName === 'Profile'
-            ? 'md-person'
-            : 'md-pizza'
+          routeName === 'Home' ? (
+            <Home />
+          ) : routeName === 'Explore' ? (
+            <Discover />
+          ) : routeName === 'Add' ? (
+            <Add />
+          ) : routeName === 'Follow' ? (
+            <Rss />
+          ) : (
+            <Home />
+          )
 
-        return <Ionicons name={iconName} size={20} />
-      }
+        let ico = routeName === 'Profile' ? <UserLink /> : iconName
+
+        return ico
+      },
+      name: navigation.state.routeName === 'Profile' ? 'booomer' : ''
     }),
     tabBarOptions: {
       activeTintColor: highlight,

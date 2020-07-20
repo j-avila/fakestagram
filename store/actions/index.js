@@ -9,7 +9,11 @@ import {
   GET_COMMENTS,
   GET_USERS,
   GET_PROFILE,
-  SET_PROFILE
+  SET_PROFILE,
+  GET_CURRENT_PROFILE,
+  SET_CURRENT_PROFILE,
+  FETCH_EXPLORE_PICS,
+  SET_EXPLORE_PICS
 } from './types'
 
 export const registerAction = (type, payload) => ({
@@ -93,9 +97,29 @@ export const getProfile = id => ({
   id
 })
 
+export const getCurrentProfile = id => ({
+  type: GET_CURRENT_PROFILE,
+  id
+})
+
+export const setCurrentProfile = user => ({
+  type: SET_CURRENT_PROFILE,
+  user
+})
+
 export const setProfile = user => {
   return {
     type: SET_PROFILE,
     payload: user
   }
 }
+
+export const getExploreFeed = exploreFeed => ({
+  type: FETCH_EXPLORE_PICS,
+  exploreFeed
+})
+
+export const setExploreFeed = exploreFeed => ({
+  type: SET_EXPLORE_PICS,
+  payload: exploreFeed
+})

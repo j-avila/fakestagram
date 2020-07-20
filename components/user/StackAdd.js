@@ -1,4 +1,4 @@
-import { createStackNavigator } from 'react-navigation-stack'
+import { createStackNavigator, HeaderTitle } from 'react-navigation-stack'
 import React from 'react'
 import { Button, TouchableOpacityBase } from 'react-native'
 import Add from './add'
@@ -9,13 +9,25 @@ import DefaultHeader from '../shared/defaultHeader'
 const StackAdd = createStackNavigator({
   Add: {
     screen: Add,
-    navigationOptions: navigation => ({
-      title: 'agrear post'
+    navigationOptions: ({ navigation }) => ({
+      title: 'agrgear post',
+      headerTitle: props => (
+        <DefaultHeader
+          title="agrgear post"
+          leftArea={() => navigation.goBack(null)}
+        />
+      )
     })
   },
   Selection: CreatePost,
   navigationOptions: navigation => ({
-    title: 'Select a photo from gallery'
+    title: 'Selecciona una foto de la galeria',
+    headerTitle: props => (
+      <DefaultHeader
+        title="Selecciona una foto de la galeria"
+        leftArea={() => console.log('back')}
+      />
+    )
   })
 })
 
